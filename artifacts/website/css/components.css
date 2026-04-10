@@ -45,7 +45,12 @@
   line-height: 1.1;
   margin-bottom: 1.5rem;
 }
-.hero-title span { color: var(--color-accent); }
+.hero-title span {
+  color: var(--color-accent);
+  font-style: normal !important;
+  font-weight: 600;
+  font-family: 'Playfair Display', Georgia, serif;
+}
 .hero-desc {
   color: var(--color-text-muted);
   font-size: 1.1rem;
@@ -63,9 +68,10 @@
 }
 .stat-item {}
 .stat-number {
-  font-size: 1.75rem; font-weight: 800; color: var(--color-accent); line-height: 1;
+  font-size: 1.5rem; font-weight: 300; color: var(--color-accent); line-height: 1;
+  letter-spacing: 0.02em;
 }
-.stat-label { font-size: 0.75rem; color: var(--color-text-muted); margin-top: 0.25rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.stat-label { font-size: 0.65rem; color: var(--color-text-faint); margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.12em; }
 
 .hero-img-wrap {
   position: relative;
@@ -75,8 +81,8 @@
 .hero-img-wrap::before {
   content: '';
   position: absolute; inset: 0; z-index: 1;
-  background: linear-gradient(135deg, rgba(255,184,0,0.1) 0%, transparent 60%);
-  border: 1px solid rgba(255,184,0,0.15);
+  background: linear-gradient(135deg, rgba(196,146,74,0.08) 0%, transparent 60%);
+  border: 1px solid rgba(196,146,74,0.12);
   border-radius: var(--radius-lg);
   pointer-events: none;
 }
@@ -164,7 +170,26 @@
   backdrop-filter: blur(4px);
 }
 .btn-card-primary:hover { background: var(--color-accent); color: #000; }
-.btn-card-outline { display: inline-flex; }
+.btn-card-outline { display: none; }
+
+.btn-card-detail {
+  flex: 1;
+  width: 100%;
+  background: rgba(19,16,13,0.82);
+  color: rgba(255,255,255,0.92);
+  border: 1px solid rgba(196,146,74,0.35);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  backdrop-filter: blur(6px);
+  justify-content: center;
+}
+.btn-card-detail:hover {
+  background: rgba(196,146,74,0.15);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
 
 .product-card-body { padding: 0.75rem 0.25rem 0.25rem; }
 .product-card-category {
