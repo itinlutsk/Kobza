@@ -10,6 +10,7 @@
   display: flex; align-items: center;
   position: relative; overflow: hidden;
   background: var(--color-bg);
+  padding: 7rem 0 5rem;
 }
 .hero-bg {
   position: absolute; inset: 0;
@@ -551,7 +552,7 @@ textarea.form-control-custom { resize: vertical; min-height: 140px; }
    ======================================== */
 @media (max-width: 991.98px) {
   .product-gallery { position: static; margin-bottom: 2rem; }
-  .hero { min-height: 70vh; }
+  .hero { min-height: 70vh; padding: 5rem 0 4rem; }
   .hero-img-wrap { margin-top: 2.5rem; }
   .hero-img-wrap img { height: 320px; }
   .filter-toggle-btn { display: flex; }
