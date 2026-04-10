@@ -839,7 +839,8 @@ select.form-input-custom { background-image: url("data:image/svg+xml,%3Csvg xmln
 }
 .view-btn:hover { color: var(--color-text); border-color: var(--color-border-lt); }
 .view-btn.active {
-  background: var(--color-accent); color: #000;
+  background: var(--color-accent);
+  color: #fff;
   border-color: var(--color-accent);
 }
 
