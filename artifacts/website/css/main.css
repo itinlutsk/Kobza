@@ -5,19 +5,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap');
 
 :root {
-  /* Loft dark theme (default) — warm, mature, refined */
-  --color-bg:         #13100D;
-  --color-surface:    #1D1916;
-  --color-surface-2:  #26211D;
-  --color-surface-3:  #302B26;
-  --color-text:       #F0EBE3;
-  --color-text-muted: #8A7E74;
-  --color-text-faint: #5C5450;
-  --color-accent:     #C4924A;
-  --color-accent-dk:  #A87840;
-  --color-accent-lt:  #D4A86A;
-  --color-border:     #2A2420;
-  --color-border-lt:  #38302B;
+  /* Dark theme (default) — black / white / burgundy */
+  --color-bg:         #0D0D0D;
+  --color-surface:    #161616;
+  --color-surface-2:  #1E1E1E;
+  --color-surface-3:  #262626;
+  --color-text:       #F5F5F5;
+  --color-text-muted: #9A9A9A;
+  --color-text-faint: #5E5E5E;
+  --color-accent:     #8B1A2A;
+  --color-accent-dk:  #721525;
+  --color-accent-lt:  #A82237;
+  --color-border:     #282828;
+  --color-border-lt:  #333333;
   --color-danger:     #C45A4A;
   --color-success:    #5C9E6A;
 
@@ -33,17 +33,17 @@
   --shadow-lg:   0 8px 48px rgba(0,0,0,0.6);
 }
 
-/* ── Light / Loft cream theme ── */
+/* ── Light / White theme ── */
 [data-theme="light"] {
-  --color-bg:         #F5F2EC;
-  --color-surface:    #FDFAF5;
-  --color-surface-2:  #EDE9E1;
-  --color-surface-3:  #E3DDD5;
-  --color-text:       #1A1614;
-  --color-text-muted: #6B6158;
-  --color-text-faint: #9E9590;
-  --color-border:     #D8D1C6;
-  --color-border-lt:  #C8C0B4;
+  --color-bg:         #FFFFFF;
+  --color-surface:    #F5F5F5;
+  --color-surface-2:  #EBEBEB;
+  --color-surface-3:  #E0E0E0;
+  --color-text:       #0D0D0D;
+  --color-text-muted: #5A5A5A;
+  --color-text-faint: #909090;
+  --color-border:     #DCDCDC;
+  --color-border-lt:  #CFCFCF;
   --shadow-card: 0 4px 24px rgba(0,0,0,0.09);
   --shadow-lg:   0 8px 40px rgba(0,0,0,0.14);
 }
