@@ -1,701 +1,340 @@
-import React, { useState, useEffect } from 'react';
-import { ShoppingBag, Search, Heart, Menu, ArrowRight, Star, Truck, RefreshCcw, ShieldCheck, HeadphonesIcon, Facebook, Instagram, Twitter } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { Search, ShoppingBag, Heart, ChevronDown, X, Menu } from "lucide-react";
 
-export function SkinzHome() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
-  const [wishlist, setWishlist] = useState<Record<number, boolean>>({});
+const products = [
+  { id: 1, name: "Сет Бра Baby & Стрінги Baby 2.1", price: "₴5,600", badges: ["Limited", "NEW"], img1: "linear-gradient(135deg, #f5e6d3 0%, #e8c9a8 100%)", img2: "linear-gradient(135deg, #e8c9a8 0%, #d4a574 100%)" },
+  { id: 2, name: "Комплект EX", price: "₴13,460", badges: ["NEW"], img1: "linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%)", img2: "linear-gradient(135deg, #1a1a1a 0%, #3d3d3d 100%)" },
+  { id: 3, name: "Комплект: Топ EX & Легінси Batis", price: "₴9,700", badges: ["NEW"], img1: "linear-gradient(135deg, #d4c5b0 0%, #c2b09a 100%)", img2: "linear-gradient(135deg, #c2b09a 0%, #b09880 100%)" },
+  { id: 4, name: "Сет Бра Baby & Стрінги Baby 2.1 Candy", price: "₴5,600", badges: ["Limited", "NEW"], img1: "linear-gradient(135deg, #f8d7da 0%, #f0b8be 100%)", img2: "linear-gradient(135deg, #f0b8be 0%, #e89aa0 100%)" },
+  { id: 5, name: "Топ AI", price: "₴5,500", badges: ["NEW"], img1: "linear-gradient(135deg, #e8e8e8 0%, #d4d4d4 100%)", img2: "linear-gradient(135deg, #d4d4d4 0%, #c0c0c0 100%)" },
+  { id: 6, name: "Топ Snap 2.0", price: "₴5,500", badges: ["NEW"], img1: "linear-gradient(135deg, #c8d8e8 0%, #b0c4d8 100%)", img2: "linear-gradient(135deg, #b0c4d8 0%, #98b0c8 100%)" },
+  { id: 7, name: "Комплект: Топ Bri & Лосини Base 3.0", price: "₴8,500", badges: ["NEW"], img1: "linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)", img2: "linear-gradient(135deg, #16213e 0%, #0f3460 100%)" },
+  { id: 8, name: "Комбінезон SAVAYA", price: "₴6,700", badges: ["NEW"], img1: "linear-gradient(135deg, #3d2314 0%, #5c3520 100%)", img2: "linear-gradient(135deg, #5c3520 0%, #7a4830 100%)" },
+  { id: 9, name: "Комбінезон ZN 3.0", price: "Від ₴7,500", badges: [], img1: "linear-gradient(135deg, #2d4a22 0%, #3d6330 100%)", img2: "linear-gradient(135deg, #3d6330 0%, #4e7c3e 100%)" },
+  { id: 10, name: "Сет Бра Baby & Стрінги Baby 2.1", price: "₴5,600", badges: ["Limited"], img1: "linear-gradient(135deg, #f5d5c8 0%, #edbeae 100%)", img2: "linear-gradient(135deg, #edbeae 0%, #e5a898 100%)" },
+  { id: 11, name: "Комбінезон-сукня Appi", price: "₴6,300", badges: [], img1: "linear-gradient(135deg, #e8d5e8 0%, #d4b8d4 100%)", img2: "linear-gradient(135deg, #d4b8d4 0%, #c09bc0 100%)" },
+  { id: 12, name: "Купальник XX", price: "₴4,500", badges: [], img1: "linear-gradient(135deg, #1c1c1c 0%, #2d2d2d 100%)", img2: "linear-gradient(135deg, #2d2d2d 0%, #3e3e3e 100%)" },
+  { id: 13, name: "Парфум Skinz", price: "₴4,500", badges: [], img1: "linear-gradient(135deg, #f0e6d0 0%, #e4d4b8 100%)", img2: "linear-gradient(135deg, #e4d4b8 0%, #d8c2a0 100%)" },
+  { id: 14, name: "Комбінезон GS 2.0", price: "₴7,100", badges: [], img1: "linear-gradient(135deg, #4a3728 0%, #5e4835 100%)", img2: "linear-gradient(135deg, #5e4835 0%, #725944 100%)" },
+  { id: 15, name: "Комбінезон Kitty", price: "₴5,900", badges: [], img1: "linear-gradient(135deg, #c8c0d8 0%, #b4aac8 100%)", img2: "linear-gradient(135deg, #b4aac8 0%, #a094b8 100%)" },
+  { id: 16, name: "Боді Anse", price: "₴5,600", badges: [], img1: "linear-gradient(135deg, #e0d8c8 0%, #cdc4b0 100%)", img2: "linear-gradient(135deg, #cdc4b0 0%, #bab098 100%)" },
+];
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+const lookbook = [
+  { caption: "Anastasia Burlaka in Arzani Top & Skirt Asit & Gloves Skinz", img: "linear-gradient(180deg, #c8b89a 0%, #a89070 100%)" },
+  { caption: "Anastasia Burlaka in Arzani Top & Skirt Asit & Gloves Skinz", img: "linear-gradient(180deg, #b89880 0%, #987860 100%)" },
+  { caption: "Anna Trincher in dress Noir & sleeves Yansy", img: "linear-gradient(180deg, #1a1a1a 0%, #2d2d2d 100%)" },
+  { caption: "Anna Trincher in swimsuit XX", img: "linear-gradient(180deg, #2a2a2a 0%, #3d3d3d 100%)" },
+  { caption: "Daria Kvitkova in Anse bodysuit & Anse skirt", img: "linear-gradient(180deg, #d0c8b8 0%, #b8b0a0 100%)" },
+  { caption: "Mari Ferrari in jumpsuit Damemaz", img: "linear-gradient(180deg, #3a2820 0%, #4d3828 100%)" },
+];
 
-  const toggleWishlist = (id: number) => {
-    setWishlist(prev => ({ ...prev, [id]: !prev[id] }));
-  };
-
-  const addToCart = () => {
-    setCartCount(prev => prev + 1);
-  };
+function ProductCard({ product }: { product: typeof products[0] }) {
+  const [hovered, setHovered] = useState(false);
+  const [wishlisted, setWishlisted] = useState(false);
 
   return (
-    <div className="oksamyt-theme font-sans" style={{ minHeight: '100vh', backgroundColor: '#faf8f5', color: '#2c2c2c' }}>
-      <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css');
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap');
-
-        :root {
-          --cream: #faf8f5;
-          --blush: #f2d5d5;
-          --terracotta: #c17754;
-          --warm-sand: #e8d5b7;
-          --charcoal: #2c2c2c;
-          --light-gray: #f0f0f0;
-        }
-
-        .oksamyt-theme {
-          font-family: 'Montserrat', sans-serif;
-          background-color: var(--cream);
-          color: var(--charcoal);
-        }
-
-        .font-serif {
-          font-family: 'Playfair Display', serif;
-        }
-
-        h1, h2, h3, h4, h5, h6, .brand-logo {
-          font-family: 'Playfair Display', serif;
-        }
-
-        /* Navbar */
-        .custom-navbar {
-          transition: all 0.3s ease;
-          background-color: transparent;
-          padding: 1.5rem 0;
-        }
-        .custom-navbar.scrolled {
-          background-color: rgba(250, 248, 245, 0.95);
-          backdrop-filter: blur(10px);
-          padding: 0.8rem 0;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-        }
-        .nav-link {
-          color: var(--charcoal) !important;
-          font-weight: 500;
-          font-size: 0.9rem;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          margin: 0 0.5rem;
-          position: relative;
-          transition: color 0.3s;
-        }
-        .nav-link::after {
-          content: '';
-          position: absolute;
-          width: 0;
-          height: 1px;
-          bottom: 0;
-          left: 50%;
-          transform: translateX(-50%);
-          background-color: var(--terracotta);
-          transition: width 0.3s ease;
-        }
-        .nav-link:hover::after {
-          width: 100%;
-        }
-        .nav-link:hover {
-          color: var(--terracotta) !important;
-        }
-
-        /* Buttons */
-        .btn-terracotta {
-          background-color: var(--terracotta);
-          color: white;
-          border: none;
-          padding: 0.75rem 2rem;
-          border-radius: 0;
-          font-weight: 500;
-          letter-spacing: 1px;
-          text-transform: uppercase;
-          transition: all 0.3s ease;
-        }
-        .btn-terracotta:hover {
-          background-color: #a66242;
-          color: white;
-          transform: translateY(-2px);
-          box-shadow: 0 5px 15px rgba(193, 119, 84, 0.3);
-        }
-
-        .btn-outline-charcoal {
-          border: 1px solid var(--charcoal);
-          color: var(--charcoal);
-          padding: 0.75rem 2rem;
-          border-radius: 0;
-          font-weight: 500;
-          letter-spacing: 1px;
-          text-transform: uppercase;
-          transition: all 0.3s ease;
-          background: transparent;
-        }
-        .btn-outline-charcoal:hover {
-          background-color: var(--charcoal);
-          color: var(--cream);
-        }
-
-        /* Hero */
-        .hero-section {
-          height: 100vh;
-          min-height: 600px;
-          background: linear-gradient(135deg, var(--warm-sand) 0%, var(--blush) 100%);
-          position: relative;
-          display: flex;
-          align-items: center;
-          overflow: hidden;
-        }
-        .hero-shape {
-          position: absolute;
-          right: -10%;
-          top: -10%;
-          width: 60%;
-          height: 120%;
-          background: linear-gradient(to bottom right, rgba(255,255,255,0.4), rgba(255,255,255,0.1));
-          border-radius: 50% 0 0 50%;
-          backdrop-filter: blur(5px);
-        }
-
-        /* Product Cards */
-        .product-card {
-          border: none;
-          background: transparent;
-          transition: transform 0.3s ease;
-          cursor: pointer;
-        }
-        .product-card:hover {
-          transform: translateY(-5px);
-        }
-        .product-img-wrapper {
-          position: relative;
-          overflow: hidden;
-          aspect-ratio: 3/4;
-          background-color: var(--light-gray);
-          margin-bottom: 1rem;
-        }
-        .product-img-placeholder {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: transform 0.5s ease;
-        }
-        .product-card:hover .product-img-placeholder {
-          transform: scale(1.05);
-        }
-        .wishlist-btn {
-          position: absolute;
-          top: 10px;
-          right: 10px;
-          background: white;
-          border: none;
-          border-radius: 50%;
-          width: 36px;
-          height: 36px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-          z-index: 2;
-          transition: all 0.2s;
-        }
-        .wishlist-btn:hover {
-          transform: scale(1.1);
-        }
-        .badge-new {
-          position: absolute;
-          top: 10px;
-          left: 10px;
-          background-color: var(--charcoal);
-          color: white;
-          padding: 0.3rem 0.8rem;
-          font-size: 0.7rem;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          z-index: 2;
-        }
-        .size-pill {
-          display: inline-block;
-          width: 24px;
-          height: 24px;
-          line-height: 24px;
-          text-align: center;
-          border: 1px solid #ddd;
-          border-radius: 50%;
-          font-size: 0.7rem;
-          margin-right: 4px;
-          color: #777;
-        }
-        .add-to-cart-btn {
-          position: absolute;
-          bottom: -50px;
-          left: 0;
-          width: 100%;
-          background: rgba(255,255,255,0.9);
-          border: none;
-          padding: 10px 0;
-          font-weight: 600;
-          text-transform: uppercase;
-          font-size: 0.8rem;
-          transition: all 0.3s;
-          opacity: 0;
-        }
-        .product-card:hover .add-to-cart-btn {
-          bottom: 0;
-          opacity: 1;
-        }
-        .add-to-cart-btn:hover {
-          background: var(--terracotta);
-          color: white;
-        }
-
-        /* Categories */
-        .category-card {
-          position: relative;
-          height: 400px;
-          overflow: hidden;
-          cursor: pointer;
-        }
-        .category-bg {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-size: cover;
-          background-position: center;
-          transition: transform 0.7s ease;
-        }
-        .category-card:hover .category-bg {
-          transform: scale(1.08);
-        }
-        .category-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(0,0,0,0.2);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: background 0.3s ease;
-        }
-        .category-card:hover .category-overlay {
-          background: rgba(0,0,0,0.4);
-        }
-        .category-title {
-          color: white;
-          font-size: 2rem;
-          letter-spacing: 2px;
-          position: relative;
-          padding-bottom: 10px;
-        }
-        .category-title::after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 40px;
-          height: 2px;
-          background-color: white;
-          transition: width 0.3s ease;
-        }
-        .category-card:hover .category-title::after {
-          width: 100%;
-        }
-
-        /* Sale Banner */
-        .sale-banner {
-          background: linear-gradient(rgba(193, 119, 84, 0.9), rgba(193, 119, 84, 0.9)), url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop') center/cover;
-          color: white;
-          padding: 100px 0;
-          text-align: center;
-        }
-
-        /* Brands */
-        .brands-strip {
-          background-color: white;
-          padding: 40px 0;
-          border-top: 1px solid var(--light-gray);
-          border-bottom: 1px solid var(--light-gray);
-        }
-        .brand-item {
-          font-family: 'Playfair Display', serif;
-          font-size: 1.5rem;
-          color: #999;
-          transition: color 0.3s;
-          text-transform: uppercase;
-          letter-spacing: 2px;
-        }
-        .brand-item:hover {
-          color: var(--charcoal);
-        }
-
-        /* Reviews */
-        .review-card {
-          background: white;
-          padding: 2rem;
-          height: 100%;
-          border: 1px solid var(--light-gray);
-          position: relative;
-        }
-        .quote-icon {
-          position: absolute;
-          top: 20px;
-          right: 20px;
-          color: var(--blush);
-          opacity: 0.3;
-          font-size: 4rem;
-          font-family: serif;
-          line-height: 1;
-        }
-
-        /* Footer */
-        .footer {
-          background-color: var(--charcoal);
-          color: var(--cream);
-          padding: 80px 0 30px;
-        }
-        .footer-title {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 1rem;
-          text-transform: uppercase;
-          letter-spacing: 2px;
-          margin-bottom: 1.5rem;
-          color: var(--warm-sand);
-        }
-        .footer-link {
-          color: #bbb;
-          text-decoration: none;
-          display: block;
-          margin-bottom: 0.8rem;
-          transition: color 0.3s;
-          font-size: 0.9rem;
-        }
-        .footer-link:hover {
-          color: white;
-        }
-        .social-icon {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          background-color: rgba(255,255,255,0.1);
-          color: white;
-          margin-right: 10px;
-          transition: all 0.3s;
-        }
-        .social-icon:hover {
-          background-color: var(--terracotta);
-          transform: translateY(-3px);
-        }
-        .newsletter-input {
-          background: transparent;
-          border: none;
-          border-bottom: 1px solid var(--charcoal);
-          border-radius: 0;
-          padding: 10px 0;
-          box-shadow: none !important;
-          color: var(--charcoal);
-        }
-        .newsletter-input:focus {
-          border-bottom-color: var(--terracotta);
-          background: transparent;
-        }
-        .newsletter-input::placeholder {
-          color: #999;
-        }
-      `}} />
-
-      {/* Navigation */}
-      <nav className={`navbar navbar-expand-lg fixed-top custom-navbar ${isScrolled ? 'scrolled' : ''}`}>
-        <div className="container px-4">
-          <a className="navbar-brand d-flex align-items-center" href="#">
-            <span className="brand-logo fs-3 fw-bold tracking-widest" style={{ letterSpacing: '4px' }}>ОКСАМИТ</span>
-          </a>
-          
-          <button className="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <Menu size={28} />
+    <div
+      style={{ background: "#fff", cursor: "pointer", position: "relative" }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div style={{ position: "relative", overflow: "hidden", aspectRatio: "3/4" }}>
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            background: hovered ? product.img2 : product.img1,
+            transition: "background 0.5s ease",
+          }}
+        />
+        <div style={{ position: "absolute", top: 12, left: 12, display: "flex", flexDirection: "column", gap: 4 }}>
+          {product.badges.map((b) => (
+            <span
+              key={b}
+              style={{
+                display: "inline-block",
+                fontSize: 9,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase" as const,
+                padding: "3px 8px",
+                fontWeight: 500,
+                background: b === "Limited" ? "#1a1a1a" : "transparent",
+                color: b === "Limited" ? "#fff" : "#1a1a1a",
+                border: b === "NEW" ? "1px solid #1a1a1a" : "none",
+              }}
+            >
+              {b}
+            </span>
+          ))}
+        </div>
+        <button
+          onClick={() => setWishlisted(!wishlisted)}
+          style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+        >
+          <Heart size={18} fill={wishlisted ? "#e74c3c" : "none"} stroke={wishlisted ? "#e74c3c" : "#333"} />
+        </button>
+        <div
+          style={{
+            position: "absolute", bottom: 0, left: 0, right: 0,
+            background: "rgba(255,255,255,0.95)", padding: "12px",
+            textAlign: "center", opacity: hovered ? 1 : 0, transition: "opacity 0.3s ease",
+          }}
+        >
+          <button style={{ background: "none", border: "none", fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase" as const, cursor: "pointer", color: "#1a1a1a", fontWeight: 500 }}>
+            Швидко додати
           </button>
-          
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
-              <li className="nav-item"><a className="nav-link" href="#">Каталог</a></li>
-              <li className="nav-item"><a className="nav-link" href="#">Нове</a></li>
-              <li className="nav-item"><a className="nav-link text-danger" href="#">Розпродаж</a></li>
-              <li className="nav-item"><a className="nav-link" href="#">Бренди</a></li>
-              <li className="nav-item"><a className="nav-link" href="#">Блог</a></li>
-            </ul>
-            
-            <div className="d-flex align-items-center gap-3 mt-3 mt-lg-0">
-              <button className="btn btn-link text-dark p-1 shadow-none"><Search size={20} /></button>
-              <button className="btn btn-link text-dark p-1 shadow-none"><Heart size={20} /></button>
-              <button className="btn btn-link text-dark p-1 position-relative shadow-none" onClick={addToCart}>
-                <ShoppingBag size={20} />
-                {cartCount > 0 && (
-                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark" style={{ fontSize: '0.6rem', transform: 'translate(-30%, 10%)' }}>
-                    {cartCount}
-                  </span>
-                )}
-              </button>
-              <button className="btn btn-link text-dark text-decoration-none text-uppercase fs-6 fw-medium ms-2 d-none d-sm-block shadow-none" style={{ letterSpacing: '1px' }}>Увійти</button>
+        </div>
+      </div>
+      <div style={{ padding: "14px 12px 20px" }}>
+        <p style={{ fontSize: 13, fontWeight: 400, color: "#1a1a1a", marginBottom: 6, lineHeight: 1.4 }}>{product.name}</p>
+        <p style={{ fontSize: 13, color: "#1a1a1a" }}>{product.price}</p>
+      </div>
+    </div>
+  );
+}
+
+export function SkinzHome() {
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css";
+    document.head.appendChild(link);
+    return () => { link.remove(); };
+  }, []);
+
+  return (
+    <div style={{ fontFamily: "'Helvetica Neue', Arial, sans-serif", background: "#fff", color: "#1a1a1a", minHeight: "100vh" }}>
+      <style>{`
+        * { box-sizing: border-box; }
+        body { margin: 0; }
+        a { text-decoration: none; color: inherit; }
+
+        .nav-link-custom {
+          font-size: 13px;
+          letter-spacing: 0.05em;
+          color: #1a1a1a;
+          text-decoration: none;
+          text-transform: uppercase;
+          font-weight: 400;
+          padding-bottom: 2px;
+          border-bottom: 1px solid transparent;
+          transition: border-color 0.2s;
+        }
+        .nav-link-custom:hover { border-bottom-color: #1a1a1a; }
+
+        .lookbook-item { position: relative; overflow: hidden; cursor: pointer; }
+        .lookbook-item:hover .lookbook-inner { transform: scale(1.04); }
+        .lookbook-inner { transition: transform 0.5s ease; }
+        .lookbook-caption { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.55)); padding: 40px 14px 14px; color: #fff; font-size: 11px; letter-spacing: 0.04em; opacity: 0; transition: opacity 0.3s; }
+        .lookbook-item:hover .lookbook-caption { opacity: 1; }
+
+        .icon-btn { background: none; border: none; cursor: pointer; padding: 4px; display: flex; align-items: center; color: #1a1a1a; }
+        .icon-btn:hover { opacity: 0.6; }
+
+        .hero-cta-btn {
+          background: #fff; color: #1a1a1a; border: none;
+          padding: 14px 36px; font-size: 12px; letter-spacing: 0.12em;
+          text-transform: uppercase; cursor: pointer; font-weight: 500;
+          transition: background 0.2s, color 0.2s;
+        }
+        .hero-cta-btn:hover { background: #1a1a1a; color: #fff; }
+
+        .hero-cta-outline {
+          background: transparent; color: #fff;
+          border: 1px solid rgba(255,255,255,0.5);
+          padding: 14px 36px; font-size: 12px; letter-spacing: 0.12em;
+          text-transform: uppercase; cursor: pointer;
+          transition: background 0.2s;
+        }
+        .hero-cta-outline:hover { background: rgba(255,255,255,0.15); }
+
+        .footer-link { font-size: 12px; color: #888; text-decoration: none; letter-spacing: 0.04em; display: block; margin-bottom: 10px; }
+        .footer-link:hover { color: #fff; }
+        .social-link { font-size: 11px; color: #666; text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; }
+        .social-link:hover { color: #fff; }
+
+        .newsletter-input:focus { outline: none; }
+      `}</style>
+
+      {/* TOP BAR */}
+      <div style={{ background: "#fff", borderBottom: "1px solid #e8e8e8", padding: "8px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: 11, letterSpacing: "0.03em", position: "relative" }}>
+        <div style={{ flex: 1 }} />
+        <div style={{ position: "absolute", left: "50%", transform: "translateX(-50%)", fontSize: 11, color: "#888", letterSpacing: "0.04em" }}>
+          Безкоштовна доставка від ₴2,000
+        </div>
+        <div
+          style={{ position: "relative", cursor: "pointer", display: "flex", alignItems: "center", gap: 4, fontSize: 12, color: "#1a1a1a" }}
+          onClick={() => setLangOpen(!langOpen)}
+        >
+          Українська <ChevronDown size={11} />
+          {langOpen && (
+            <div style={{ position: "absolute", top: "100%", right: 0, background: "#fff", border: "1px solid #e0e0e0", minWidth: 120, zIndex: 999, marginTop: 4 }}>
+              <div style={{ padding: "10px 16px", fontSize: 12, cursor: "pointer", fontWeight: 600 }}>Українська</div>
+              <div style={{ padding: "10px 16px", fontSize: 12, cursor: "pointer" }}>English</div>
             </div>
-          </div>
+          )}
+        </div>
+      </div>
+
+      {/* NAVBAR */}
+      <nav style={{ background: "#fff", borderBottom: "1px solid #e8e8e8", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 60, position: "sticky", top: 0, zIndex: 100 }}>
+        <a href="#" style={{ fontSize: 22, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase" as const, color: "#1a1a1a" }}>SKINZ</a>
+        <div style={{ display: "flex", gap: 28, listStyle: "none", margin: 0, padding: 0 }}>
+          {["Каталог", "Нове", "Комплекти", "Розпродаж", "Про нас"].map((l) => (
+            <a key={l} href="#" className="nav-link-custom">{l}</a>
+          ))}
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <button className="icon-btn" onClick={() => setSearchOpen(true)}><Search size={20} /></button>
+          <button className="icon-btn"><Heart size={20} /></button>
+          <button className="icon-btn"><ShoppingBag size={20} /></button>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="hero-section">
-        <div className="hero-shape d-none d-lg-block"></div>
-        <div className="container position-relative z-1 px-4">
-          <div className="row align-items-center">
-            <div className="col-lg-7 py-5">
-              <span className="d-block mb-3 text-uppercase fw-semibold" style={{ letterSpacing: '3px', color: '#8c523a' }}>Весна 2025</span>
-              <h1 className="display-2 font-serif fw-bold mb-4 lh-sm">
-                НОВА КОЛЕКЦІЯ <br />
-                <span style={{ color: 'var(--terracotta)' }}>ЕЛЕГАНТНОСТІ</span>
-              </h1>
-              <p className="lead mb-5 fs-5" style={{ maxWidth: '500px', color: '#555' }}>
-                Стиль для кожної жінки. Відкрийте для себе речі, які стануть основою вашого гардеробу на роки.
-              </p>
-              <div className="d-flex flex-column flex-sm-row gap-3">
-                <button className="btn btn-terracotta">
-                  Дивитись колекцію <ArrowRight size={18} className="ms-2" />
-                </button>
-                <button className="btn btn-outline-charcoal">
-                  Переглянути відео
-                </button>
-              </div>
+      {/* SEARCH OVERLAY */}
+      {searchOpen && (
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(255,255,255,0.98)", zIndex: 200, display: "flex", alignItems: "flex-start", justifyContent: "center", paddingTop: 80 }}>
+          <div style={{ width: 600 }}>
+            <p style={{ fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase" as const, marginBottom: 32, color: "#888", textAlign: "center" }}>пошук...</p>
+            <div style={{ display: "flex", alignItems: "center", borderBottom: "2px solid #1a1a1a", paddingBottom: 8 }}>
+              <Search size={18} style={{ marginRight: 12, color: "#888" }} />
+              <input
+                style={{ flex: 1, border: "none", outline: "none", fontSize: 20, background: "transparent" }}
+                placeholder="Пошук товарів..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                autoFocus
+              />
+              <button className="icon-btn" onClick={() => setSearchOpen(false)}><X size={20} /></button>
             </div>
           </div>
         </div>
-      </section>
+      )}
 
-      {/* Advantages Strip */}
-      <section className="py-5 bg-white border-bottom">
-        <div className="container">
-          <div className="row g-4 text-center">
-            <div className="col-6 col-md-3">
-              <Truck size={32} className="mb-3" style={{ color: 'var(--terracotta)' }} />
-              <h6 className="text-uppercase fw-bold mb-1" style={{ fontSize: '0.8rem', letterSpacing: '1px' }}>Безкоштовна доставка</h6>
-              <p className="text-muted small mb-0">Від 2000 грн</p>
-            </div>
-            <div className="col-6 col-md-3">
-              <RefreshCcw size={32} className="mb-3" style={{ color: 'var(--terracotta)' }} />
-              <h6 className="text-uppercase fw-bold mb-1" style={{ fontSize: '0.8rem', letterSpacing: '1px' }}>Легкий повернення</h6>
-              <p className="text-muted small mb-0">Протягом 14 днів</p>
-            </div>
-            <div className="col-6 col-md-3">
-              <ShieldCheck size={32} className="mb-3" style={{ color: 'var(--terracotta)' }} />
-              <h6 className="text-uppercase fw-bold mb-1" style={{ fontSize: '0.8rem', letterSpacing: '1px' }}>Оригінальний товар</h6>
-              <p className="text-muted small mb-0">Гарантія якості</p>
-            </div>
-            <div className="col-6 col-md-3">
-              <HeadphonesIcon size={32} className="mb-3" style={{ color: 'var(--terracotta)' }} />
-              <h6 className="text-uppercase fw-bold mb-1" style={{ fontSize: '0.8rem', letterSpacing: '1px' }}>Онлайн-підтримка</h6>
-              <p className="text-muted small mb-0">24/7 консультації</p>
-            </div>
+      {/* HERO BANNER 1 */}
+      <div style={{ width: "100%", background: "#f0ebe4", overflow: "hidden" }}>
+        <div style={{
+          width: "100%", height: 540,
+          background: "linear-gradient(135deg, #e8ddd0 0%, #d4c5b2 30%, #c2b09a 60%, #b09882 100%)",
+          display: "flex", alignItems: "center", justifyContent: "flex-end", paddingRight: 80
+        }}>
+          <div style={{ textAlign: "right", color: "#fff" }}>
+            <p style={{ fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" as const, marginBottom: 12, color: "rgba(255,255,255,0.7)" }}>Нова Колекція 2025</p>
+            <h1 style={{ fontSize: 52, fontWeight: 300, letterSpacing: "0.05em", lineHeight: 1.1, marginBottom: 16, fontStyle: "italic" }}>Колекція<br />весна — літо</h1>
+            <button className="hero-cta-btn">Переглянути</button>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* New Arrivals */}
-      <section className="py-5 my-5">
-        <div className="container">
-          <div className="text-center mb-5">
-            <h2 className="display-5 font-serif fw-bold mb-3">Нові Надходження</h2>
-            <div style={{ width: '60px', height: '2px', backgroundColor: 'var(--terracotta)', margin: '0 auto' }}></div>
+      {/* HERO BANNER 2 */}
+      <div style={{ width: "100%" }}>
+        <div style={{
+          width: "100%", height: 320,
+          background: "linear-gradient(120deg, #1a1a1a 0%, #2d2d2d 40%, #3d3d3d 70%, #1a1a1a 100%)",
+          display: "flex", alignItems: "center", justifyContent: "center"
+        }}>
+          <div style={{ textAlign: "center", color: "#fff" }}>
+            <p style={{ fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" as const, marginBottom: 12, color: "rgba(255,255,255,0.55)" }}>Exclusive Drop</p>
+            <h2 style={{ fontSize: 36, fontWeight: 300, letterSpacing: "0.08em", marginBottom: 24 }}>Limited Edition</h2>
+            <button className="hero-cta-outline">Дивитися</button>
           </div>
+        </div>
+      </div>
 
-          <div className="row g-4">
-            {[
-              { id: 1, name: 'Сукня Florentine', price: '3 450', color: 'linear-gradient(135deg, #e8d5b7, #d4c2a4)', isNew: true },
-              { id: 2, name: 'Блуза Ivory Silk', price: '1 890', color: 'linear-gradient(135deg, #faf8f5, #e6e4e1)', isNew: true },
-              { id: 3, name: 'Джинси Straight Cut', price: '2 150', color: 'linear-gradient(135deg, #8ba3b5, #6c869a)', isNew: false },
-              { id: 4, name: 'Пальто Cashmere Blend', price: '4 850', color: 'linear-gradient(135deg, #c17754, #a66242)', isNew: true },
-              { id: 5, name: 'Костюм двійка', price: '3 900', color: 'linear-gradient(135deg, #2c2c2c, #1a1a1a)', isNew: false },
-              { id: 6, name: 'Плаття з вирізом', price: '2 750', color: 'linear-gradient(135deg, #7a2b38, #5c1f28)', isNew: true },
-              { id: 7, name: 'Кардиган Soft Touch', price: '1 650', color: 'linear-gradient(135deg, #9baf93, #7f9378)', isNew: false },
-              { id: 8, name: 'Тренч класичний', price: '4 200', color: 'linear-gradient(135deg, #d2b48c, #ba9c76)', isNew: false },
-            ].map((product) => (
-              <div key={product.id} className="col-6 col-md-4 col-lg-3">
-                <div className="product-card">
-                  <div className="product-img-wrapper">
-                    {product.isNew && <div className="badge-new">Новинка</div>}
-                    <button 
-                      className="wishlist-btn" 
-                      onClick={(e) => { e.stopPropagation(); toggleWishlist(product.id); }}
-                    >
-                      <Heart size={18} fill={wishlist[product.id] ? "var(--terracotta)" : "none"} color={wishlist[product.id] ? "var(--terracotta)" : "currentColor"} />
-                    </button>
-                    <div className="product-img-placeholder" style={{ background: product.color }}>
-                    </div>
-                    <button className="add-to-cart-btn" onClick={(e) => { e.stopPropagation(); addToCart(); }}>
-                      В кошик
-                    </button>
-                  </div>
-                  <div className="text-center">
-                    <h3 className="fs-6 fw-semibold mb-1">{product.name}</h3>
-                    <div className="mb-2">
-                      <span className="size-pill">XS</span>
-                      <span className="size-pill">S</span>
-                      <span className="size-pill">M</span>
-                      <span className="size-pill">L</span>
-                    </div>
-                    <p className="fw-bold mb-0" style={{ color: 'var(--terracotta)' }}>₴ {product.price}</p>
-                  </div>
-                </div>
-              </div>
+      {/* PRODUCTS GRID */}
+      <div style={{ padding: "48px 0" }}>
+        <p style={{ fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" as const, fontWeight: 400, color: "#1a1a1a", marginBottom: 32, textAlign: "center" }}>Всі товари</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 1, background: "#e8e8e8" }}>
+          {products.map((p) => <ProductCard key={p.id} product={p} />)}
+        </div>
+      </div>
+
+      {/* LOOKBOOK */}
+      <div style={{ padding: "0 0 48px" }}>
+        <p style={{ fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" as const, fontWeight: 400, color: "#1a1a1a", marginBottom: 32, textAlign: "center" }}>Lookbook</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1, background: "#e8e8e8" }}>
+          {lookbook.map((item, i) => (
+            <div key={i} className="lookbook-item">
+              <div className="lookbook-inner" style={{ width: "100%", aspectRatio: "2/3", background: item.img }} />
+              <div className="lookbook-caption">{item.caption}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* FEATURES BAR */}
+      <div style={{ borderTop: "1px solid #e8e8e8", borderBottom: "1px solid #e8e8e8", padding: "28px 24px", display: "flex", justifyContent: "center", gap: 60 }}>
+        {[
+          { title: "Безкоштовна доставка", desc: "від ₴2,000" },
+          { title: "Легке повернення", desc: "протягом 14 днів" },
+          { title: "Оригінальний товар", desc: "власне виробництво" },
+          { title: "Підтримка 24/7", desc: "в Instagram та Telegram" },
+        ].map((f, i) => (
+          <div key={i} style={{ textAlign: "center" }}>
+            <p style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase" as const, fontWeight: 500, marginBottom: 4 }}>{f.title}</p>
+            <p style={{ fontSize: 11, color: "#888", letterSpacing: "0.04em" }}>{f.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* NEWSLETTER */}
+      <div style={{ padding: "56px 24px", textAlign: "center", background: "#f8f6f3" }}>
+        <h3 style={{ fontSize: 22, fontWeight: 300, letterSpacing: "0.05em", marginBottom: 8 }}>Будьте першими</h3>
+        <p style={{ fontSize: 12, color: "#888", letterSpacing: "0.05em", marginBottom: 28 }}>Підписуйтесь і отримуйте -10% на перше замовлення</p>
+        <div style={{ display: "flex", justifyContent: "center", maxWidth: 440, margin: "0 auto" }}>
+          <input
+            className="newsletter-input"
+            placeholder="Ваш email"
+            style={{ flex: 1, border: "1px solid #d4d4d4", borderRight: "none", padding: "12px 16px", fontSize: 12, letterSpacing: "0.04em", background: "#fff" }}
+          />
+          <button style={{ background: "#1a1a1a", color: "#fff", border: "none", padding: "12px 24px", fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase" as const, cursor: "pointer", whiteSpace: "nowrap" }}>
+            Підписатися
+          </button>
+        </div>
+      </div>
+
+      {/* FOOTER */}
+      <footer style={{ background: "#1a1a1a", color: "#fff", padding: "48px 24px 24px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 40, marginBottom: 40 }}>
+          <div>
+            <div style={{ fontSize: 20, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase" as const, marginBottom: 16 }}>SKINZ</div>
+            <p style={{ fontSize: 12, color: "#888", lineHeight: 1.8, maxWidth: 260 }}>Український бренд жіночого одягу. Ми створюємо речі, які підкреслюють вашу індивідуальність та красу.</p>
+          </div>
+          <div>
+            <p style={{ fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase" as const, marginBottom: 16, fontWeight: 500 }}>Магазин</p>
+            {["Каталог", "Нові надходження", "Розпродаж", "Комплекти", "Lookbook"].map((l) => (
+              <a key={l} href="#" className="footer-link">{l}</a>
             ))}
           </div>
-          
-          <div className="text-center mt-5">
-            <button className="btn btn-outline-charcoal">Переглянути всі</button>
+          <div>
+            <p style={{ fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase" as const, marginBottom: 16, fontWeight: 500 }}>Інформація</p>
+            {["Про нас", "Доставка та оплата", "Повернення", "Розмірна сітка", "Блог"].map((l) => (
+              <a key={l} href="#" className="footer-link">{l}</a>
+            ))}
           </div>
-        </div>
-      </section>
-
-      {/* Categories Banner */}
-      <section className="py-2">
-        <div className="container-fluid px-2">
-          <div className="row g-2">
-            {[
-              { title: 'Плаття', color: '#b5938d' },
-              { title: 'Верхній одяг', color: '#8a7d72' },
-              { title: 'Аксесуари', color: '#c4a77d' },
-              { title: 'Спортивний стиль', color: '#6b7a85' },
-            ].map((cat, i) => (
-              <div key={i} className="col-md-6 col-lg-3">
-                <div className="category-card">
-                  <div className="category-bg" style={{ backgroundColor: cat.color, backgroundImage: `linear-gradient(to bottom, transparent, rgba(0,0,0,0.4))` }}></div>
-                  <div className="category-overlay">
-                    <h3 className="category-title font-serif">{cat.title}</h3>
-                  </div>
-                </div>
-              </div>
+          <div>
+            <p style={{ fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase" as const, marginBottom: 16, fontWeight: 500 }}>Підтримка</p>
+            {["Instagram", "Telegram", "TikTok", "Email нам", "FAQ"].map((l) => (
+              <a key={l} href="#" className="footer-link">{l}</a>
             ))}
           </div>
         </div>
-      </section>
-
-      {/* Sale Banner */}
-      <section className="sale-banner my-5">
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-8">
-              <h4 className="text-uppercase tracking-widest mb-3" style={{ letterSpacing: '4px' }}>Спеціальна пропозиція</h4>
-              <h2 className="display-4 font-serif fw-bold mb-4">ВЕСНЯНИЙ РОЗПРОДАЖ — ДО -40%</h2>
-              <p className="lead mb-5 opacity-75">Оновіть свій гардероб зі знижками на вибрані моделі з минулих колекцій.</p>
-              <button className="btn btn-outline-light btn-lg px-5 rounded-0 text-uppercase tracking-widest border-2" style={{ letterSpacing: '2px' }}>
-                Переглянути акції
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Brands */}
-      <section className="brands-strip text-center">
-        <div className="container">
-          <div className="d-flex flex-wrap justify-content-center justify-content-md-between align-items-center gap-4">
-            {['Zara', 'Mango', 'Massimo Dutti', 'Reserved', 'H&M', 'Boss'].map((brand, i) => (
-              <div key={i} className="brand-item fw-bold px-3">{brand}</div>
+        <div style={{ borderTop: "1px solid #333", paddingTop: 20, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <p style={{ fontSize: 11, color: "#666", letterSpacing: "0.04em" }}>© 2025 SKINZ. Всі права захищені.</p>
+          <div style={{ display: "flex", gap: 16 }}>
+            {["Instagram", "Telegram", "TikTok"].map((s) => (
+              <a key={s} href="#" className="social-link">{s}</a>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Reviews */}
-      <section className="py-5 my-5 bg-white">
-        <div className="container">
-          <div className="text-center mb-5">
-            <h2 className="display-5 font-serif fw-bold mb-3">Відгуки Клієнтів</h2>
-            <div style={{ width: '60px', height: '2px', backgroundColor: 'var(--terracotta)', margin: '0 auto' }}></div>
-          </div>
-
-          <div className="row g-4">
-            {[
-              { name: 'Олена М.', text: 'Чудова якість! Замовляла пальто, сіло ідеально. Дуже приємне обслуговування та швидка доставка. Обов\'язково повернуся ще.', rating: 5 },
-              { name: 'Марія К.', text: 'Сукня просто неймовірна, матеріал дуже приємний до тіла. Розмірна сітка повністю відповідає дійсності. Дякую!', rating: 5 },
-              { name: 'Ірина В.', text: 'Мій улюблений магазин. Завжди знаходжу тут щось особливе для себе. Базові речі служать роками і не втрачають вигляд.', rating: 5 },
-            ].map((review, i) => (
-              <div key={i} className="col-md-4">
-                <div className="review-card shadow-sm">
-                  <div className="quote-icon">"</div>
-                  <div className="d-flex mb-3">
-                    {[...Array(review.rating)].map((_, i) => (
-                      <Star key={i} size={16} fill="#c17754" color="#c17754" className="me-1" />
-                    ))}
-                  </div>
-                  <p className="fst-italic mb-4" style={{ color: '#666', lineHeight: 1.6 }}>"{review.text}"</p>
-                  <h6 className="fw-bold text-uppercase mb-0" style={{ letterSpacing: '1px' }}>{review.name}</h6>
-                </div>
-              </div>
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            {["VISA", "MC", "APPLE PAY", "GOOGLE PAY"].map((p) => (
+              <span key={p} style={{ background: "#333", color: "#aaa", fontSize: 9, padding: "3px 8px", letterSpacing: "0.06em", borderRadius: 2 }}>{p}</span>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Newsletter */}
-      <section className="py-5" style={{ backgroundColor: 'var(--blush)' }}>
-        <div className="container py-4">
-          <div className="row justify-content-center text-center">
-            <div className="col-lg-6">
-              <h2 className="font-serif fw-bold mb-3">Приєднуйтесь до нашого клубу</h2>
-              <p className="mb-4 text-dark opacity-75">Дізнавайтесь першими про нові колекції, закриті розпродажі та модні поради.</p>
-              <form className="d-flex gap-2 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
-                <input type="email" className="form-control newsletter-input flex-grow-1" placeholder="Ваш email..." required />
-                <button type="submit" className="btn btn-dark rounded-0 px-4 text-uppercase tracking-widest" style={{ letterSpacing: '1px' }}>Підписатися</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="footer">
-        <div className="container">
-          <div className="row g-4 mb-5">
-            <div className="col-lg-4 pe-lg-5">
-              <h3 className="brand-logo fs-3 fw-bold mb-4" style={{ letterSpacing: '4px', color: 'var(--cream)' }}>ОКСАМИТ</h3>
-              <p className="mb-4 opacity-75" style={{ fontSize: '0.9rem', lineHeight: 1.6 }}>
-                ОКСАМИТ — це більше ніж просто магазин одягу. Це простір, де стиль зустрічається з комфортом, а якість стає доступною кожній жінці.
-              </p>
-              <div className="d-flex">
-                <a href="#" className="social-icon"><Instagram size={18} /></a>
-                <a href="#" className="social-icon"><Facebook size={18} /></a>
-                <a href="#" className="social-icon"><Twitter size={18} /></a>
-              </div>
-            </div>
-            
-            <div className="col-6 col-md-4 col-lg-2 offset-lg-1">
-              <h5 className="footer-title">Магазин</h5>
-              <a href="#" className="footer-link">Новинки</a>
-              <a href="#" className="footer-link">Одяг</a>
-              <a href="#" className="footer-link">Взуття</a>
-              <a href="#" className="footer-link">Аксесуари</a>
-              <a href="#" className="footer-link" style={{ color: 'var(--terracotta)' }}>Розпродаж</a>
-            </div>
-            
-            <div className="col-6 col-md-4 col-lg-2">
-              <h5 className="footer-title">Інформація</h5>
-              <a href="#" className="footer-link">Про нас</a>
-              <a href="#" className="footer-link">Блог</a>
-              <a href="#" className="footer-link">Відгуки</a>
-              <a href="#" className="footer-link">Контакти</a>
-            </div>
-            
-            <div className="col-md-4 col-lg-3">
-              <h5 className="footer-title">Підтримка</h5>
-              <a href="#" className="footer-link">Доставка та оплата</a>
-              <a href="#" className="footer-link">Обмін та повернення</a>
-              <a href="#" className="footer-link">Таблиця розмірів</a>
-              <a href="#" className="footer-link">FAQ</a>
-            </div>
-          </div>
-          
-          <div className="border-top pt-4 text-center text-md-start d-md-flex justify-content-between align-items-center opacity-50" style={{ borderColor: 'rgba(255,255,255,0.1) !important' }}>
-            <p className="mb-0 small">© 2025 ОКСАМИТ. Всі права захищені.</p>
-            <div className="mt-3 mt-md-0 small">
-              <a href="#" className="text-white text-decoration-none me-3">Політика конфіденційності</a>
-              <a href="#" className="text-white text-decoration-none">Умови використання</a>
-            </div>
           </div>
         </div>
       </footer>
