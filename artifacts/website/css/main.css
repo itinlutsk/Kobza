@@ -72,17 +72,14 @@
 /* ---------- Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* Remove browser default blue outline on non-interactive containers */
-div:focus, section:focus, article:focus, main:focus, header:focus,
-footer:focus, aside:focus, figure:focus, nav:focus,
-.collapse:focus, .navbar-collapse:focus, .collapsing:focus,
-.container:focus, .container-xl:focus, .container-fluid:focus,
-.row:focus, .col:focus, [class*="col-"]:focus {
-  outline: none !important;
-}
-/* Style focus for interactive elements with brand color */
+/* Remove focus outline triggered by mouse/touch (keep for keyboard nav) */
+*:focus:not(:focus-visible) { outline: none !important; box-shadow: none !important; }
+/* Remove outline on elements that should never show it */
+[tabindex="-1"]:focus { outline: none !important; box-shadow: none !important; }
+.collapse:focus, .navbar-collapse:focus, .collapsing:focus { outline: none !important; }
+/* Style focus for keyboard navigation with brand color */
 a:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
-button:focus-visible:not(.theme-toggle-btn) { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 input:focus, textarea:focus, select:focus { outline: none; }
 
 html {
