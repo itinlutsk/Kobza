@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Категорії — SKINZ</title>
+  <meta name="description" content="Всі категорії автомобільних плівок: вінілові плівки, PPF, тонування, карбон, хром та матові покриття." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚗</text></svg>"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="../css/main.css" rel="stylesheet"/>
+  <link href="../css/components.css" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg sticky-top" id="mainNav">
+  <div class="container-xl">
+    <a class="navbar-brand d-flex align-items-center gap-1" href="../index.html">
+      <span class="logo-text">SKINZ</span><span class="logo-accent">.</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="../index.html">Головна</a></li>
+        <li class="nav-item"><a class="nav-link active" href="categories.html">Категорії</a></li>
+        <li class="nav-item"><a class="nav-link" href="catalog.html">Каталог</a></li>
+        <li class="nav-item"><a class="nav-link" href="contacts.html">Контакти</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+        <a href="#" class="nav-icon-btn" title="Пошук"><i class="bi bi-search"></i></a>
+        <a href="#" class="nav-icon-btn" title="Обране"><i class="bi bi-heart"></i></a>
+        <a href="#" class="nav-icon-btn position-relative" title="Кошик">
+          <i class="bi bi-bag"></i>
+          <span class="cart-badge">0</span>
+        </a>
+        <a href="contacts.html" class="btn-accent ms-2" style="border-radius:6px;padding:0.5rem 1.25rem;font-size:0.875rem;">Замовити</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-wrap">
+  <div class="container-xl">
+    <nav class="breadcrumb-custom">
+      <a href="../index.html">Головна</a>
+      <span class="sep"><i class="bi bi-chevron-right" style="font-size:0.7rem"></i></span>
+      <span class="current">Категорії</span>
+    </nav>
+  </div>
+</div>
+
+<!-- PAGE HEADER -->
+<section style="padding:3rem 0 2rem;background:var(--color-surface);border-bottom:1px solid var(--color-border)">
+  <div class="container-xl">
+    <p class="text-xs tracking-wide text-accent mb-2" style="font-weight:700;text-transform:uppercase">Асортимент</p>
+    <h1 class="h-lg" style="margin-bottom:0.5rem">Всі категорії</h1>
+    <p style="color:var(--color-text-muted);font-size:0.9375rem">Оберіть категорію плівок для вашого автомобіля</p>
+  </div>
+</section>
+
+<!-- CATEGORIES GRID -->
+<section class="section">
+  <div class="container-xl">
+    <div class="row g-3">
+
+      <div class="col-6 col-md-4 col-xl-3 aos-fade">
+        <a href="catalog.html" class="category-card">
+          <div class="category-card-img">
+            <img src="https://picsum.photos/seed/vinyl-wrap-cat/600/450" alt="Вінілові плівки"/>
+          </div>
+          <div class="category-card-overlay"></div>
+          <div class="category-card-body">
+            <div class="category-card-name">Вінілові плівки</div>
+            <div class="category-card-count">142 товари</div>
+          </div>
+          <div class="category-arrow"><i class="bi bi-arrow-right"></i></div>
+        </a>
+      </div>
+
+      <div class="col-6 col-md-4 col-xl-3 aos-fade" style="transition-delay:0.05s">
+        <a href="catalog.html" class="category-card">
+          <div class="category-card-img">
+            <img src="https://picsum.photos/seed/ppf-cat/600/450" alt="PPF захист"/>
+          </div>
+          <div class="category-card-overlay"></div>
+          <div class="category-card-body">
+            <div class="category-card-name">PPF захист</div>
+            <div class="category-card-count">48 товарів</div>
+          </div>
+          <div class="category-arrow"><i class="bi bi-arrow-right"></i></div>
+        </a>
+      </div>
+
+      <div class="col-6 col-md-4 col-xl-3 aos-fade" style="transition-delay:0.1s">
+        <a href="catalog.html" class="category-card">
+          <div class="category-card-img">
+            <img src="https://picsum.photos/seed/window-tint-cat/600/450" alt="Тонування вікон"/>
+          </div>
+          <div class="category-card-overlay"></div>
+          <div class="category-card-body">
+            <div class="category-card-name">Тонування вікон</div>
+            <div class="category-card-count">35 товарів</div>
+          </div>
+          <div class="category-arrow"><i class="bi bi-arrow-right"></i></div>
+        </a>
+      </div>
+
+      <div class="col-6 col-md-4 col-xl-3 aos-fade" style="transition-delay:0.15s">
+        <a href="catalog.html" class="category-card">
+          <div class="category-card-img">
+            <img src="https://picsum.photos/seed/carbon-cat/600/450" alt="Карбонова плівка"/>
+          </div>
+          <div class="category-card-overlay"></div>
+          <div class="category-card-body">
+            <div class="category-card-name">Карбонова плівка</div>
+            <div class="category-card-count">29 товарів</div>
+          </div>
+          <div class="category-arrow"><i class="bi bi-arrow-right"></i></div>
+        </a>
+      </div>
+
+      <div class="col-6 col-md-4 col-xl-3 aos-fade" style="transition-delay:0.2s">
+        <a href="catalog.html" class="category-card">
+          <div class="category-card-img">
+            <img src="https://picsum.photos/seed/chrome-cat/600/450" alt="Хромовані плівки"/>
+          </div>
+          <div class="category-card-overlay"></div>
+          <div class="category-card-body">
+            <div class="category-card-name">Хромовані плівки</div>
+            <div class="category-card-count">18 товарів</div>
+          </div>
+          <div class="category-arrow"><i class="bi bi-arrow-right"></i></div>
+        </a>
+      </div>
+
+      <div class="col-6 col-md-4 col-xl-3 aos-fade" style="transition-delay:0.25s">
+        <a href="catalog.html" class="category-card">
+          <div class="category-card-img">
+            <img src="https://picsum.photos/seed/matte-cat/600/450" alt="Матові покриття"/>
+          </div>
+          <div class="category-card-overlay"></div>
+          <div class="category-card-body">
+            <div class="category-card-name">Матові покриття</div>
+            <div class="category-card-count">56 товарів</div>
+          </div>
+          <div class="category-arrow"><i class="bi bi-arrow-right"></i></div>
+        </a>
+      </div>
+
+      <div class="col-6 col-md-4 col-xl-3 aos-fade" style="transition-delay:0.3s">
+        <a href="catalog.html" class="category-card">
+          <div class="category-card-img">
+            <img src="https://picsum.photos/seed/gloss-cat/600/450" alt="Глянцеві покриття"/>
+          </div>
+          <div class="category-card-overlay"></div>
+          <div class="category-card-body">
+            <div class="category-card-name">Глянцеві покриття</div>
+            <div class="category-card-count">74 товари</div>
+          </div>
+          <div class="category-arrow"><i class="bi bi-arrow-right"></i></div>
+        </a>
+      </div>
+
+      <div class="col-6 col-md-4 col-xl-3 aos-fade" style="transition-delay:0.35s">
+        <a href="catalog.html" class="category-card">
+          <div class="category-card-img">
+            <img src="https://picsum.photos/seed/antigrav-cat/600/450" alt="Антигравійна плівка"/>
+          </div>
+          <div class="category-card-overlay"></div>
+          <div class="category-card-body">
+            <div class="category-card-name">Антигравійна плівка</div>
+            <div class="category-card-count">22 товари</div>
+          </div>
+          <div class="category-arrow"><i class="bi bi-arrow-right"></i></div>
+        </a>
+      </div>
+
+      <div class="col-6 col-md-4 col-xl-3 aos-fade" style="transition-delay:0.4s">
+        <a href="catalog.html" class="category-card">
+          <div class="category-card-img">
+            <img src="https://picsum.photos/seed/metallic-cat/600/450" alt="Металеві відтінки"/>
+          </div>
+          <div class="category-card-overlay"></div>
+          <div class="category-card-body">
+            <div class="category-card-name">Металеві відтінки</div>
+            <div class="category-card-count">38 товарів</div>
+          </div>
+          <div class="category-arrow"><i class="bi bi-arrow-right"></i></div>
+        </a>
+      </div>
+
+      <div class="col-6 col-md-4 col-xl-3 aos-fade" style="transition-delay:0.45s">
+        <a href="catalog.html" class="category-card">
+          <div class="category-card-img">
+            <img src="https://picsum.photos/seed/chameleon-cat/600/450" alt="Хамелеон"/>
+          </div>
+          <div class="category-card-overlay"></div>
+          <div class="category-card-body">
+            <div class="category-card-name">Ефект хамелеон</div>
+            <div class="category-card-count">16 товарів</div>
+          </div>
+          <div class="category-arrow"><i class="bi bi-arrow-right"></i></div>
+        </a>
+      </div>
+
+      <div class="col-6 col-md-4 col-xl-3 aos-fade" style="transition-delay:0.5s">
+        <a href="catalog.html" class="category-card">
+          <div class="category-card-img">
+            <img src="https://picsum.photos/seed/instr-cat/600/450" alt="Інструменти"/>
+          </div>
+          <div class="category-card-overlay"></div>
+          <div class="category-card-body">
+            <div class="category-card-name">Інструменти монтажу</div>
+            <div class="category-card-count">61 товар</div>
+          </div>
+          <div class="category-arrow"><i class="bi bi-arrow-right"></i></div>
+        </a>
+      </div>
+
+      <div class="col-6 col-md-4 col-xl-3 aos-fade" style="transition-delay:0.55s">
+        <a href="catalog.html" class="category-card">
+          <div class="category-card-img">
+            <img src="https://picsum.photos/seed/care-cat/600/450" alt="Догляд за плівкою"/>
+          </div>
+          <div class="category-card-overlay"></div>
+          <div class="category-card-body">
+            <div class="category-card-name">Догляд за плівкою</div>
+            <div class="category-card-count">33 товари</div>
+          </div>
+          <div class="category-arrow"><i class="bi bi-arrow-right"></i></div>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- BRANDS -->
+<section class="section-sm bg-surface">
+  <div class="container-xl">
+    <h2 class="section-title text-center mb-2">Наші бренди</h2>
+    <p class="text-center text-muted-custom mb-4" style="font-size:0.9375rem">Офіційний дистриб'ютор провідних виробників</p>
+    <div class="row g-3 justify-content-center align-items-center">
+      <div class="col-6 col-md-3 col-lg-2">
+        <div style="background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:1.5rem;text-align:center;font-size:1.25rem;font-weight:800;letter-spacing:-0.03em;color:var(--color-text-muted)">3M</div>
+      </div>
+      <div class="col-6 col-md-3 col-lg-2">
+        <div style="background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:1.5rem;text-align:center;font-size:0.875rem;font-weight:800;letter-spacing:0.05em;color:var(--color-text-muted)">AVERY<br/>DENNISON</div>
+      </div>
+      <div class="col-6 col-md-3 col-lg-2">
+        <div style="background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:1.5rem;text-align:center;font-size:1.1rem;font-weight:800;letter-spacing:0.05em;color:var(--color-text-muted)">KPMF</div>
+      </div>
+      <div class="col-6 col-md-3 col-lg-2">
+        <div style="background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:1.5rem;text-align:center;font-size:0.875rem;font-weight:800;letter-spacing:0.08em;color:var(--color-text-muted)">ORACAL</div>
+      </div>
+      <div class="col-6 col-md-3 col-lg-2">
+        <div style="background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:1.5rem;text-align:center;font-size:0.875rem;font-weight:800;letter-spacing:0.05em;color:var(--color-text-muted)">ARLON</div>
+      </div>
+      <div class="col-6 col-md-3 col-lg-2">
+        <div style="background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:1.5rem;text-align:center;font-size:0.875rem;font-weight:800;letter-spacing:0.05em;color:var(--color-text-muted)">HEXIS</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container-xl">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="footer-logo">
+          <span class="logo-text">SKINZ</span><span class="logo-accent">.</span>
+        </div>
+        <p class="footer-tagline">Преміальні вінілові плівки, PPF захист та тонування вікон для вашого автомобіля.</p>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-link"><i class="bi bi-telegram"></i></a>
+          <a href="#" class="social-link"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-2 offset-lg-1">
+        <h6 class="footer-heading">Каталог</h6>
+        <ul class="footer-links">
+          <li><a href="catalog.html">Вінілові плівки</a></li>
+          <li><a href="catalog.html">PPF захист</a></li>
+          <li><a href="catalog.html">Тонування вікон</a></li>
+          <li><a href="catalog.html">Карбонова плівка</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <h6 class="footer-heading">Інформація</h6>
+        <ul class="footer-links">
+          <li><a href="#">Про компанію</a></li>
+          <li><a href="#">Доставка та оплата</a></li>
+          <li><a href="#">Гарантія</a></li>
+          <li><a href="contacts.html">Контакти</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3">
+        <h6 class="footer-heading">Контакти</h6>
+        <div class="footer-contact-item"><i class="bi bi-telephone"></i><span>+380 67 123 45 67</span></div>
+        <div class="footer-contact-item"><i class="bi bi-envelope"></i><span>info@skinz.ua</span></div>
+        <div class="footer-contact-item"><i class="bi bi-clock"></i><span>Пн–Пт: 9:00–19:00</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 SKINZ. Всі права захищені.</span>
+      <div class="d-flex gap-3">
+        <a href="#">Публічна оферта</a>
+        <a href="#">Конфіденційність</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button id="backToTop" aria-label="Вгору"><i class="bi bi-arrow-up"></i></button>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/main.js"></script>
+</body>
+</html>
