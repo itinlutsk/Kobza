@@ -4,8 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Каталог — SKINZ</title>
-  <meta name="description" content="Каталог автомобільних плівок: вінілові, PPF, тонування. Більше 500 кольорів та текстур." />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚗</text></svg>"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
   <link href="../css/main.css" rel="stylesheet"/>
@@ -30,98 +28,108 @@
         <li class="nav-item"><a class="nav-link" href="contacts.html">Контакти</a></li>
       </ul>
       <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
-        <a href="#" class="nav-icon-btn" title="Пошук"><i class="bi bi-search"></i></a>
-        <a href="#" class="nav-icon-btn" title="Обране"><i class="bi bi-heart"></i></a>
-        <a href="#" class="nav-icon-btn position-relative" title="Кошик">
-          <i class="bi bi-bag"></i>
-          <span class="cart-badge">0</span>
+        <a href="#" class="nav-icon-btn"><i class="bi bi-search"></i></a>
+        <a href="#" class="nav-icon-btn"><i class="bi bi-heart"></i></a>
+        <a href="#" class="nav-icon-btn position-relative">
+          <i class="bi bi-bag"></i><span class="cart-badge">0</span>
         </a>
-        <a href="contacts.html" class="btn-accent ms-2" style="border-radius:6px;padding:0.5rem 1.25rem;font-size:0.875rem;">Замовити</a>
+        <a href="catalog.html" class="btn-accent ms-2" style="border-radius:6px;padding:0.5rem 1.25rem;font-size:0.875rem;">Купити</a>
       </div>
     </div>
   </div>
 </nav>
 
-<!-- BREADCRUMB -->
-<div class="breadcrumb-wrap">
+<!-- PAGE HEADER -->
+<div class="page-header">
   <div class="container-xl">
-    <nav class="breadcrumb-custom">
-      <a href="../index.html">Головна</a>
-      <span class="sep"><i class="bi bi-chevron-right" style="font-size:0.7rem"></i></span>
-      <span class="current">Каталог</span>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="../index.html">Головна</a></li>
+        <li class="breadcrumb-item active">Каталог</li>
+      </ol>
     </nav>
+    <h1 class="page-header-title">Каталог</h1>
+    <p class="page-header-desc">Більше 200 моделей жіночого одягу — боді, сукні, нижня білизна та аксесуари</p>
   </div>
 </div>
 
-<!-- PAGE HEADER -->
-<section style="padding:3rem 0 2rem;background:var(--color-surface);border-bottom:1px solid var(--color-border)">
-  <div class="container-xl">
-    <p class="text-xs tracking-wide text-accent mb-2" style="font-weight:700;text-transform:uppercase">Асортимент</p>
-    <h1 class="h-lg" style="margin-bottom:0.5rem">Каталог плівок</h1>
-    <p style="color:var(--color-text-muted);font-size:0.9375rem">Понад 500 кольорів, текстур та спецефектів</p>
-  </div>
-</section>
-
-<!-- MAIN CONTENT -->
+<!-- CATALOG LAYOUT -->
 <section class="section">
   <div class="container-xl">
-    <!-- Mobile filter toggle -->
-    <button class="filter-toggle-btn">
-      <i class="bi bi-sliders"></i> Фільтри
-    </button>
-
     <div class="row g-4">
-      <!-- SIDEBAR -->
-      <div class="col-lg-3">
-        <div class="filter-sidebar">
-          <div class="filter-title">Фільтри</div>
 
-          <!-- Category -->
-          <div class="filter-group">
-            <div class="filter-group-title">Категорія</div>
-            <label class="filter-check"><input type="checkbox" checked/> Вінілові плівки <span style="margin-left:auto;font-size:0.75rem;color:var(--color-text-faint)">(142)</span></label>
-            <label class="filter-check"><input type="checkbox"/> PPF захист <span style="margin-left:auto;font-size:0.75rem;color:var(--color-text-faint)">(48)</span></label>
-            <label class="filter-check"><input type="checkbox"/> Тонування вікон <span style="margin-left:auto;font-size:0.75rem;color:var(--color-text-faint)">(35)</span></label>
-            <label class="filter-check"><input type="checkbox"/> Карбонова плівка <span style="margin-left:auto;font-size:0.75rem;color:var(--color-text-faint)">(29)</span></label>
-            <label class="filter-check"><input type="checkbox"/> Хром <span style="margin-left:auto;font-size:0.75rem;color:var(--color-text-faint)">(18)</span></label>
-            <label class="filter-check"><input type="checkbox"/> Матові покриття <span style="margin-left:auto;font-size:0.75rem;color:var(--color-text-faint)">(56)</span></label>
-            <label class="filter-check"><input type="checkbox"/> Антигравійна <span style="margin-left:auto;font-size:0.75rem;color:var(--color-text-faint)">(22)</span></label>
+      <!-- SIDEBAR FILTERS -->
+      <div class="col-lg-3">
+        <div class="filter-sidebar" id="filterSidebar">
+          <div class="filter-sidebar-header d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0">Фільтри</h5>
+            <button class="btn-reset-filter">Очистити</button>
           </div>
 
-          <!-- Price -->
+          <!-- Category filter -->
           <div class="filter-group">
-            <div class="filter-group-title">Ціна (₴/м²)</div>
-            <div class="price-inputs">
-              <input type="number" class="price-input" placeholder="від" value="500"/>
-              <span style="color:var(--color-text-muted)">—</span>
-              <input type="number" class="price-input" placeholder="до" value="2000"/>
+            <div class="filter-group-title">Категорія</div>
+            <div class="filter-check-list">
+              <label class="filter-check"><input type="checkbox" checked/><span>Боді (48)</span></label>
+              <label class="filter-check"><input type="checkbox"/><span>Сукні (62)</span></label>
+              <label class="filter-check"><input type="checkbox"/><span>Нижня білизна (35)</span></label>
+              <label class="filter-check"><input type="checkbox"/><span>Топи (41)</span></label>
+              <label class="filter-check"><input type="checkbox"/><span>Комбінезони (27)</span></label>
+              <label class="filter-check"><input type="checkbox"/><span>Шорти і легінси (33)</span></label>
+              <label class="filter-check"><input type="checkbox"/><span>Спідниці (24)</span></label>
+              <label class="filter-check"><input type="checkbox"/><span>Піжами (19)</span></label>
             </div>
           </div>
 
-          <!-- Brand -->
+          <!-- Size filter -->
           <div class="filter-group">
-            <div class="filter-group-title">Бренд</div>
-            <label class="filter-check"><input type="checkbox" checked/> 3M</label>
-            <label class="filter-check"><input type="checkbox" checked/> Avery Dennison</label>
-            <label class="filter-check"><input type="checkbox"/> KPMF</label>
-            <label class="filter-check"><input type="checkbox"/> Oracal</label>
-            <label class="filter-check"><input type="checkbox"/> Arlon</label>
-            <label class="filter-check"><input type="checkbox"/> Hexis</label>
+            <div class="filter-group-title">Розмір</div>
+            <div class="d-flex flex-wrap gap-2">
+              <label class="size-filter-btn"><input type="checkbox"/><span>XS</span></label>
+              <label class="size-filter-btn"><input type="checkbox" checked/><span>S</span></label>
+              <label class="size-filter-btn"><input type="checkbox" checked/><span>M</span></label>
+              <label class="size-filter-btn"><input type="checkbox"/><span>L</span></label>
+              <label class="size-filter-btn"><input type="checkbox"/><span>XL</span></label>
+            </div>
           </div>
 
-          <!-- Texture -->
+          <!-- Price filter -->
           <div class="filter-group">
-            <div class="filter-group-title">Текстура</div>
-            <label class="filter-check"><input type="checkbox" checked/> Глянець</label>
-            <label class="filter-check"><input type="checkbox"/> Мат</label>
-            <label class="filter-check"><input type="checkbox"/> Сатин</label>
-            <label class="filter-check"><input type="checkbox"/> Хром</label>
-            <label class="filter-check"><input type="checkbox"/> Карбон</label>
-            <label class="filter-check"><input type="checkbox"/> Хамелеон</label>
+            <div class="filter-group-title">Ціна, ₴</div>
+            <div class="d-flex gap-2 mb-2">
+              <input type="number" class="filter-input" placeholder="Від" value="0"/>
+              <input type="number" class="filter-input" placeholder="До" value="5000"/>
+            </div>
           </div>
 
-          <button class="btn-accent w-100" style="padding:0.65rem;font-size:0.875rem;border-radius:6px;">Застосувати</button>
-          <button class="btn-outline-light w-100 mt-2" style="padding:0.65rem;font-size:0.875rem;border-radius:6px;border-color:var(--color-border)">Скинути фільтри</button>
+          <!-- Color filter -->
+          <div class="filter-group">
+            <div class="filter-group-title">Колір</div>
+            <div class="filter-check-list">
+              <label class="filter-check"><input type="checkbox"/><span>Чорний</span></label>
+              <label class="filter-check"><input type="checkbox"/><span>Білий</span></label>
+              <label class="filter-check"><input type="checkbox"/><span>Бежевий</span></label>
+              <label class="filter-check"><input type="checkbox"/><span>Рожевий</span></label>
+              <label class="filter-check"><input type="checkbox"/><span>Червоний</span></label>
+              <label class="filter-check"><input type="checkbox"/><span>Синій</span></label>
+            </div>
+          </div>
+
+          <!-- Material filter -->
+          <div class="filter-group">
+            <div class="filter-group-title">Матеріал</div>
+            <div class="filter-check-list">
+              <label class="filter-check"><input type="checkbox"/><span>Мереживо</span></label>
+              <label class="filter-check"><input type="checkbox"/><span>Атлас</span></label>
+              <label class="filter-check"><input type="checkbox"/><span>Рибана</span></label>
+              <label class="filter-check"><input type="checkbox"/><span>Мікрофібра</span></label>
+              <label class="filter-check"><input type="checkbox"/><span>Оксамит</span></label>
+            </div>
+          </div>
+
+          <button class="btn-accent w-100 mt-2" style="padding:0.75rem;border-radius:6px">
+            <i class="bi bi-funnel"></i> Застосувати
+          </button>
         </div>
       </div>
 
@@ -129,33 +137,49 @@
       <div class="col-lg-9">
         <!-- Toolbar -->
         <div class="catalog-toolbar">
-          <span class="catalog-count">Знайдено <strong>142</strong> товари</span>
-          <div class="d-flex align-items-center gap-2">
-            <label style="font-size:0.8125rem;color:var(--color-text-muted)">Сортування:</label>
-            <select class="sort-select">
-              <option>Популярні</option>
-              <option>Ціна: дешевші</option>
-              <option>Ціна: дорожчі</option>
-              <option>Новинки</option>
-              <option>За рейтингом</option>
+          <div class="catalog-toolbar-left">
+            <button class="filter-toggle-btn d-lg-none" id="filterToggle">
+              <i class="bi bi-funnel"></i> Фільтри
+            </button>
+            <span class="catalog-count">Показано <strong>12</strong> з <strong>289</strong> товарів</span>
+          </div>
+          <div class="catalog-toolbar-right">
+            <select class="catalog-sort">
+              <option>За популярністю</option>
+              <option>Нові надходження</option>
+              <option>Ціна: від низької</option>
+              <option>Ціна: від високої</option>
+              <option>Зі знижкою</option>
             </select>
+            <div class="catalog-view-btns">
+              <button class="view-btn active" aria-label="Сітка"><i class="bi bi-grid-3x3-gap"></i></button>
+              <button class="view-btn" aria-label="Список"><i class="bi bi-list-ul"></i></button>
+            </div>
           </div>
         </div>
 
+        <!-- Active filters -->
+        <div class="active-filters mb-3">
+          <span class="active-filter-chip">Боді <button class="chip-remove">&times;</button></span>
+          <span class="active-filter-chip">S <button class="chip-remove">&times;</button></span>
+          <span class="active-filter-chip">M <button class="chip-remove">&times;</button></span>
+        </div>
+
+        <!-- Grid -->
         <div class="row g-3">
           <!-- Products 1–12 -->
           <div class="col-6 col-xl-4 aos-fade">
             <div class="product-card">
               <div class="product-card-img">
-                <img src="https://picsum.photos/seed/gloss-black-2/500/375" alt="Gloss Black"/>
+                <img src="https://picsum.photos/seed/prod-bodysuit1/400/500" alt="Боді Ribbed Black"/>
                 <div class="product-card-badges"><span class="badge-custom badge-hot"><i class="bi bi-fire"></i> Хіт</span></div>
                 <button class="product-card-wishlist"><i class="bi bi-heart"></i></button>
               </div>
               <div class="product-card-body">
-                <div class="product-card-category">Вінілові плівки · 3M</div>
-                <div class="product-card-name">Gloss Black Premium 1080-G12</div>
-                <div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(124)</span></div>
-                <div class="product-price-row"><span class="product-price">₴850 / м²</span></div>
+                <div class="product-card-category">Боді</div>
+                <div class="product-card-name">Боді Ribbed Black</div>
+                <div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(87)</span></div>
+                <div class="product-price-row"><span class="product-price">₴890</span></div>
               </div>
               <div class="product-card-footer">
                 <a href="product.html" class="btn-card btn-card-primary"><i class="bi bi-bag"></i> До кошика</a>
@@ -166,15 +190,15 @@
           <div class="col-6 col-xl-4 aos-fade" style="transition-delay:0.05s">
             <div class="product-card">
               <div class="product-card-img">
-                <img src="https://picsum.photos/seed/ppf-ultra-cat/500/375" alt="PPF Ultra"/>
+                <img src="https://picsum.photos/seed/prod-lace1/400/500" alt="Боді Lace White"/>
                 <div class="product-card-badges"><span class="badge-custom badge-new">NEW</span></div>
                 <button class="product-card-wishlist"><i class="bi bi-heart"></i></button>
               </div>
               <div class="product-card-body">
-                <div class="product-card-category">PPF захист · 3M</div>
-                <div class="product-card-name">PPF Ultra Clear 200мкм</div>
-                <div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(89)</span></div>
-                <div class="product-price-row"><span class="product-price">₴1 200 / м²</span></div>
+                <div class="product-card-category">Боді</div>
+                <div class="product-card-name">Боді Lace White</div>
+                <div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(54)</span></div>
+                <div class="product-price-row"><span class="product-price">₴1 150</span></div>
               </div>
               <div class="product-card-footer">
                 <a href="product.html" class="btn-card btn-card-primary"><i class="bi bi-bag"></i> До кошика</a>
@@ -185,14 +209,52 @@
           <div class="col-6 col-xl-4 aos-fade" style="transition-delay:0.1s">
             <div class="product-card">
               <div class="product-card-img">
-                <img src="https://picsum.photos/seed/carbon-3d-2/500/375" alt="Carbon 3D"/>
+                <img src="https://picsum.photos/seed/prod-satin-body/400/500" alt="Боді Satin Beige"/>
                 <button class="product-card-wishlist"><i class="bi bi-heart"></i></button>
               </div>
               <div class="product-card-body">
-                <div class="product-card-category">Карбон · Avery</div>
-                <div class="product-card-name">Carbon 3D Texture Premium</div>
-                <div class="product-rating"><span class="stars">★★★★<span style="color:var(--color-text-faint)">★</span></span><span class="rating-count">(56)</span></div>
-                <div class="product-price-row"><span class="product-price product-price-sale">₴920 / м²</span><span class="product-price-old">₴1 100</span></div>
+                <div class="product-card-category">Боді</div>
+                <div class="product-card-name">Боді Satin Beige</div>
+                <div class="product-rating"><span class="stars">★★★★<span style="color:var(--color-text-faint)">★</span></span><span class="rating-count">(32)</span></div>
+                <div class="product-price-row"><span class="product-price product-price-sale">₴980</span><span class="product-price-old">₴1 200</span></div>
+              </div>
+              <div class="product-card-footer">
+                <a href="product.html" class="btn-card btn-card-primary"><i class="bi bi-bag"></i> До кошика</a>
+                <a href="product.html" class="btn-card btn-card-outline"><i class="bi bi-eye"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-4 aos-fade" style="transition-delay:0.05s">
+            <div class="product-card">
+              <div class="product-card-img">
+                <img src="https://picsum.photos/seed/prod-mesh-body/400/500" alt="Боді Mesh Black"/>
+                <div class="product-card-badges"><span class="badge-custom badge-accent"><i class="bi bi-stars"></i> Топ</span></div>
+                <button class="product-card-wishlist"><i class="bi bi-heart"></i></button>
+              </div>
+              <div class="product-card-body">
+                <div class="product-card-category">Боді</div>
+                <div class="product-card-name">Боді Mesh Black</div>
+                <div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(71)</span></div>
+                <div class="product-price-row"><span class="product-price">₴760</span></div>
+              </div>
+              <div class="product-card-footer">
+                <a href="product.html" class="btn-card btn-card-primary"><i class="bi bi-bag"></i> До кошика</a>
+                <a href="product.html" class="btn-card btn-card-outline"><i class="bi bi-eye"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-4 aos-fade" style="transition-delay:0.1s">
+            <div class="product-card">
+              <div class="product-card-img">
+                <img src="https://picsum.photos/seed/prod-dress-velvet/400/500" alt="Сукня Velvet Red"/>
+                <div class="product-card-badges"><span class="badge-custom badge-new">NEW</span></div>
+                <button class="product-card-wishlist"><i class="bi bi-heart"></i></button>
+              </div>
+              <div class="product-card-body">
+                <div class="product-card-category">Сукні</div>
+                <div class="product-card-name">Сукня Velvet Red</div>
+                <div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(28)</span></div>
+                <div class="product-price-row"><span class="product-price">₴1 890</span></div>
               </div>
               <div class="product-card-footer">
                 <a href="product.html" class="btn-card btn-card-primary"><i class="bi bi-bag"></i> До кошика</a>
@@ -203,15 +265,14 @@
           <div class="col-6 col-xl-4 aos-fade" style="transition-delay:0.15s">
             <div class="product-card">
               <div class="product-card-img">
-                <img src="https://picsum.photos/seed/chameleon-2/500/375" alt="Хамелеон"/>
-                <div class="product-card-badges"><span class="badge-custom badge-accent"><i class="bi bi-stars"></i> Топ</span></div>
+                <img src="https://picsum.photos/seed/prod-lingerie-pink/400/500" alt="Комплект Lace Pink"/>
                 <button class="product-card-wishlist"><i class="bi bi-heart"></i></button>
               </div>
               <div class="product-card-body">
-                <div class="product-card-category">Спецефект · KPMF</div>
-                <div class="product-card-name">Color Shift Хамелеон Neo</div>
-                <div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(201)</span></div>
-                <div class="product-price-row"><span class="product-price">₴1 100 / м²</span></div>
+                <div class="product-card-category">Нижня білизна</div>
+                <div class="product-card-name">Комплект Lace Pink</div>
+                <div class="product-rating"><span class="stars">★★★★<span style="color:var(--color-text-faint)">★</span></span><span class="rating-count">(46)</span></div>
+                <div class="product-price-row"><span class="product-price product-price-sale">₴1 090</span><span class="product-price-old">₴1 390</span></div>
               </div>
               <div class="product-card-footer">
                 <a href="product.html" class="btn-card btn-card-primary"><i class="bi bi-bag"></i> До кошика</a>
@@ -219,17 +280,17 @@
               </div>
             </div>
           </div>
-          <div class="col-6 col-xl-4 aos-fade" style="transition-delay:0.2s">
+          <div class="col-6 col-xl-4 aos-fade" style="transition-delay:0.05s">
             <div class="product-card">
               <div class="product-card-img">
-                <img src="https://picsum.photos/seed/matte-grey/500/375" alt="Matte Grey"/>
+                <img src="https://picsum.photos/seed/prod-top-white/400/500" alt="Топ Cotton Basic White"/>
                 <button class="product-card-wishlist"><i class="bi bi-heart"></i></button>
               </div>
               <div class="product-card-body">
-                <div class="product-card-category">Матові · Avery</div>
-                <div class="product-card-name">Satin Grey SW900 Матовий</div>
-                <div class="product-rating"><span class="stars">★★★★<span style="color:var(--color-text-faint)">★</span></span><span class="rating-count">(42)</span></div>
-                <div class="product-price-row"><span class="product-price">₴780 / м²</span></div>
+                <div class="product-card-category">Топи</div>
+                <div class="product-card-name">Топ Cotton Basic White</div>
+                <div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(63)</span></div>
+                <div class="product-price-row"><span class="product-price">₴490</span></div>
               </div>
               <div class="product-card-footer">
                 <a href="product.html" class="btn-card btn-card-primary"><i class="bi bi-bag"></i> До кошика</a>
@@ -237,18 +298,18 @@
               </div>
             </div>
           </div>
-          <div class="col-6 col-xl-4 aos-fade" style="transition-delay:0.25s">
+          <div class="col-6 col-xl-4 aos-fade" style="transition-delay:0.1s">
             <div class="product-card">
               <div class="product-card-img">
-                <img src="https://picsum.photos/seed/chrome-gold/500/375" alt="Chrome Gold"/>
-                <div class="product-card-badges"><span class="badge-custom badge-sale"><i class="bi bi-tag"></i> -15%</span></div>
+                <img src="https://picsum.photos/seed/prod-jumpsuit-satin/400/500" alt="Комбінезон Satin Night"/>
+                <div class="product-card-badges"><span class="badge-custom badge-hot"><i class="bi bi-fire"></i> Хіт</span></div>
                 <button class="product-card-wishlist"><i class="bi bi-heart"></i></button>
               </div>
               <div class="product-card-body">
-                <div class="product-card-category">Хром · Hexis</div>
-                <div class="product-card-name">Chrome Mirror Gold HX30000M</div>
-                <div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(37)</span></div>
-                <div class="product-price-row"><span class="product-price product-price-sale">₴1 232 / м²</span><span class="product-price-old">₴1 450</span></div>
+                <div class="product-card-category">Комбінезони</div>
+                <div class="product-card-name">Комбінезон Satin Night</div>
+                <div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(73)</span></div>
+                <div class="product-price-row"><span class="product-price">₴1 650</span></div>
               </div>
               <div class="product-card-footer">
                 <a href="product.html" class="btn-card btn-card-primary"><i class="bi bi-bag"></i> До кошика</a>
@@ -256,17 +317,17 @@
               </div>
             </div>
           </div>
-          <div class="col-6 col-xl-4 aos-fade" style="transition-delay:0.3s">
+          <div class="col-6 col-xl-4 aos-fade" style="transition-delay:0.15s">
             <div class="product-card">
               <div class="product-card-img">
-                <img src="https://picsum.photos/seed/metallic-blue/500/375" alt="Metallic Blue"/>
+                <img src="https://picsum.photos/seed/prod-shorts-black/400/500" alt="Шорти High-Waist Black"/>
                 <button class="product-card-wishlist"><i class="bi bi-heart"></i></button>
               </div>
               <div class="product-card-body">
-                <div class="product-card-category">Металеві · 3M</div>
-                <div class="product-card-name">Metallic Deep Blue 1080-M227</div>
-                <div class="product-rating"><span class="stars">★★★★<span style="color:var(--color-text-faint)">★</span></span><span class="rating-count">(28)</span></div>
-                <div class="product-price-row"><span class="product-price">₴890 / м²</span></div>
+                <div class="product-card-category">Шорти та легінси</div>
+                <div class="product-card-name">Шорти High-Waist Black</div>
+                <div class="product-rating"><span class="stars">★★★★<span style="color:var(--color-text-faint)">★</span></span><span class="rating-count">(39)</span></div>
+                <div class="product-price-row"><span class="product-price">₴680</span></div>
               </div>
               <div class="product-card-footer">
                 <a href="product.html" class="btn-card btn-card-primary"><i class="bi bi-bag"></i> До кошика</a>
@@ -274,36 +335,18 @@
               </div>
             </div>
           </div>
-          <div class="col-6 col-xl-4 aos-fade" style="transition-delay:0.35s">
+          <div class="col-6 col-xl-4 aos-fade" style="transition-delay:0.05s">
             <div class="product-card">
               <div class="product-card-img">
-                <img src="https://picsum.photos/seed/white-gloss/500/375" alt="White Gloss"/>
-                <button class="product-card-wishlist"><i class="bi bi-heart"></i></button>
-              </div>
-              <div class="product-card-body">
-                <div class="product-card-category">Вінілові · Oracal</div>
-                <div class="product-card-name">Gloss White Oracal 970-010</div>
-                <div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(93)</span></div>
-                <div class="product-price-row"><span class="product-price">₴720 / м²</span></div>
-              </div>
-              <div class="product-card-footer">
-                <a href="product.html" class="btn-card btn-card-primary"><i class="bi bi-bag"></i> До кошика</a>
-                <a href="product.html" class="btn-card btn-card-outline"><i class="bi bi-eye"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="col-6 col-xl-4 aos-fade" style="transition-delay:0.4s">
-            <div class="product-card">
-              <div class="product-card-img">
-                <img src="https://picsum.photos/seed/tint-20pct/500/375" alt="Тонування 20%"/>
+                <img src="https://picsum.photos/seed/prod-skirt-mini/400/500" alt="Спідниця Leather Mini"/>
                 <div class="product-card-badges"><span class="badge-custom badge-new">NEW</span></div>
                 <button class="product-card-wishlist"><i class="bi bi-heart"></i></button>
               </div>
               <div class="product-card-body">
-                <div class="product-card-category">Тонування · Llumar</div>
-                <div class="product-card-name">Тонування ATR Charcoal 20%</div>
-                <div class="product-rating"><span class="stars">★★★★<span style="color:var(--color-text-faint)">★</span></span><span class="rating-count">(15)</span></div>
-                <div class="product-price-row"><span class="product-price">₴650 / м²</span></div>
+                <div class="product-card-category">Спідниці</div>
+                <div class="product-card-name">Спідниця Leather Mini</div>
+                <div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(22)</span></div>
+                <div class="product-price-row"><span class="product-price">₴1 290</span></div>
               </div>
               <div class="product-card-footer">
                 <a href="product.html" class="btn-card btn-card-primary"><i class="bi bi-bag"></i> До кошика</a>
@@ -311,17 +354,17 @@
               </div>
             </div>
           </div>
-          <div class="col-6 col-xl-4 aos-fade" style="transition-delay:0.45s">
+          <div class="col-6 col-xl-4 aos-fade" style="transition-delay:0.1s">
             <div class="product-card">
               <div class="product-card-img">
-                <img src="https://picsum.photos/seed/satin-black/500/375" alt="Satin Black"/>
+                <img src="https://picsum.photos/seed/prod-pyjama-silk/400/500" alt="Піжама Silk Set"/>
                 <button class="product-card-wishlist"><i class="bi bi-heart"></i></button>
               </div>
               <div class="product-card-body">
-                <div class="product-card-category">Матові · 3M</div>
-                <div class="product-card-name">Matte Black Satin 1080-SM12</div>
-                <div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(77)</span></div>
-                <div class="product-price-row"><span class="product-price">₴760 / м²</span></div>
+                <div class="product-card-category">Піжами</div>
+                <div class="product-card-name">Піжама Silk Set Beige</div>
+                <div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(58)</span></div>
+                <div class="product-price-row"><span class="product-price product-price-sale">₴1 390</span><span class="product-price-old">₴1 690</span></div>
               </div>
               <div class="product-card-footer">
                 <a href="product.html" class="btn-card btn-card-primary"><i class="bi bi-bag"></i> До кошика</a>
@@ -329,36 +372,18 @@
               </div>
             </div>
           </div>
-          <div class="col-6 col-xl-4 aos-fade" style="transition-delay:0.5s">
+          <div class="col-6 col-xl-4 aos-fade" style="transition-delay:0.15s">
             <div class="product-card">
               <div class="product-card-img">
-                <img src="https://picsum.photos/seed/antigrav-2/500/375" alt="Антигравійна"/>
+                <img src="https://picsum.photos/seed/prod-lingerie-black/400/500" alt="Комплект Lace Classic Black"/>
+                <div class="product-card-badges"><span class="badge-custom badge-accent"><i class="bi bi-stars"></i> Топ</span></div>
                 <button class="product-card-wishlist"><i class="bi bi-heart"></i></button>
               </div>
               <div class="product-card-body">
-                <div class="product-card-category">Антигравійна · Avery</div>
-                <div class="product-card-name">PPF Antigrav Pro 150мкм</div>
-                <div class="product-rating"><span class="stars">★★★★<span style="color:var(--color-text-faint)">★</span></span><span class="rating-count">(33)</span></div>
-                <div class="product-price-row"><span class="product-price">₴980 / м²</span></div>
-              </div>
-              <div class="product-card-footer">
-                <a href="product.html" class="btn-card btn-card-primary"><i class="bi bi-bag"></i> До кошика</a>
-                <a href="product.html" class="btn-card btn-card-outline"><i class="bi bi-eye"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="col-6 col-xl-4 aos-fade" style="transition-delay:0.55s">
-            <div class="product-card">
-              <div class="product-card-img">
-                <img src="https://picsum.photos/seed/red-gloss/500/375" alt="Red Gloss"/>
-                <div class="product-card-badges"><span class="badge-custom badge-sale"><i class="bi bi-tag"></i> -20%</span></div>
-                <button class="product-card-wishlist"><i class="bi bi-heart"></i></button>
-              </div>
-              <div class="product-card-body">
-                <div class="product-card-category">Вінілові · KPMF</div>
-                <div class="product-card-name">Gloss Red Fire K75421</div>
-                <div class="product-rating"><span class="stars">★★★★<span style="color:var(--color-text-faint)">★</span></span><span class="rating-count">(19)</span></div>
-                <div class="product-price-row"><span class="product-price product-price-sale">₴760 / м²</span><span class="product-price-old">₴950</span></div>
+                <div class="product-card-category">Нижня білизна</div>
+                <div class="product-card-name">Комплект Lace Classic Black</div>
+                <div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(94)</span></div>
+                <div class="product-price-row"><span class="product-price">₴1 490</span></div>
               </div>
               <div class="product-card-footer">
                 <a href="product.html" class="btn-card btn-card-primary"><i class="bi bi-bag"></i> До кошика</a>
@@ -369,16 +394,14 @@
         </div>
 
         <!-- PAGINATION -->
-        <div class="d-flex justify-content-center mt-5">
-          <div class="pagination-custom">
-            <button class="page-btn"><i class="bi bi-chevron-left"></i></button>
-            <button class="page-btn active">1</button>
-            <button class="page-btn">2</button>
-            <button class="page-btn">3</button>
-            <span style="padding:0 0.25rem;color:var(--color-text-faint)">…</span>
-            <button class="page-btn">12</button>
-            <button class="page-btn"><i class="bi bi-chevron-right"></i></button>
-          </div>
+        <div class="catalog-pagination">
+          <button class="page-btn" disabled><i class="bi bi-chevron-left"></i></button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <span class="page-dots">…</span>
+          <button class="page-btn">25</button>
+          <button class="page-btn"><i class="bi bi-chevron-right"></i></button>
         </div>
       </div>
     </div>
@@ -391,42 +414,47 @@
     <div class="row g-4">
       <div class="col-lg-4">
         <div class="footer-logo"><span class="logo-text">SKINZ</span><span class="logo-accent">.</span></div>
-        <p class="footer-tagline">Преміальні вінілові плівки, PPF захист та тонування вікон для вашого автомобіля.</p>
+        <p class="footer-tagline">Сучасний жіночий одяг від українського бренду.</p>
         <div class="social-links">
           <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
-          <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-link"><i class="bi bi-tiktok"></i></a>
           <a href="#" class="social-link"><i class="bi bi-telegram"></i></a>
-          <a href="#" class="social-link"><i class="bi bi-youtube"></i></a>
+          <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
         </div>
       </div>
       <div class="col-sm-6 col-lg-2 offset-lg-1">
         <h6 class="footer-heading">Каталог</h6>
         <ul class="footer-links">
-          <li><a href="catalog.html">Вінілові плівки</a></li>
-          <li><a href="catalog.html">PPF захист</a></li>
-          <li><a href="catalog.html">Тонування вікон</a></li>
-          <li><a href="catalog.html">Карбон</a></li>
+          <li><a href="catalog.html">Боді</a></li>
+          <li><a href="catalog.html">Сукні</a></li>
+          <li><a href="catalog.html">Нижня білизна</a></li>
+          <li><a href="catalog.html">Топи</a></li>
+          <li><a href="catalog.html">Комбінезони</a></li>
         </ul>
       </div>
       <div class="col-sm-6 col-lg-2">
         <h6 class="footer-heading">Інформація</h6>
         <ul class="footer-links">
-          <li><a href="#">Про компанію</a></li>
+          <li><a href="#">Про бренд</a></li>
           <li><a href="#">Доставка та оплата</a></li>
-          <li><a href="#">Гарантія</a></li>
+          <li><a href="#">Повернення</a></li>
+          <li><a href="#">Таблиця розмірів</a></li>
           <li><a href="contacts.html">Контакти</a></li>
         </ul>
       </div>
       <div class="col-lg-3">
         <h6 class="footer-heading">Контакти</h6>
+        <div class="footer-contact-item"><i class="bi bi-geo-alt"></i><span>м. Київ, вул. Хрещатик, 1</span></div>
         <div class="footer-contact-item"><i class="bi bi-telephone"></i><span>+380 67 123 45 67</span></div>
-        <div class="footer-contact-item"><i class="bi bi-envelope"></i><span>info@skinz.ua</span></div>
-        <div class="footer-contact-item"><i class="bi bi-clock"></i><span>Пн–Пт: 9:00–19:00</span></div>
+        <div class="footer-contact-item"><i class="bi bi-envelope"></i><span>hello@skinz.com.ua</span></div>
       </div>
     </div>
     <div class="footer-bottom">
       <span>© 2025 SKINZ. Всі права захищені.</span>
-      <div class="d-flex gap-3"><a href="#">Оферта</a><a href="#">Конфіденційність</a></div>
+      <div class="d-flex gap-3">
+        <a href="#">Публічна оферта</a>
+        <a href="#">Конфіденційність</a>
+      </div>
     </div>
   </div>
 </footer>

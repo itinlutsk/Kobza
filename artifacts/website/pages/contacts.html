@@ -4,8 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Контакти — SKINZ</title>
-  <meta name="description" content="Зв'яжіться з SKINZ: адреса, телефон, email. Задайте питання або залиште заявку." />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚗</text></svg>"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
   <link href="../css/main.css" rel="stylesheet"/>
@@ -30,239 +28,242 @@
         <li class="nav-item"><a class="nav-link active" href="contacts.html">Контакти</a></li>
       </ul>
       <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
-        <a href="#" class="nav-icon-btn" title="Пошук"><i class="bi bi-search"></i></a>
-        <a href="#" class="nav-icon-btn" title="Обране"><i class="bi bi-heart"></i></a>
-        <a href="#" class="nav-icon-btn position-relative" title="Кошик">
-          <i class="bi bi-bag"></i>
-          <span class="cart-badge">0</span>
+        <a href="#" class="nav-icon-btn"><i class="bi bi-search"></i></a>
+        <a href="#" class="nav-icon-btn"><i class="bi bi-heart"></i></a>
+        <a href="#" class="nav-icon-btn position-relative">
+          <i class="bi bi-bag"></i><span class="cart-badge">0</span>
         </a>
-        <a href="contacts.html" class="btn-accent ms-2" style="border-radius:6px;padding:0.5rem 1.25rem;font-size:0.875rem;">Замовити</a>
+        <a href="catalog.html" class="btn-accent ms-2" style="border-radius:6px;padding:0.5rem 1.25rem;font-size:0.875rem;">Купити</a>
       </div>
     </div>
   </div>
 </nav>
 
-<!-- BREADCRUMB -->
-<div class="breadcrumb-wrap">
+<!-- PAGE HEADER -->
+<div class="page-header">
   <div class="container-xl">
-    <nav class="breadcrumb-custom">
-      <a href="../index.html">Головна</a>
-      <span class="sep"><i class="bi bi-chevron-right" style="font-size:0.7rem"></i></span>
-      <span class="current">Контакти</span>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="../index.html">Головна</a></li>
+        <li class="breadcrumb-item active">Контакти</li>
+      </ol>
     </nav>
+    <h1 class="page-header-title">Контакти</h1>
+    <p class="page-header-desc">Зв'яжіться з нами зручним для вас способом</p>
   </div>
 </div>
 
-<!-- PAGE HEADER -->
-<section style="padding:3rem 0 2rem;background:var(--color-surface);border-bottom:1px solid var(--color-border)">
-  <div class="container-xl">
-    <p class="text-xs tracking-wide text-accent mb-2" style="font-weight:700;text-transform:uppercase">Зв'яжіться з нами</p>
-    <h1 class="h-lg" style="margin-bottom:0.5rem">Контакти</h1>
-    <p style="color:var(--color-text-muted);font-size:0.9375rem">Ми завжди готові відповісти на ваші запитання</p>
-  </div>
-</section>
-
-<!-- CONTACT SECTION -->
+<!-- CONTACTS SECTION -->
 <section class="section">
   <div class="container-xl">
-    <div class="row g-4">
+    <div class="row g-5">
 
-      <!-- LEFT: CONTACT INFO -->
+      <!-- CONTACT INFO -->
       <div class="col-lg-5">
-        <div class="contact-card mb-4 aos-fade">
-          <h3 style="font-size:1.125rem;font-weight:700;margin-bottom:1.5rem">Наші контакти</h3>
+        <p class="section-eyebrow">Ми на зв'язку</p>
+        <h2 class="section-title">Як з нами зв'язатися</h2>
+        <p style="color:var(--color-text-muted);margin-bottom:2rem">Маєте питання щодо замовлення, розмірів або доставки? Наша команда відповість швидко!</p>
 
-          <div style="display:flex;flex-direction:column;gap:1.25rem;">
-            <div style="display:flex;align-items:flex-start;gap:1rem;">
-              <div style="width:44px;height:44px;background:rgba(255,184,0,0.1);border:1px solid rgba(255,184,0,0.2);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;color:var(--color-accent);font-size:1.125rem;flex-shrink:0">
-                <i class="bi bi-geo-alt-fill"></i>
-              </div>
-              <div>
-                <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:0.25rem">Адреса</div>
-                <div style="font-size:0.9375rem;line-height:1.5">м. Київ, вул. Велика Васильківська, 55<br/>ТЦ «Гулівер», 3-й поверх</div>
-              </div>
-            </div>
-
-            <div style="display:flex;align-items:flex-start;gap:1rem;">
-              <div style="width:44px;height:44px;background:rgba(255,184,0,0.1);border:1px solid rgba(255,184,0,0.2);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;color:var(--color-accent);font-size:1.125rem;flex-shrink:0">
-                <i class="bi bi-telephone-fill"></i>
-              </div>
-              <div>
-                <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:0.25rem">Телефон</div>
-                <a href="tel:+380671234567" style="font-size:1rem;font-weight:600;color:var(--color-text);display:block">+380 67 123 45 67</a>
-                <a href="tel:+380441234567" style="font-size:0.9rem;color:var(--color-text-muted)">+380 44 123 45 67 (офіс)</a>
-              </div>
-            </div>
-
-            <div style="display:flex;align-items:flex-start;gap:1rem;">
-              <div style="width:44px;height:44px;background:rgba(255,184,0,0.1);border:1px solid rgba(255,184,0,0.2);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;color:var(--color-accent);font-size:1.125rem;flex-shrink:0">
-                <i class="bi bi-envelope-fill"></i>
-              </div>
-              <div>
-                <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:0.25rem">Email</div>
-                <a href="mailto:info@skinz.ua" style="font-size:0.9375rem;color:var(--color-accent)">info@skinz.ua</a><br/>
-                <a href="mailto:sales@skinz.ua" style="font-size:0.875rem;color:var(--color-text-muted)">sales@skinz.ua (замовлення)</a>
-              </div>
-            </div>
-
-            <div style="display:flex;align-items:flex-start;gap:1rem;">
-              <div style="width:44px;height:44px;background:rgba(255,184,0,0.1);border:1px solid rgba(255,184,0,0.2);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;color:var(--color-accent);font-size:1.125rem;flex-shrink:0">
-                <i class="bi bi-clock-fill"></i>
-              </div>
-              <div>
-                <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:0.25rem">Години роботи</div>
-                <div style="font-size:0.9rem;line-height:1.7">
-                  <div>Понеділок – П'ятниця: <strong>9:00 – 19:00</strong></div>
-                  <div>Субота: <strong>10:00 – 17:00</strong></div>
-                  <div style="color:var(--color-text-muted)">Неділя: вихідний</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Social links -->
-          <hr style="border-color:var(--color-border);margin:1.5rem 0"/>
-          <div style="font-size:0.8125rem;color:var(--color-text-muted);margin-bottom:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em">Соціальні мережі</div>
-          <div class="d-flex flex-wrap gap-2">
-            <a href="#" style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0.875rem;background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-sm);font-size:0.875rem;color:var(--color-text-muted);transition:all 0.25s" onmouseover="this.style.borderColor='var(--color-accent)';this.style.color='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)';this.style.color='var(--color-text-muted)'">
-              <i class="bi bi-instagram"></i> Instagram
-            </a>
-            <a href="#" style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0.875rem;background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-sm);font-size:0.875rem;color:var(--color-text-muted);transition:all 0.25s" onmouseover="this.style.borderColor='var(--color-accent)';this.style.color='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)';this.style.color='var(--color-text-muted)'">
-              <i class="bi bi-telegram"></i> Telegram
-            </a>
-            <a href="#" style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0.875rem;background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-sm);font-size:0.875rem;color:var(--color-text-muted);transition:all 0.25s" onmouseover="this.style.borderColor='var(--color-accent)';this.style.color='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)';this.style.color='var(--color-text-muted)'">
-              <i class="bi bi-facebook"></i> Facebook
-            </a>
-            <a href="#" style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0.875rem;background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-sm);font-size:0.875rem;color:var(--color-text-muted);transition:all 0.25s" onmouseover="this.style.borderColor='var(--color-accent)';this.style.color='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)';this.style.color='var(--color-text-muted)'">
-              <i class="bi bi-youtube"></i> YouTube
-            </a>
+        <div class="contact-info-item">
+          <div class="contact-info-item__icon"><i class="bi bi-geo-alt-fill"></i></div>
+          <div>
+            <div class="contact-info-item__label">Адреса шоуруму</div>
+            <div class="contact-info-item__value">м. Київ, вул. Хрещатик, 1<br/>2-й поверх, зала 12</div>
           </div>
         </div>
 
-        <!-- Map placeholder -->
-        <div class="map-placeholder aos-fade" style="transition-delay:0.2s">
-          <i class="bi bi-pin-map-fill"></i>
-          <span>Карта — вставте Google Maps iframe</span>
-          <span style="font-size:0.75rem">м. Київ, вул. Велика Васильківська, 55</span>
+        <div class="contact-info-item">
+          <div class="contact-info-item__icon"><i class="bi bi-telephone-fill"></i></div>
+          <div>
+            <div class="contact-info-item__label">Телефон</div>
+            <div class="contact-info-item__value">
+              <a href="tel:+380671234567">+380 67 123 45 67</a><br/>
+              <a href="tel:+380991234567">+380 99 123 45 67</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-item__icon"><i class="bi bi-envelope-fill"></i></div>
+          <div>
+            <div class="contact-info-item__label">Електронна пошта</div>
+            <div class="contact-info-item__value">
+              <a href="mailto:hello@skinz.com.ua">hello@skinz.com.ua</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-item__icon"><i class="bi bi-clock-fill"></i></div>
+          <div>
+            <div class="contact-info-item__label">Графік роботи</div>
+            <div class="contact-info-item__value">
+              Пн–Пт: 9:00–19:00<br/>
+              Сб: 10:00–17:00<br/>
+              Нд: вихідний
+            </div>
+          </div>
+        </div>
+
+        <!-- Social -->
+        <div class="mt-4">
+          <div class="contact-info-item__label mb-3">Ми в соцмережах</div>
+          <div class="d-flex flex-wrap gap-2">
+            <a href="#" class="social-btn"><i class="bi bi-instagram"></i> Instagram</a>
+            <a href="#" class="social-btn"><i class="bi bi-tiktok"></i> TikTok</a>
+            <a href="#" class="social-btn"><i class="bi bi-telegram"></i> Telegram</a>
+            <a href="#" class="social-btn"><i class="bi bi-facebook"></i> Facebook</a>
+          </div>
+        </div>
+
+        <!-- Map -->
+        <div class="mt-4">
+          <div class="contact-info-item__label mb-2">Знайти нас на карті</div>
+          <div class="map-embed">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2540.6348553688!2d30.5191!3d50.4501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d4cf4e784a0a71%3A0x2e9f5e48ed87ca3a!2z0KXRgNC10YnQsNGC0LjQuiDQmtC40ZfQsg!5e0!3m2!1suk!2sua!4v1700000000000!5m2!1suk!2sua"
+              width="100%"
+              height="220"
+              style="border:0;border-radius:var(--radius)"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="SKINZ на карті">
+            </iframe>
+          </div>
         </div>
       </div>
 
-      <!-- RIGHT: CONTACT FORM -->
-      <div class="col-lg-7 aos-fade" style="transition-delay:0.1s">
-        <div class="contact-card">
-          <h3 style="font-size:1.125rem;font-weight:700;margin-bottom:0.5rem">Написати нам</h3>
-          <p style="color:var(--color-text-muted);font-size:0.875rem;margin-bottom:1.75rem">Залиште заявку і ми зв'яжемося з вами протягом 1 години в робочий час</p>
-
+      <!-- CONTACT FORM -->
+      <div class="col-lg-7">
+        <div class="contact-form-card">
+          <h3 class="contact-form-title">Напишіть нам</h3>
+          <p class="contact-form-subtitle">Заповніть форму і ми відповімо протягом 2 годин у робочий час</p>
           <form id="contactForm" novalidate>
             <div class="row g-3">
-              <div class="col-sm-6 contact-form-group">
-                <label class="form-label-custom" for="fname">Ім'я *</label>
-                <input type="text" id="fname" class="form-control-custom" placeholder="Ваше ім'я" required/>
+              <div class="col-sm-6">
+                <label class="form-label-custom" for="contactName">Ім'я *</label>
+                <input type="text" id="contactName" class="form-input-custom" placeholder="Ваше ім'я" required/>
               </div>
-              <div class="col-sm-6 contact-form-group">
-                <label class="form-label-custom" for="lname">Прізвище</label>
-                <input type="text" id="lname" class="form-control-custom" placeholder="Ваше прізвище"/>
+              <div class="col-sm-6">
+                <label class="form-label-custom" for="contactPhone">Телефон *</label>
+                <input type="tel" id="contactPhone" class="form-input-custom" placeholder="+380 00 000 00 00" required/>
               </div>
-              <div class="col-sm-6 contact-form-group">
-                <label class="form-label-custom" for="phone">Телефон *</label>
-                <input type="tel" id="phone" class="form-control-custom" placeholder="+380 67 ..." required/>
+              <div class="col-sm-6">
+                <label class="form-label-custom" for="contactEmail">Email</label>
+                <input type="email" id="contactEmail" class="form-input-custom" placeholder="email@example.com"/>
               </div>
-              <div class="col-sm-6 contact-form-group">
-                <label class="form-label-custom" for="email">Email</label>
-                <input type="email" id="email" class="form-control-custom" placeholder="you@example.com"/>
-              </div>
-              <div class="col-12 contact-form-group">
-                <label class="form-label-custom" for="subject">Тема звернення</label>
-                <select id="subject" class="form-control-custom" style="cursor:pointer">
-                  <option value="">Оберіть тему...</option>
-                  <option>Консультація щодо плівки</option>
-                  <option>Замовлення зразків</option>
-                  <option>Оптове замовлення</option>
-                  <option>Технічна підтримка</option>
-                  <option>Партнерство / дилерство</option>
+              <div class="col-sm-6">
+                <label class="form-label-custom" for="contactSubject">Тема</label>
+                <select id="contactSubject" class="form-input-custom">
+                  <option value="">Оберіть тему</option>
+                  <option>Питання щодо замовлення</option>
+                  <option>Доставка та оплата</option>
+                  <option>Повернення та обмін</option>
+                  <option>Підбір розміру</option>
+                  <option>Оптові замовлення</option>
                   <option>Інше</option>
                 </select>
               </div>
-              <div class="col-12 contact-form-group">
-                <label class="form-label-custom" for="message">Повідомлення *</label>
-                <textarea id="message" class="form-control-custom" rows="5" placeholder="Опишіть ваш запит, вкажіть марку та модель авто, якщо потрібна консультація..." required></textarea>
+              <div class="col-12">
+                <label class="form-label-custom" for="contactOrder">Номер замовлення (за наявності)</label>
+                <input type="text" id="contactOrder" class="form-input-custom" placeholder="SKZ-XXXXX"/>
               </div>
               <div class="col-12">
-                <label style="display:flex;align-items:flex-start;gap:0.75rem;cursor:pointer;font-size:0.8125rem;color:var(--color-text-muted)">
-                  <input type="checkbox" style="margin-top:2px;accent-color:var(--color-accent)" required/>
-                  <span>Я погоджуюсь з <a href="#" style="color:var(--color-accent)">Політикою конфіденційності</a> та <a href="#" style="color:var(--color-accent)">Умовами використання</a></span>
-                </label>
+                <label class="form-label-custom" for="contactMessage">Повідомлення *</label>
+                <textarea id="contactMessage" class="form-input-custom" rows="5" placeholder="Опишіть ваше запитання або побажання..." required></textarea>
               </div>
               <div class="col-12">
-                <button type="submit" class="btn-accent w-100" style="padding:1rem;font-size:0.9375rem;border-radius:6px;">
-                  <i class="bi bi-send-fill"></i> Надіслати повідомлення
+                <button type="submit" class="btn-accent w-100" style="padding:0.9rem;border-radius:6px;font-size:1rem;">
+                  <i class="bi bi-send"></i> Надіслати повідомлення
                 </button>
+              </div>
+              <div class="col-12">
+                <p class="form-privacy-note">
+                  <i class="bi bi-shield-check"></i>
+                  Натискаючи кнопку, ви погоджуєтесь з <a href="#">Політикою конфіденційності</a>. Ваші дані захищені.
+                </p>
+              </div>
+              <div id="formSuccess" class="col-12 form-success-msg" style="display:none">
+                <i class="bi bi-check-circle-fill"></i> Ваше повідомлення надіслано! Ми відповімо найближчим часом.
               </div>
             </div>
           </form>
         </div>
       </div>
     </div>
+  </div>
+</section>
 
-    <!-- FAQ -->
-    <div class="mt-5 pt-3" style="border-top:1px solid var(--color-border)">
-      <h2 class="section-title mb-4 text-center">Часті запитання</h2>
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <div class="accordion" id="faqAccordion" style="--bs-accordion-bg:var(--color-surface);--bs-accordion-border-color:var(--color-border);--bs-accordion-btn-color:var(--color-text);--bs-accordion-active-color:var(--color-accent);--bs-accordion-active-bg:var(--color-surface-2);--bs-accordion-btn-focus-box-shadow:none;--bs-accordion-body-color:var(--color-text-muted);">
-
-            <div class="accordion-item" style="background:var(--color-surface);border-color:var(--color-border);border-radius:var(--radius)!important;margin-bottom:0.5rem;">
-              <h2 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" style="background:var(--color-surface);color:var(--color-text);font-weight:600;font-size:0.9375rem;border-radius:var(--radius)!important;">
-                  Скільки часу займає доставка?
-                </button>
-              </h2>
-              <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
-                <div class="accordion-body" style="font-size:0.875rem;line-height:1.7">
-                  Зазвичай замовлення відправляємо протягом 1–2 робочих днів. Доставка Новою Поштою по Україні — 1–3 дні залежно від регіону. При замовленні від ₴5 000 доставка безкоштовна.
-                </div>
+<!-- FAQ -->
+<section class="section bg-surface">
+  <div class="container-xl">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="text-center mb-5">
+          <p class="section-eyebrow">Підтримка</p>
+          <h2 class="section-title">Часті запитання</h2>
+        </div>
+        <div class="accordion faq-accordion" id="faqAccordion">
+          <div class="accordion-item faq-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button faq-btn" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                Як обрати правильний розмір?
+              </button>
+            </h2>
+            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+              <div class="accordion-body faq-body">
+                На кожній сторінці товару є таблиця розмірів із детальними вимірами (груди, талія, стегна). Рекомендуємо виміряти себе та порівняти з таблицею. Якщо ваші виміри між розмірами — беріть більший для зручності.
               </div>
             </div>
-
-            <div class="accordion-item" style="background:var(--color-surface);border-color:var(--color-border);border-radius:var(--radius)!important;margin-bottom:0.5rem;">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" style="background:var(--color-surface);color:var(--color-text);font-weight:600;font-size:0.9375rem;">
-                  Чи можна замовити зразки перед купівлею?
-                </button>
-              </h2>
-              <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                <div class="accordion-body" style="font-size:0.875rem;line-height:1.7">
-                  Так! Ми відправляємо безкоштовні зразки будь-якої плівки. Для цього заповніть форму вище або напишіть нам на email. Максимум 5 зразків в одне замовлення.
-                </div>
+          </div>
+          <div class="accordion-item faq-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button faq-btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                Яка вартість та строки доставки?
+              </button>
+            </h2>
+            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+              <div class="accordion-body faq-body">
+                Доставка Новою Поштою: 1–2 робочі дні по всій Україні. Вартість — від ₴60. При замовленні від ₴1 500 — безкоштовна доставка. Самовивіз із шоуруму в Києві — безкоштовно.
               </div>
             </div>
-
-            <div class="accordion-item" style="background:var(--color-surface);border-color:var(--color-border);border-radius:var(--radius)!important;margin-bottom:0.5rem;">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" style="background:var(--color-surface);color:var(--color-text);font-weight:600;font-size:0.9375rem;">
-                  Яка мінімальна кількість для замовлення?
-                </button>
-              </h2>
-              <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                <div class="accordion-body" style="font-size:0.875rem;line-height:1.7">
-                  Мінімальне замовлення — 0,5 м². Для оптових замовників (від 50 м²) діють спеціальні ціни — зв'яжіться з нами для уточнення.
-                </div>
+          </div>
+          <div class="accordion-item faq-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button faq-btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                Як повернути або обміняти товар?
+              </button>
+            </h2>
+            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+              <div class="accordion-body faq-body">
+                Ми приймаємо повернення протягом 14 днів з моменту отримання. Товар має бути в оригінальній упаковці, з бирками, без слідів носіння. Нижня білизна поверненню не підлягає (за санітарними нормами). Для оформлення напишіть нам на email або у месенджер.
               </div>
             </div>
-
-            <div class="accordion-item" style="background:var(--color-surface);border-color:var(--color-border);border-radius:var(--radius)!important;margin-bottom:0.5rem;">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" style="background:var(--color-surface);color:var(--color-text);font-weight:600;font-size:0.9375rem;">
-                  Чи є у вас майстри для встановлення?
-                </button>
-              </h2>
-              <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                <div class="accordion-body" style="font-size:0.875rem;line-height:1.7">
-                  Ми маємо партнерську мережу сертифікованих майстрів по всій Україні. Напишіть нам і ми підберемо найближчого до вас спеціаліста.
-                </div>
+          </div>
+          <div class="accordion-item faq-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button faq-btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                Чи є у вас шоурум і примірочна?
+              </button>
+            </h2>
+            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+              <div class="accordion-body faq-body">
+                Так! Наш шоурум знаходиться в Києві на вул. Хрещатик, 1 (2-й поверх). Ви можете приміряти будь-який товар із наявного асортименту. Графік роботи: Пн–Пт 9:00–19:00, Сб 10:00–17:00. Запис не потрібен.
               </div>
             </div>
-
+          </div>
+          <div class="accordion-item faq-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button faq-btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                Чи можна замовити оптом?
+              </button>
+            </h2>
+            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+              <div class="accordion-body faq-body">
+                Так, ми співпрацюємо з магазинами та бутиками. Мінімальне замовлення від 10 одиниць. Для отримання оптового прайсу напишіть нам на hello@skinz.com.ua або зателефонуйте.
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -276,42 +277,47 @@
     <div class="row g-4">
       <div class="col-lg-4">
         <div class="footer-logo"><span class="logo-text">SKINZ</span><span class="logo-accent">.</span></div>
-        <p class="footer-tagline">Преміальні вінілові плівки, PPF захист та тонування вікон для вашого автомобіля.</p>
+        <p class="footer-tagline">Сучасний жіночий одяг від українського бренду.</p>
         <div class="social-links">
           <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
-          <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-link"><i class="bi bi-tiktok"></i></a>
           <a href="#" class="social-link"><i class="bi bi-telegram"></i></a>
-          <a href="#" class="social-link"><i class="bi bi-youtube"></i></a>
+          <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
         </div>
       </div>
       <div class="col-sm-6 col-lg-2 offset-lg-1">
         <h6 class="footer-heading">Каталог</h6>
         <ul class="footer-links">
-          <li><a href="catalog.html">Вінілові плівки</a></li>
-          <li><a href="catalog.html">PPF захист</a></li>
-          <li><a href="catalog.html">Тонування</a></li>
-          <li><a href="catalog.html">Карбон</a></li>
+          <li><a href="catalog.html">Боді</a></li>
+          <li><a href="catalog.html">Сукні</a></li>
+          <li><a href="catalog.html">Нижня білизна</a></li>
+          <li><a href="catalog.html">Топи</a></li>
+          <li><a href="catalog.html">Комбінезони</a></li>
         </ul>
       </div>
       <div class="col-sm-6 col-lg-2">
         <h6 class="footer-heading">Інформація</h6>
         <ul class="footer-links">
-          <li><a href="#">Про компанію</a></li>
+          <li><a href="#">Про бренд</a></li>
           <li><a href="#">Доставка та оплата</a></li>
-          <li><a href="#">Гарантія</a></li>
+          <li><a href="#">Повернення</a></li>
+          <li><a href="#">Таблиця розмірів</a></li>
           <li><a href="contacts.html">Контакти</a></li>
         </ul>
       </div>
       <div class="col-lg-3">
         <h6 class="footer-heading">Контакти</h6>
+        <div class="footer-contact-item"><i class="bi bi-geo-alt"></i><span>м. Київ, вул. Хрещатик, 1</span></div>
         <div class="footer-contact-item"><i class="bi bi-telephone"></i><span>+380 67 123 45 67</span></div>
-        <div class="footer-contact-item"><i class="bi bi-envelope"></i><span>info@skinz.ua</span></div>
-        <div class="footer-contact-item"><i class="bi bi-clock"></i><span>Пн–Пт: 9:00–19:00</span></div>
+        <div class="footer-contact-item"><i class="bi bi-envelope"></i><span>hello@skinz.com.ua</span></div>
       </div>
     </div>
     <div class="footer-bottom">
       <span>© 2025 SKINZ. Всі права захищені.</span>
-      <div class="d-flex gap-3"><a href="#">Оферта</a><a href="#">Конфіденційність</a></div>
+      <div class="d-flex gap-3">
+        <a href="#">Публічна оферта</a>
+        <a href="#">Конфіденційність</a>
+      </div>
     </div>
   </div>
 </footer>

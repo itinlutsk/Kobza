@@ -565,3 +565,332 @@ textarea.form-control-custom { resize: vertical; min-height: 140px; }
   .btn-add-cart { min-width: unset; }
   .benefits-bar .row > div + div { margin-top: 1.5rem; }
 }
+
+/* ========================================
+   FASHION-SPECIFIC ADDITIONS
+   ======================================== */
+
+/* Section eyebrow label */
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+}
+.section-eyebrow::before {
+  content: '';
+  display: block;
+  width: 1.5rem;
+  height: 2px;
+  background: var(--color-accent);
+}
+
+/* Hero product badge */
+.hero-product-badge {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 2;
+  background: rgba(15, 15, 15, 0.9);
+  border: 1px solid rgba(255, 184, 0, 0.3);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  backdrop-filter: blur(8px);
+}
+.hero-product-badge__label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+.hero-product-badge__name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-top: 0.2rem;
+  color: var(--color-text);
+}
+.hero-product-badge__price {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-accent);
+  margin-top: 0.2rem;
+}
+
+/* Feature card (Why Us section) */
+.feature-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  height: 100%;
+  transition: border-color var(--transition);
+}
+.feature-card:hover {
+  border-color: rgba(255, 184, 0, 0.3);
+}
+.feature-card__icon {
+  width: 56px;
+  height: 56px;
+  background: rgba(255, 184, 0, 0.1);
+  border: 1px solid rgba(255, 184, 0, 0.2);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent);
+  font-size: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+.feature-card__title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+.feature-card__desc {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Contact info item (contacts page) */
+.contact-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.contact-info-item__icon {
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 184, 0, 0.1);
+  border: 1px solid rgba(255, 184, 0, 0.2);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent);
+  font-size: 1.125rem;
+  flex-shrink: 0;
+}
+.contact-info-item__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 0.25rem;
+}
+.contact-info-item__value {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+.contact-info-item__value a {
+  color: var(--color-accent);
+}
+
+/* Social button */
+.social-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  transition: border-color var(--transition), color var(--transition);
+}
+.social-btn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* Why-us card hover is handled by .feature-card class above */
+
+/* Size pill (categories page) */
+.size-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  padding: 0.4rem 0.75rem;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* Size table */
+.size-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+.size-table th {
+  background: var(--color-surface-2);
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.875rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+.size-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+.size-table tr:last-child td { border-bottom: none; }
+.size-table td:first-child { font-weight: 700; color: var(--color-accent); }
+
+/* Size filter btn (catalog sidebar) */
+.size-filter-btn {
+  cursor: pointer;
+  position: relative;
+}
+.size-filter-btn input { position: absolute; opacity: 0; width: 0; height: 0; }
+.size-filter-btn span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  padding: 0.35rem 0.6rem;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  transition: all var(--transition);
+}
+.size-filter-btn input:checked + span {
+  background: rgba(255,184,0,0.15);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* Map embed wrapper */
+.map-embed {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+/* Contact form card */
+.contact-form-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+}
+.contact-form-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+.contact-form-subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 1.75rem;
+}
+.form-privacy-note {
+  font-size: 0.8rem;
+  color: var(--color-text-faint);
+  margin: 0;
+}
+.form-privacy-note a { color: var(--color-accent); }
+.form-success-msg {
+  padding: 1rem;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: var(--radius-sm);
+  color: #4ade80;
+  font-size: 0.9rem;
+}
+
+/* Product feature list (product page description) */
+.product-feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+}
+.product-feature-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid var(--color-border);
+}
+.product-feature-list li:last-child { border-bottom: none; }
+.product-feature-list li .bi { color: var(--color-accent); font-size: 0.9rem; }
+
+/* Care cards */
+.care-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem;
+  text-align: center;
+  height: 100%;
+}
+.care-icon {
+  display: block;
+  font-size: 2rem;
+  color: var(--color-accent);
+  margin-bottom: 0.75rem;
+}
+.care-icon--no { color: #ef4444; }
+.care-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+.care-desc {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+/* FAQ accordion overrides */
+.faq-item {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-sm) !important;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+}
+.faq-btn {
+  background: transparent !important;
+  color: var(--color-text) !important;
+  font-weight: 600;
+  font-size: 0.975rem;
+  box-shadow: none !important;
+  padding: 1.25rem 1.5rem;
+}
+.faq-btn:not(.collapsed) { color: var(--color-accent) !important; }
+.faq-btn::after { filter: invert(1) sepia(1) saturate(5) hue-rotate(0deg); }
+.faq-body {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  padding: 0 1.5rem 1.25rem;
+}
