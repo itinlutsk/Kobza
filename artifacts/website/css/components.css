@@ -928,6 +928,8 @@ select.form-input-custom { background-image: url("data:image/svg+xml,%3Csvg xmln
   .add-cart-row { flex-direction: column; }
   .btn-add-cart { min-width: unset; }
   .benefits-bar .row > div + div { margin-top: 1.5rem; }
+  .hero-swiper-prev,
+  .hero-swiper-next { display: none !important; }
 }
 
 /* ========================================

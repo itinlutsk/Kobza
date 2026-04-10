@@ -129,8 +129,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  /* ── Add to cart (product detail page) ── */
-  const addCartBtn = document.querySelector('.btn-add-cart');
+  /* ── Add to cart (product detail page only) ── */
+  const productInfoPanel = document.querySelector('.product-info');
+  const addCartBtn = productInfoPanel ? productInfoPanel.querySelector('.btn-add-cart') : null;
   const cartFeedback = document.getElementById('cartFeedback');
   if (addCartBtn) {
     addCartBtn.addEventListener('click', function () {
@@ -142,18 +143,6 @@ document.addEventListener('DOMContentLoaded', function () {
       if (badge) badge.textContent = (parseInt(badge.textContent, 10) || 0) + 1;
     });
   }
-
-  /* ── Add to cart (catalog cards) ── */
-  document.querySelectorAll('.btn-card-primary').forEach(btn => {
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
-      const orig = this.innerHTML;
-      this.innerHTML = '<i class="bi bi-check-lg"></i> Додано!';
-      setTimeout(() => { this.innerHTML = orig; }, 1800);
-      const badge = document.querySelector('.cart-badge');
-      if (badge) badge.textContent = (parseInt(badge.textContent, 10) || 0) + 1;
-    });
-  });
 
   /* ── Mobile filter toggle ── */
   const filterToggle = document.querySelector('.filter-toggle-btn');
