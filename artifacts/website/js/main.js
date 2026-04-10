@@ -192,3 +192,13 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
 });
+
+/* ── Global addToCart for catalog card buttons ── */
+function addToCart(btn) {
+  const orig = btn.innerHTML;
+  btn.innerHTML = '<i class="bi bi-check-lg"></i> Додано!';
+  btn.disabled = true;
+  setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; }, 1800);
+  const badge = document.querySelector('.cart-badge');
+  if (badge) badge.textContent = (parseInt(badge.textContent, 10) || 0) + 1;
+}
