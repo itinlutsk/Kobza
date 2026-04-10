@@ -2,9 +2,37 @@
    SKINZ — Main JavaScript
    ======================================== */
 
+/* ── Apply saved theme immediately (prevents flash) ── */
+(function () {
+  const saved = localStorage.getItem('skinz-theme');
+  if (saved === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+
 document.addEventListener('DOMContentLoaded', function () {
 
-  /* ── Sticky nav: add .scrolled class ── */
+  /* ── Theme toggle ── */
+  const themeBtn = document.getElementById('themeToggle');
+  const updateThemeIcon = () => {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    if (themeBtn) {
+      const icon = themeBtn.querySelector('i');
+      if (icon) icon.className = isLight ? 'bi bi-moon' : 'bi bi-sun';
+      themeBtn.title = isLight ? 'Темна тема' : 'Світла тема';
+    }
+  };
+  updateThemeIcon();
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function () {
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      document.documentElement.setAttribute('data-theme', isLight ? 'dark' : 'light');
+      localStorage.setItem('skinz-theme', isLight ? 'dark' : 'light');
+      updateThemeIcon();
+    });
+  }
+
+  /* ── Sticky nav ── */
   const nav = document.getElementById('mainNav');
   if (nav) {
     window.addEventListener('scroll', function () {
@@ -21,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
     btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   }
 
-  /* ── Scroll reveal (simple IntersectionObserver) ── */
+  /* ── Scroll reveal ── */
   const observer = new IntersectionObserver(
     (entries) => entries.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
@@ -40,48 +68,90 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  /* ── Quantity selector ── */
-  document.querySelectorAll('.qty-btn').forEach(btn => {
-    btn.addEventListener('click', function () {
-      const input = this.closest('.qty-selector')?.querySelector('.qty-input');
-      if (!input) return;
-      const step = this.dataset.action === 'plus' ? 1 : -1;
-      const newVal = Math.max(1, parseInt(input.value, 10) + step);
-      input.value = newVal;
+  /* ── Quantity selector (.qty-minus / .qty-plus → .qty-value span) ── */
+  document.querySelectorAll('.qty-selector').forEach(selector => {
+    const minusBtn = selector.querySelector('.qty-minus');
+    const plusBtn  = selector.querySelector('.qty-plus');
+    const valueEl  = selector.querySelector('.qty-value');
+    if (!valueEl) return;
+
+    const getVal = () => parseInt(valueEl.textContent, 10) || 1;
+
+    if (minusBtn) {
+      minusBtn.addEventListener('click', () => {
+        const v = Math.max(1, getVal() - 1);
+        valueEl.textContent = v;
+      });
+    }
+    if (plusBtn) {
+      plusBtn.addEventListener('click', () => {
+        valueEl.textContent = getVal() + 1;
+      });
+    }
+  });
+
+  /* ── Size selector (.size-selector → .size-btn) ── */
+  document.querySelectorAll('.size-selector').forEach(group => {
+    group.querySelectorAll('.size-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
+        if (this.disabled) return;
+        group.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const label = document.getElementById('selectedSize');
+        if (label) label.textContent = this.textContent.trim();
+      });
     });
   });
 
-  /* ── Size selector ── */
-  document.querySelectorAll('.size-btn').forEach(btn => {
-    btn.addEventListener('click', function () {
-      const group = this.closest('.size-options');
-      if (!group) return;
-      group.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
+  /* ── Color swatches (.color-selector → .color-swatch) ── */
+  document.querySelectorAll('.color-selector').forEach(group => {
+    group.querySelectorAll('.color-swatch').forEach(sw => {
+      sw.addEventListener('click', function () {
+        group.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+        this.classList.add('active');
+        const label = document.getElementById('selectedColor');
+        if (label) label.textContent = this.getAttribute('title') || '';
+      });
     });
   });
 
-  /* ── Color swatches ── */
-  document.querySelectorAll('.color-swatch').forEach(sw => {
-    sw.addEventListener('click', function () {
-      const group = this.closest('.color-swatches');
-      if (!group) return;
-      group.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-      this.classList.add('active');
-    });
-  });
-
-  /* ── Product tabs ── */
-  document.querySelectorAll('.tab-btn').forEach(btn => {
+  /* ── Product tabs (.product-tab → .product-tab-content) ── */
+  document.querySelectorAll('.product-tab').forEach(btn => {
     btn.addEventListener('click', function () {
       const target = this.dataset.tab;
       const parent = this.closest('.product-tabs');
       if (!parent) return;
-      parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      parent.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      parent.querySelectorAll('.product-tab').forEach(b => b.classList.remove('active'));
+      parent.querySelectorAll('.product-tab-content').forEach(p => p.classList.remove('active'));
       this.classList.add('active');
       const pane = parent.querySelector('#' + target);
       if (pane) pane.classList.add('active');
+    });
+  });
+
+  /* ── Add to cart (product detail page) ── */
+  const addCartBtn = document.querySelector('.btn-add-cart');
+  const cartFeedback = document.getElementById('cartFeedback');
+  if (addCartBtn) {
+    addCartBtn.addEventListener('click', function () {
+      if (cartFeedback) {
+        cartFeedback.classList.add('show');
+        setTimeout(() => cartFeedback.classList.remove('show'), 3000);
+      }
+      const badge = document.querySelector('.cart-badge');
+      if (badge) badge.textContent = (parseInt(badge.textContent, 10) || 0) + 1;
+    });
+  }
+
+  /* ── Add to cart (catalog cards) ── */
+  document.querySelectorAll('.btn-card-primary').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      const orig = this.innerHTML;
+      this.innerHTML = '<i class="bi bi-check-lg"></i> Додано!';
+      setTimeout(() => { this.innerHTML = orig; }, 1800);
+      const badge = document.querySelector('.cart-badge');
+      if (badge) badge.textContent = (parseInt(badge.textContent, 10) || 0) + 1;
     });
   });
 
@@ -96,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  /* ── Contact form prevent default submit ── */
+  /* ── Contact form ── */
   const contactForm = document.querySelector('#contactForm');
   if (contactForm) {
     contactForm.addEventListener('submit', function (e) {
@@ -111,19 +181,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  /* ── Cart button feedback ── */
-  document.querySelectorAll('.btn-add-cart, .btn-card-primary').forEach(btn => {
-    btn.addEventListener('click', function () {
-      const orig = this.innerHTML;
-      this.innerHTML = '<i class="bi bi-check-lg"></i> Додано до кошика';
-      setTimeout(() => this.innerHTML = orig, 1800);
-    });
-  });
-
-  /* ── Highlight active nav link ── */
+  /* ── Active nav link highlight ── */
   const path = window.location.pathname;
-  document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
-    if (link.getAttribute('href') && path.endsWith(link.getAttribute('href').split('/').pop())) {
+  document.querySelectorAll('.nav-link').forEach(link => {
+    const href = link.getAttribute('href') || '';
+    const page = href.split('/').pop().split('?')[0];
+    if (page && path.endsWith(page)) {
       link.classList.add('active');
     }
   });
