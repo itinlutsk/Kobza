@@ -150,26 +150,30 @@
 .product-price-sale { color: var(--color-success); font-weight: 700; }
 
 .product-card-footer {
-  padding: 0 1.25rem 1.25rem;
-  display: flex; gap: 0.5rem;
+  padding: 0 1rem 1rem;
+  display: flex; gap: 0.5rem; align-items: stretch;
 }
 .btn-card {
-  flex: 1; padding: 0.6rem 1rem;
-  font-size: 0.8rem; font-weight: 600; letter-spacing: 0.03em;
+  padding: 0.625rem 1rem;
+  font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.02em;
   border-radius: var(--radius-sm); border: none;
   cursor: pointer; transition: all var(--transition);
   display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+  text-decoration: none; white-space: nowrap;
 }
 .btn-card-primary {
+  flex: 1;
   background: var(--color-accent); color: #000;
 }
-.btn-card-primary:hover { background: var(--color-accent-dk); }
+.btn-card-primary:hover { background: var(--color-accent-dk); color: #000; }
 .btn-card-outline {
+  flex: 0 0 44px; width: 44px;
   background: var(--color-surface-2);
   color: var(--color-text-muted);
   border: 1px solid var(--color-border);
+  font-size: 1rem;
 }
-.btn-card-outline:hover { background: var(--color-surface-3); color: var(--color-text); }
+.btn-card-outline:hover { background: var(--color-surface-3); color: var(--color-text); border-color: var(--color-text-muted); }
 
 /* ========================================
    CATEGORY CARD
