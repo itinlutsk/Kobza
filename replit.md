@@ -25,3 +25,20 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - `pnpm --filter @workspace/api-server run dev` — run API server locally
 
 See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details.
+
+## Artifacts
+
+### Skinz — Жіночий одяг (artifacts/website)
+- Preview path: /website/
+- Stack: Vite + Vanilla JS + Bootstrap + CSS
+- Multi-page clothing e-commerce website in Ukrainian
+
+### Волинська аудіо-компанія (artifacts/audio)
+- Preview path: /audio/
+- Stack: React + Vite + Tailwind CSS + TypeScript + Wouter + Framer Motion
+- Full multi-page B2B website for a professional AV/audio system integrator
+- Pages: Home, Services, Work Stages, Portfolio, About, Contacts
+- Features: exit-intent popup (15s + mouse leave), contact form with Zod validation, portfolio filter, animated counters
+- Color scheme: Dark navy (#0D1B2A) with gold/amber accent (HSL 43 90% 55%)
+- AI-generated images: hero, 6 portfolio photos, team photo
+- All text in Ukrainian

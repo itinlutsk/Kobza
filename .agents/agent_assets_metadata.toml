@@ -1,0 +1,56 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "lb8Ef2kCLFuVy7RmvuPdE"
+uri = "file://attached_assets/generated_images/audio_hero.png"
+type = "image"
+title = "audio hero background"
+
+[[generated]]
+id = "RoWUzIZIQSyuGHAsmJZOg"
+uri = "file://attached_assets/generated_images/audio_portfolio_restaurant.png"
+type = "image"
+title = "restaurant audio portfolio"
+
+[[generated]]
+id = "J08TlQHosfDEcU_2__umQ"
+uri = "file://attached_assets/generated_images/audio_portfolio_church.png"
+type = "image"
+title = "church audio portfolio"
+
+[[generated]]
+id = "PeXPck3YjmPD7Yw16AqHB"
+uri = "file://attached_assets/generated_images/audio_portfolio_conference.png"
+type = "image"
+title = "conference room AV portfolio"
+
+[[generated]]
+id = "YM7oCnwgQQbMC83G9remt"
+uri = "file://attached_assets/generated_images/audio_portfolio_concert.png"
+type = "image"
+title = "concert stage audio portfolio"
+
+[[generated]]
+id = "hMtaD3oR05ZqGKG5TlewS"
+uri = "file://attached_assets/generated_images/audio_portfolio_museum.png"
+type = "image"
+title = "museum audio system portfolio"
+
+[[generated]]
+id = "b_fztTTtTZksobh3_bcRR"
+uri = "file://attached_assets/generated_images/audio_portfolio_school.png"
+type = "image"
+title = "school audio system portfolio"
+
+[[generated]]
+id = "ubVKhZscyFKKIv5GOi_mj"
+uri = "file://attached_assets/generated_images/audio_about_team.png"
+type = "image"
+title = "audio company team office"
+
+[[generated]]
+id = "SMqBfmFBStlFUsJu1ppk3"
+uri = "file://attached_assets/generated_images/generated_image.png"
+type = "image"
+title = "generated_image"
