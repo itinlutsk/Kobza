@@ -1,6 +1,6 @@
 kind = "web"
 previewPath = "/website/"
-title = "Skinz — Автомобільні плівки"
+title = "Skinz — Жіночий одяг"
 version = "1.0.0"
 id = "artifacts/website"
 router = "path"
@@ -21,10 +21,6 @@ run = "pnpm --filter @workspace/website run dev"
 build = [ "pnpm", "--filter", "@workspace/website", "run", "build" ]
 publicDir = "artifacts/website/dist/public"
 serve = "static"
-
-[[services.production.rewrites]]
-from = "/*"
-to = "/index.html"
 
 [services.env]
 PORT = "19161"

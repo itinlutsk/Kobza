@@ -9,6 +9,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👗</text></svg>"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet"/>
   <link href="css/main.css" rel="stylesheet"/>
   <link href="css/components.css" rel="stylesheet"/>
 </head>
@@ -43,67 +44,56 @@
   </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="container-xl">
-    <div class="row align-items-center">
-      <div class="col-lg-6 hero-content">
-        <div class="hero-eyebrow aos-fade">Колекція осінь–зима 2025</div>
-        <h1 class="hero-title aos-fade" style="transition-delay:0.1s">
-          Стиль, що<br/>говорить <span>без слів</span>
-        </h1>
-        <p class="hero-desc aos-fade" style="transition-delay:0.2s">
-          Одяг для жінки, яка знає собі ціну. Природні тканини, бездоганний крій, витончений силует — все, що підкреслює вашу індивідуальність.
-        </p>
-        <div class="hero-btns aos-fade" style="transition-delay:0.3s">
-          <a href="pages/catalog.html" class="btn-accent btn-lg-custom">
-            Переглянути колекцію <i class="bi bi-arrow-right"></i>
-          </a>
-          <a href="pages/categories.html" class="btn-outline-light btn-lg-custom">Категорії</a>
-        </div>
-        <div class="hero-stats aos-fade" style="transition-delay:0.4s">
-          <div class="stat-item">
-            <div class="stat-number">200+</div>
-            <div class="stat-label">Моделей</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">15к+</div>
-            <div class="stat-label">Клієнток</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">XS–XL</div>
-            <div class="stat-label">Розміри</div>
+<!-- HERO SLIDER -->
+<section class="hero-slider-section">
+  <div class="swiper hero-swiper" id="heroSwiper">
+    <div class="swiper-wrapper">
+
+      <!-- Слайд 1 -->
+      <div class="swiper-slide hero-slide" style="background-image:url('https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1600&h=900&q=85')">
+        <div class="hero-slide-overlay"></div>
+        <div class="container-xl h-100">
+          <div class="hero-slide-inner">
+            <div class="hero-eyebrow">Колекція осінь–зима 2025</div>
+            <h1 class="hero-title">Стиль, що<br>говорить <span>без слів</span></h1>
+            <p class="hero-desc">Одяг для жінки, яка знає собі ціну. Природні тканини, бездоганний крій, витончений силует.</p>
+            <div class="hero-btns">
+              <a href="pages/catalog.html" class="btn-accent btn-lg-custom">Переглянути колекцію <i class="bi bi-arrow-right"></i></a>
+              <a href="pages/categories.html" class="btn-outline-light btn-lg-custom">Категорії</a>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-lg-6 ps-lg-4 aos-fade" style="transition-delay:0.2s">
-        <div class="hero-editorial">
-          <div class="hero-editorial__photos">
-            <div class="hero-editorial__photo hero-editorial__photo--tall">
-              <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=400&h=600&q=80" alt="SKINZ колекція"/>
-            </div>
-            <div class="hero-editorial__photo hero-editorial__photo--short">
-              <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=400&h=440&q=80" alt="SKINZ стиль"/>
-            </div>
-          </div>
-          <div class="hero-contacts-card">
-            <div class="hero-contacts-card__item">
-              <i class="bi bi-telephone"></i>
-              <a href="tel:+380501002030">+380 50 100 20 30</a>
-            </div>
-            <div class="hero-contacts-card__divider"></div>
-            <div class="hero-contacts-card__item">
-              <i class="bi bi-envelope"></i>
-              <a href="mailto:hello@skinz.com.ua">hello@skinz.com.ua</a>
-            </div>
-            <div class="hero-contacts-card__divider"></div>
-            <div class="hero-contacts-card__item">
-              <i class="bi bi-clock"></i>
-              <span>Пн–Сб 10:00–20:00</span>
+
+      <!-- Слайд 2 -->
+      <div class="swiper-slide hero-slide" style="background-image:url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1600&h=900&q=85')">
+        <div class="hero-slide-overlay"></div>
+        <div class="container-xl h-100">
+          <div class="hero-slide-inner">
+            <div class="hero-eyebrow">Нова колекція</div>
+            <h1 class="hero-title">Краса, що<br><span>надихає</span></h1>
+            <p class="hero-desc">Відчуйте різницю з SKINZ. Кожна модель — витончений вибір для впевненої жінки.</p>
+            <div class="hero-btns">
+              <a href="pages/catalog.html" class="btn-accent btn-lg-custom">Дивитись каталог <i class="bi bi-arrow-right"></i></a>
+              <a href="pages/contacts.html" class="btn-outline-light btn-lg-custom">Контакти</a>
             </div>
           </div>
         </div>
+      </div>
+
+    </div>
+    <div class="swiper-button-prev hero-swiper-prev"></div>
+    <div class="swiper-button-next hero-swiper-next"></div>
+    <div class="swiper-pagination hero-swiper-pagination"></div>
+  </div>
+
+  <!-- Статистика -->
+  <div class="hero-stats-bar">
+    <div class="container-xl">
+      <div class="hero-stats">
+        <div class="stat-item"><div class="stat-number">200+</div><div class="stat-label">Моделей</div></div>
+        <div class="stat-item"><div class="stat-number">15к+</div><div class="stat-label">Клієнток</div></div>
+        <div class="stat-item"><div class="stat-number">XS–XL</div><div class="stat-label">Розміри</div></div>
       </div>
     </div>
   </div>
@@ -504,6 +494,18 @@
 
 <button id="backToTop" aria-label="Вгору"><i class="bi bi-arrow-up"></i></button>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="js/main.js"></script>
+<script>
+  new Swiper('#heroSwiper', {
+    loop: true,
+    speed: 800,
+    autoplay: { delay: 5000, disableOnInteraction: false },
+    navigation: { nextEl: '.hero-swiper-next', prevEl: '.hero-swiper-prev' },
+    pagination: { el: '.hero-swiper-pagination', clickable: true },
+    effect: 'fade',
+    fadeEffect: { crossFade: true }
+  });
+</script>
 </body>
 </html>
