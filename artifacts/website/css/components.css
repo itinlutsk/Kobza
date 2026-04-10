@@ -657,12 +657,17 @@
 }
 .shipping-row i { color: var(--color-accent); font-size: 1rem; flex-shrink: 0; }
 .swiper-button-next, .swiper-button-prev {
-  color: var(--color-accent) !important;
-  background: rgba(15,15,15,0.8);
+  color: #fff !important;
+  background: var(--color-accent);
   width: 40px !important; height: 40px !important;
   border-radius: var(--radius-sm);
+  transition: background 0.2s, transform 0.15s;
 }
-.swiper-button-next::after, .swiper-button-prev::after { font-size: 14px !important; }
+.swiper-button-next:hover, .swiper-button-prev:hover {
+  background: var(--color-accent-dk);
+  transform: scale(1.08);
+}
+.swiper-button-next::after, .swiper-button-prev::after { font-size: 14px !important; font-weight: 700; }
 .swiper-pagination-bullet { background: var(--color-text-muted); }
 .swiper-pagination-bullet-active { background: var(--color-accent); }
 
