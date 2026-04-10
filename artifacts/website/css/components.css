@@ -535,20 +535,20 @@
    PRODUCT DETAIL PAGE
    ======================================== */
 .product-gallery { position: sticky; top: 80px; }
-.swiper-main { border-radius: var(--radius); overflow: hidden; margin-bottom: 1rem; }
-.swiper-main .swiper-slide img {
+.product-gallery-main { border-radius: var(--radius); overflow: hidden; margin-bottom: 1rem; }
+.product-gallery-main .swiper-slide img {
   width: 100%; aspect-ratio: 4/5; object-fit: cover;
 }
-.swiper-thumbs .swiper-slide {
+.product-gallery-thumbs .swiper-slide {
   border-radius: var(--radius-sm); overflow: hidden;
   border: 2px solid transparent; cursor: pointer;
   opacity: 0.6; transition: opacity var(--transition), border-color var(--transition);
 }
-.swiper-thumbs .swiper-slide-thumb-active {
+.product-gallery-thumbs .swiper-slide-thumb-active {
   border-color: var(--color-accent);
   opacity: 1;
 }
-.swiper-thumbs .swiper-slide img {
+.product-gallery-thumbs .swiper-slide img {
   width: 100%; aspect-ratio: 1/1; object-fit: cover;
 }
 
