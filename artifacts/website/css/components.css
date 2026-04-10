@@ -164,7 +164,7 @@
   backdrop-filter: blur(4px);
 }
 .btn-card-primary:hover { background: var(--color-accent); color: #000; }
-.btn-card-outline { display: none; }
+.btn-card-outline { display: inline-flex; }
 
 .product-card-body { padding: 0.75rem 0.25rem 0.25rem; }
 .product-card-category {
@@ -177,7 +177,7 @@
   display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
 }
 
-.product-card .product-rating { display: none; }
+.product-card .product-rating { display: flex; }
 .stars { color: var(--color-accent); font-size: 0.75rem; letter-spacing: -0.05em; }
 .rating-count { font-size: 0.75rem; color: var(--color-text-muted); }
 
