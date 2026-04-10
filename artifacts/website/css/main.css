@@ -46,24 +46,43 @@
   --shadow-card: 0 4px 24px rgba(0,0,0,0.10);
   --shadow-lg:   0 8px 40px rgba(0,0,0,0.15);
 }
-[data-theme="light"] .navbar { background: #ffffff !important; }
-[data-theme="light"] .navbar.scrolled { box-shadow: 0 2px 16px rgba(0,0,0,0.10); }
+[data-theme="light"] .navbar,
+[data-theme="light"] #mainNav {
+  background: rgba(255,255,255,0.97) !important;
+  border-bottom-color: #e0e0dc;
+}
+[data-theme="light"] #mainNav.scrolled { box-shadow: 0 2px 16px rgba(0,0,0,0.10); background: rgba(255,255,255,0.99) !important; }
+[data-theme="light"] .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(15,15,15,0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
 [data-theme="light"] ::-webkit-scrollbar-track { background: var(--color-surface-2); }
 [data-theme="light"] ::-webkit-scrollbar-thumb { background: #ccc; }
 [data-theme="light"] .swiper-button-next,
 [data-theme="light"] .swiper-button-prev { background: rgba(248,248,246,0.9); }
+/* btn-outline-light adapts in light mode (used inside hero which always stays dark) */
+[data-theme="light"] .btn-outline-light {
+  border-color: rgba(15,15,15,0.25);
+  color: var(--color-text);
+}
+[data-theme="light"] .btn-outline-light:hover {
+  border-color: rgba(15,15,15,0.6);
+  background: rgba(0,0,0,0.05);
+}
 
 /* ---------- Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 /* Remove browser default blue outline on non-interactive containers */
 div:focus, section:focus, article:focus, main:focus, header:focus,
-footer:focus, aside:focus, figure:focus, nav:focus {
-  outline: none;
+footer:focus, aside:focus, figure:focus, nav:focus,
+.collapse:focus, .navbar-collapse:focus, .collapsing:focus,
+.container:focus, .container-xl:focus, .container-fluid:focus,
+.row:focus, .col:focus, [class*="col-"]:focus {
+  outline: none !important;
 }
 /* Style focus for interactive elements with brand color */
-a:focus-visible,
-button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+a:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+button:focus-visible:not(.theme-toggle-btn) { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 input:focus, textarea:focus, select:focus { outline: none; }
 
 html {
@@ -195,12 +214,26 @@ h1, h2, h3, h4, h5, h6 {
 }
 .nav-icon-btn:hover { color: var(--color-text); background: var(--color-surface); }
 .theme-toggle-btn {
-  border: none; background: transparent; cursor: pointer;
-  font-family: inherit; color: var(--color-text-muted);
+  border: 1px solid var(--color-border-lt);
+  background: var(--color-surface-2);
+  cursor: pointer; font-family: inherit;
+  color: var(--color-text-muted);
 }
-.theme-toggle-btn:hover { color: var(--color-accent); background: var(--color-surface); }
-[data-theme="light"] .theme-toggle-btn .bi-sun::before { content: "\f5a2"; }
-[data-theme="light"] .theme-toggle-btn { color: var(--color-text-muted); }
+.theme-toggle-btn:hover {
+  color: var(--color-accent);
+  background: var(--color-surface-3);
+  border-color: var(--color-accent);
+}
+[data-theme="light"] .theme-toggle-btn {
+  border-color: #d0d0cc;
+  background: #f0f0ee;
+  color: #333;
+}
+[data-theme="light"] .theme-toggle-btn:hover {
+  border-color: var(--color-accent);
+  background: #fff8e6;
+  color: var(--color-accent);
+}
 
 .cart-badge {
   position: absolute;
