@@ -34,10 +34,11 @@ See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and pa
 - Multi-page clothing e-commerce website in Ukrainian
 
 #### 🔒 LOCKED — Do NOT change without explicit user permission:
-- **Hero slider** on index.html (3 Unsplash images: photo-1539109136881, photo-1469334031218, photo-1581044777550)
-- **Navbar / Header** on index.html and all pages/*.html
-- **catalog.html** — full page structure and content
-- **index.html categories section** — now uses local AI images from images/categories/
+- **index.html** — entire home page (hero slider, header, categories, all content) ⛔
+- **catalog.html** — entire catalog page ⛔
+- **Footer** — site-footer block on all pages ⛔
+- **Navbar / Header** — on all pages ⛔
+- Hero slider images: photo-1539109136881, photo-1469334031218, photo-1581044777550 (Unsplash)
 
 #### Pages inventory:
 - index.html — Home (hero slider, stats, benefits, categories, bestsellers, CTA)
