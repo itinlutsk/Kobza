@@ -321,11 +321,11 @@
   flex: 1;
   background: rgba(19,16,13,0.82);
   color: rgba(255,255,255,0.92);
-  border: 1px solid rgba(196,146,74,0.35);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.15);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
   backdrop-filter: blur(6px);
   justify-content: center;
 }
@@ -334,9 +334,9 @@
 .product-card-footer .btn-add-cart {
   flex: 1.5;
   padding: 0.6rem 0.75rem;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   border-radius: var(--radius-sm);
 }
 .btn-card-detail:hover {
