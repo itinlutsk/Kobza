@@ -321,6 +321,18 @@ textarea.form-control-admin { resize:vertical; min-height:90px; line-height:1.5;
 .form-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
 @media(max-width:640px){ .form-grid-2 { grid-template-columns:1fr; } }
 
+/* ─── TAG BADGES ─────────────────────────── */
+.badge-tag {
+  display:inline-flex; align-items:center; padding:.1rem .35rem; border-radius:4px;
+  font-size:.6rem; font-weight:800; letter-spacing:.05em; cursor:pointer;
+  user-select:none; transition:all .15s; border:1px solid var(--border);
+  color:var(--muted); background:transparent; font-family:inherit;
+}
+.badge-tag:hover { border-color:#bbb; color:var(--text); }
+.badge-tag.new-active { background:#0D9488; color:#fff; border-color:#0D9488; }
+.badge-tag.top-active { background:#D97706; color:#fff; border-color:#D97706; }
+.tag-row { display:flex; gap:.3rem; margin-top:.25rem; flex-wrap:wrap; }
+
 /* ─── PRODUCT LIST TABLE ─────────────────── */
 .prod-table { width:100%; border-collapse:collapse; }
 .prod-table th {
