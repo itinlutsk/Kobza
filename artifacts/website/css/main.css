@@ -58,8 +58,21 @@
 }
 [data-theme="light"] ::-webkit-scrollbar-track { background: var(--color-surface-2); }
 [data-theme="light"] ::-webkit-scrollbar-thumb { background: #ccc; }
-[data-theme="light"] .swiper-button-next,
-[data-theme="light"] .swiper-button-prev { background: var(--color-accent); color: #fff !important; }
+.swiper-button-next,
+.swiper-button-prev {
+  background: rgba(0,0,0,0.22) !important;
+  color: rgba(255,255,255,0.7) !important;
+  opacity: 0;
+  transition: opacity 0.3s, background 0.3s;
+  border-radius: var(--radius-sm);
+}
+.hero-swiper:hover .swiper-button-next,
+.hero-swiper:hover .swiper-button-prev { opacity: 1; }
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background: rgba(0,0,0,0.42) !important;
+  color: #fff !important;
+}
 /* btn-outline-light adapts in light mode (hero always stays dark so this is mostly unused) */
 [data-theme="light"] .btn-outline-light {
   border-color: rgba(15,15,15,0.25);
