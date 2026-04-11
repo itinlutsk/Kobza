@@ -57,53 +57,8 @@
 <!-- HERO SLIDER -->
 <section class="hero-slider-section">
   <div class="swiper hero-swiper" id="heroSwiper">
-    <div class="swiper-wrapper">
-
-      <!-- Слайд 1 -->
-      <div class="swiper-slide hero-slide" style="background-image:url('https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1600&h=900&q=85')">
-        <div class="hero-slide-overlay"></div>
-        <div class="container-xl h-100">
-          <div class="hero-slide-inner">
-            <div class="hero-eyebrow">Колекція осінь–зима 2025</div>
-            <h1 class="hero-title">Стиль, що<br>говорить <span>без слів</span></h1>
-            <p class="hero-desc">Одяг для жінки, яка знає собі ціну. Природні тканини, бездоганний крій, витончений силует.</p>
-            <div class="hero-btns">
-              <a href="pages/catalog.html" class="btn-accent btn-lg-custom">Переглянути колекцію <i class="bi bi-arrow-right"></i></a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Слайд 2 -->
-      <div class="swiper-slide hero-slide" style="background-image:url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1600&h=900&q=85')">
-        <div class="hero-slide-overlay"></div>
-        <div class="container-xl h-100">
-          <div class="hero-slide-inner">
-            <div class="hero-eyebrow">Нова колекція</div>
-            <h1 class="hero-title">Краса, що<br><span>надихає</span></h1>
-            <p class="hero-desc">Відчуйте різницю з SKINZ. Кожна модель — витончений вибір для впевненої жінки.</p>
-            <div class="hero-btns">
-              <a href="pages/catalog.html" class="btn-accent btn-lg-custom">Дивитись каталог <i class="bi bi-arrow-right"></i></a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Слайд 3 -->
-      <div class="swiper-slide hero-slide" style="background-image:url('https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&w=1600&h=900&q=85')">
-        <div class="hero-slide-overlay"></div>
-        <div class="container-xl h-100">
-          <div class="hero-slide-inner">
-            <div class="hero-eyebrow">Ексклюзивно від SKINZ</div>
-            <h1 class="hero-title">Витонченість<br><span>у кожній деталі</span></h1>
-            <p class="hero-desc">Преміальний жіночий одяг для тих, хто цінує якість, комфорт і бездоганний крій.</p>
-            <div class="hero-btns">
-              <a href="pages/catalog.html" class="btn-accent btn-lg-custom">Обрати образ <i class="bi bi-arrow-right"></i></a>
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <div class="swiper-wrapper" id="heroSwiperWrapper">
+      <!-- Slides inserted by seasonalSlider() below -->
     </div>
     <div class="swiper-button-prev hero-swiper-prev"></div>
     <div class="swiper-button-next hero-swiper-next"></div>
@@ -619,6 +574,65 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="js/main.js"></script>
 <script>
+  /* ── Seasonal Hero Slider ── */
+  (function() {
+    const m = new Date().getMonth(); // 0-11
+    const season = (m >= 2 && m <= 4) ? 'spring'
+                 : (m >= 5 && m <= 7) ? 'summer'
+                 : (m >= 8 && m <= 10) ? 'autumn'
+                 : 'winter';
+
+    const data = {
+      spring: [
+        { img:'rootImages/slider/spring-01.png', eyebrow:'Весняна колекція 2026', title:'Свіжість,<br>що <span>пробуджує</span>', desc:'Перше тепло — час оновити гардероб. Легкі тканини, жіночні силуети.', btn:'Переглянути колекцію' },
+        { img:'rootImages/slider/spring-02.png', eyebrow:'Нові надходження', title:'Весна<br><span>у кожній деталі</span>', desc:'Квіткові мотиви та ніжні відтінки для вашого найкращого образу.', btn:'Дивитись каталог' },
+        { img:'rootImages/slider/spring-03.png', eyebrow:'Ексклюзивно від SKINZ', title:'Прокидайтесь<br><span>красивими</span>', desc:'Одяг, що підкреслює природну красу: зручний крій та якісні матеріали.', btn:'Обрати образ' },
+        { img:'rootImages/slider/spring-04.png', eyebrow:'Весна 2026', title:'Жіночність<br><span>у кожному кроці</span>', desc:'Відчуйте легкість та комфорт нової сезонної колекції SKINZ.', btn:'Переглянути новинки' },
+        { img:'rootImages/slider/spring-05.png', eyebrow:'Тільки у SKINZ', title:'Ваш весняний<br><span>образ</span>', desc:'Від легкої сукні до стильного боді — все для вашого гардеробу.', btn:'До каталогу' }
+      ],
+      summer: [
+        { img:'rootImages/slider/summer-01.png', eyebrow:'Літня колекція 2026', title:'Літо,<br>що <span>надихає</span>', desc:'Лінія для активних, впевнених та стильних. Дихаючі тканини на кожен день.', btn:'Переглянути колекцію' },
+        { img:'rootImages/slider/summer-02.png', eyebrow:'Нові надходження', title:'Сонце<br><span>у кожній деталі</span>', desc:'Яскраві кольори та легкі силуети для найтеплішого сезону.', btn:'Дивитись каталог' },
+        { img:'rootImages/slider/summer-03.png', eyebrow:'Ексклюзивно від SKINZ', title:'Свобода<br><span>і стиль</span>', desc:'Колекція, що поєднує комфорт і елегантність у спекотні дні.', btn:'Обрати образ' },
+        { img:'rootImages/slider/summer-04.png', eyebrow:'Літо 2026', title:'Легкість<br><span>у кожному образі</span>', desc:'Натуральні тканини та вільний крій — формула ідеального літа.', btn:'Переглянути новинки' },
+        { img:'rootImages/slider/summer-05.png', eyebrow:'Тільки у SKINZ', title:'Ваш літній<br><span>образ</span>', desc:'Зустрічайте нові враження у стильному вбранні від SKINZ.', btn:'До каталогу' }
+      ],
+      autumn: [
+        { img:'rootImages/slider/autumn-01.png', eyebrow:'Колекція осінь–зима 2025', title:'Стиль, що<br>говорить <span>без слів</span>', desc:'Одяг для жінки, яка знає собі ціну. Природні тканини, бездоганний крій.', btn:'Переглянути колекцію' },
+        { img:'rootImages/slider/autumn-02.png', eyebrow:'Нові надходження', title:'Осінь<br><span>з новим поглядом</span>', desc:'Глибокі відтінки та лаконічні форми для впевненого жіночого образу.', btn:'Дивитись каталог' },
+        { img:'rootImages/slider/autumn-03.png', eyebrow:'Ексклюзивно від SKINZ', title:'Тепло<br><span>у кожній деталі</span>', desc:'М\'яка вовна та преміальні тканини — для комфорту в прохолодні дні.', btn:'Обрати образ' },
+        { img:'rootImages/slider/autumn-04.png', eyebrow:'Осінь 2025', title:'Елегантність<br><span>без зусиль</span>', desc:'Лаконічні силуети та нейтральна палітра — основа осіннього гардеробу.', btn:'Переглянути новинки' },
+        { img:'rootImages/slider/autumn-05.png', eyebrow:'Тільки у SKINZ', title:'Ваш осінній<br><span>образ</span>', desc:'Від класичного пальта до стильного кардигану — все в одному місці.', btn:'До каталогу' }
+      ],
+      winter: [
+        { img:'rootImages/slider/winter-01.png', eyebrow:'Зимова колекція 2025', title:'Витонченість<br><span>у кожній деталі</span>', desc:'Преміальний жіночий одяг для тих, хто цінує якість та бездоганний крій.', btn:'Переглянути колекцію' },
+        { img:'rootImages/slider/winter-02.png', eyebrow:'Нові надходження', title:'Зима<br><span>у стильному вбранні</span>', desc:'Казкові образи та тепло — зимова колекція SKINZ для кожного дня.', btn:'Дивитись каталог' },
+        { img:'rootImages/slider/winter-03.png', eyebrow:'Ексклюзивно від SKINZ', title:'Тепло<br><span>і краса поруч</span>', desc:'Якісні тканини та перевірений крій для найхолоднішого сезону.', btn:'Обрати образ' },
+        { img:'rootImages/slider/winter-04.png', eyebrow:'Зима 2025', title:'Елегантна<br><span>зима з SKINZ</span>', desc:'Пальта, светри та кардигани — тепло та стиль у кожній моделі.', btn:'Переглянути новинки' },
+        { img:'rootImages/slider/winter-05.png', eyebrow:'Тільки у SKINZ', title:'Ваш зимовий<br><span>образ</span>', desc:'Зберіть ідеальний зимовий гардероб з новою колекцією SKINZ.', btn:'До каталогу' }
+      ]
+    };
+
+    const wrapper = document.getElementById('heroSwiperWrapper');
+    data[season].forEach(function(s) {
+      wrapper.innerHTML +=
+        '<div class="swiper-slide hero-slide" style="background-image:url(\'' + s.img + '\')">' +
+          '<div class="hero-slide-overlay"></div>' +
+          '<div class="container-xl h-100">' +
+            '<div class="hero-slide-inner">' +
+              '<div class="hero-eyebrow">' + s.eyebrow + '</div>' +
+              '<h1 class="hero-title">' + s.title + '</h1>' +
+              '<p class="hero-desc">' + s.desc + '</p>' +
+              '<div class="hero-btns">' +
+                '<a href="pages/catalog.html" class="btn-accent btn-lg-custom">' + s.btn + ' <i class="bi bi-arrow-right"></i></a>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+    });
+  })();
+
+  /* ── Swiper init (after slides are injected) ── */
   new Swiper('#heroSwiper', {
     loop: true,
     speed: 800,
