@@ -484,9 +484,13 @@ function showPreview(src, name, size) {
   document.getElementById('previewImg').src = src;
   document.getElementById('imgMeta').style.display = 'block';
   document.getElementById('imgFileName').textContent = name || 'зображення';
-  document.getElementById('imgFileSize').textContent = size
-    ? (size < 1024*1024 ? (size/1024).toFixed(0) + ' КБ' : (size/1024/1024).toFixed(1) + ' МБ')
-    : 'URL';
+  const sizeEl = document.getElementById('imgFileSize');
+  if (size) {
+    sizeEl.textContent = size < 1024*1024 ? (size/1024).toFixed(0) + ' КБ' : (size/1024/1024).toFixed(1) + ' МБ';
+    sizeEl.style.display = '';
+  } else {
+    sizeEl.style.display = 'none';
+  }
 }
 
 /* ─── File input handler ─── */
