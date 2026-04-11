@@ -368,7 +368,7 @@
   font-size: 0.8125rem; color: var(--color-text-faint);
   text-decoration: line-through;
 }
-.product-price-sale { color: var(--color-success); font-weight: 700; }
+.product-price-sale { color: var(--color-accent); font-weight: 700; }
 
 /* ========================================
    CATEGORY CARD
