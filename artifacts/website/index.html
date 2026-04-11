@@ -616,7 +616,8 @@
     const wrapper = document.getElementById('heroSwiperWrapper');
     data[season].forEach(function(s) {
       wrapper.innerHTML +=
-        '<div class="swiper-slide hero-slide" style="background-image:url(\'' + s.img + '\')">' +
+        '<div class="swiper-slide hero-slide">' +
+          '<div class="hero-slide-photo" style="background-image:url(\'' + s.img + '\')"></div>' +
           '<div class="hero-slide-overlay"></div>' +
           '<div class="container-xl h-100">' +
             '<div class="hero-slide-inner">' +
