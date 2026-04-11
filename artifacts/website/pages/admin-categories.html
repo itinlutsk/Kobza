@@ -104,18 +104,8 @@
           <input type="text" id="catSearch" placeholder="Пошук категорії…" oninput="renderTable()"/>
         </div>
       </div>
-      <div style="overflow-x:auto">
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th>Категорія</th>
-              <th style="width:110px">Товарів</th>
-              <th style="width:130px">Статус</th>
-              <th style="width:80px"></th>
-            </tr>
-          </thead>
-          <tbody id="catTableBody"></tbody>
-        </table>
+      <div style="padding:1.25rem">
+        <div class="cat-grid" id="catGrid"></div>
         <div id="catEmptyState" class="empty-state" style="display:none">
           <i class="bi bi-grid-3x3-gap"></i>
           <p>Категорій не знайдено</p>
@@ -242,46 +232,46 @@ function slugify(str) {
 function renderTable() {
   const query = (document.getElementById('catSearch')?.value || '').toLowerCase();
   const filtered = categories.filter(c => c.name.toLowerCase().includes(query));
-  const tbody = document.getElementById('catTableBody');
+  const grid = document.getElementById('catGrid');
   const empty = document.getElementById('catEmptyState');
-  if (filtered.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; }
+  if (filtered.length === 0) { grid.innerHTML = ''; empty.style.display = 'block'; }
   else {
     empty.style.display = 'none';
-    tbody.innerHTML = filtered.map(cat => {
+    grid.innerHTML = filtered.map(cat => {
       const cnt = cat.count ?? 0;
       return `
-      <tr>
-        <td>
-          <div class="cat-row-cell">
-            <div style="flex-shrink:0">
-              ${cat.photo
-                ? `<img src="${escHtml(cat.photo)}" class="cat-thumb" alt="${escHtml(cat.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex">`
-                : ''}
-              <div class="cat-thumb-placeholder" ${cat.photo ? 'style="display:none"' : ''}><i class="bi bi-image"></i></div>
-            </div>
-            <div>
-              <a href="admin-category.html?id=${cat.id}" class="cat-row-name">${escHtml(cat.name)}</a>
-              <div class="cat-row-id">ID: ${cat.id}</div>
-            </div>
+      <div class="cat-card">
+        <div class="cat-card-img">
+          ${cat.photo
+            ? `<img src="${escHtml(cat.photo)}" alt="${escHtml(cat.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+            : ''}
+          <div class="cat-card-img-placeholder" ${cat.photo ? 'style="display:none"' : ''}>
+            <i class="bi bi-image"></i>
           </div>
-        </td>
-        <td>
-          <span class="count-pill ${cnt === 0 ? 'empty' : ''}">
-            <i class="bi bi-box-seam" style="font-size:.7rem"></i> ${cnt}
-          </span>
-        </td>
-        <td><span class="${cat.active ? 'badge-active' : 'badge-hidden'}">${cat.active ? 'Активна' : 'Прихована'}</span></td>
-        <td>
-          <div style="display:flex;align-items:center;gap:.375rem">
-            <a href="admin-category.html?id=${cat.id}" class="admin-btn-icon" title="Редагувати" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none">
+          <div class="cat-card-status">
+            <span class="${cat.active ? 'badge-active' : 'badge-hidden'}" style="font-size:.6rem;padding:.15rem .45rem">
+              ${cat.active ? 'Активна' : 'Прихована'}
+            </span>
+          </div>
+          <div class="cat-card-actions">
+            <a href="admin-category.html?id=${cat.id}" class="cat-card-btn" title="Редагувати">
               <i class="bi bi-pencil"></i>
             </a>
-            <button class="admin-btn-icon danger" onclick="openDeleteModal(${cat.id})" title="Видалити">
+            <button class="cat-card-btn danger" onclick="openDeleteModal(${cat.id})" title="Видалити">
               <i class="bi bi-trash3"></i>
             </button>
           </div>
-        </td>
-      </tr>
+        </div>
+        <div class="cat-card-body">
+          <a href="admin-category.html?id=${cat.id}" class="cat-card-name">${escHtml(cat.name)}</a>
+          <div class="cat-card-meta">
+            <span class="cat-card-id">ID: ${cat.id}</span>
+            <span class="count-pill ${cnt === 0 ? 'empty' : ''}" style="padding:.15rem .45rem;font-size:.68rem">
+              <i class="bi bi-box-seam" style="font-size:.65rem"></i> ${cnt}
+            </span>
+          </div>
+        </div>
+      </div>
     `}).join('');
   }
   updateStats();
