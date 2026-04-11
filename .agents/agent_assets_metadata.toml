@@ -54,3 +54,51 @@ id = "SMqBfmFBStlFUsJu1ppk3"
 uri = "file://attached_assets/generated_images/generated_image.png"
 type = "image"
 title = "generated_image"
+
+[[generated]]
+id = "WKdLGvEptAzpZf6r7tUcx"
+uri = "file://artifacts/website/images/categories/bodysuit.png"
+type = "image"
+title = "bodysuit category"
+
+[[generated]]
+id = "Co4NrM-eDYLlQrRIMsk4c"
+uri = "file://artifacts/website/images/categories/dress.png"
+type = "image"
+title = "dress category"
+
+[[generated]]
+id = "dOT1G-gpaVv_9qVWo9J6u"
+uri = "file://artifacts/website/images/categories/lingerie.png"
+type = "image"
+title = "lingerie category"
+
+[[generated]]
+id = "ip-q8nCPguc6-Dv6rfwU8"
+uri = "file://artifacts/website/images/categories/top.png"
+type = "image"
+title = "top category"
+
+[[generated]]
+id = "wuwBP8ZC67t-A3vrzhUow"
+uri = "file://artifacts/website/images/categories/jumpsuit.png"
+type = "image"
+title = "jumpsuit category"
+
+[[generated]]
+id = "kzpDTRIdqP1ACbYLcaUMC"
+uri = "file://artifacts/website/images/categories/shorts.png"
+type = "image"
+title = "shorts category"
+
+[[generated]]
+id = "qMOgl1yptNpMNCFUxybQ9"
+uri = "file://artifacts/website/images/categories/pajamas.png"
+type = "image"
+title = "pajamas category"
+
+[[generated]]
+id = "X0WsaeJkPwN__QJOgclhS"
+uri = "file://artifacts/website/images/categories/skirt.png"
+type = "image"
+title = "skirt category"
