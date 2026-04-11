@@ -353,10 +353,10 @@
 
             <!-- Upload zone (shown when no image) -->
             <div class="img-upload-zone" id="uploadZone">
-              <input type="file" accept="image/*" id="fileInput" onchange="handleFileSelect(this)"/>
+              <input type="file" accept="image/jpeg,.jpg,.jpeg" id="fileInput" onchange="handleFileSelect(this)"/>
               <div class="zone-icon"><i class="bi bi-cloud-arrow-up"></i></div>
               <div class="zone-title">Завантажити фото</div>
-              <div class="zone-sub">PNG, JPG, WEBP до 5 МБ</div>
+              <div class="zone-sub">JPEG до 5 МБ</div>
               <div class="zone-btn"><i class="bi bi-folder2-open"></i> Вибрати файл</div>
             </div>
 
@@ -365,7 +365,7 @@
               <img id="previewImg" src="" alt="Фото категорії"/>
               <div class="img-preview-overlay">
                 <button class="img-change-btn">
-                  <input type="file" accept="image/*" onchange="handleFileSelect(this)"/>
+                  <input type="file" accept="image/jpeg,.jpg,.jpeg" onchange="handleFileSelect(this)"/>
                   <i class="bi bi-arrow-repeat"></i> Замінити
                 </button>
               </div>
@@ -382,7 +382,7 @@
                 <div style="font-size:.75rem;color:var(--muted);line-height:1.6">
                   <span style="font-weight:600;color:var(--text)">Рекомендований розмір:</span>
                   <strong style="color:var(--accent)">600 × 800 px</strong> (пропорція 3:4, вертикальна).
-                  Формати: JPG, PNG, WEBP. До 5 МБ.
+                  Формат: <strong style="color:var(--accent)">JPEG</strong>. До 5 МБ.
                 </div>
               </div>
             </div>
