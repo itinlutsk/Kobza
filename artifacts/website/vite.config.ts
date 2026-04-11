@@ -23,6 +23,7 @@ export default defineConfig({
         categories: path.resolve(import.meta.dirname, "pages/categories.html"),
         contacts: path.resolve(import.meta.dirname, "pages/contacts.html"),
         admin: path.resolve(import.meta.dirname, "pages/admin.html"),
+        adminCategory: path.resolve(import.meta.dirname, "pages/admin-category.html"),
       },
     },
   },
