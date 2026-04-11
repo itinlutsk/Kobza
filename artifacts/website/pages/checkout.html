@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <script>!function(){var t=localStorage.getItem("skinz-theme");t&&document.documentElement.setAttribute("data-theme",t)}();</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Оформлення замовлення — SKINZ</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="../css/main.css" rel="stylesheet"/>
+  <link href="../css/components.css" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg sticky-top" id="mainNav">
+  <div class="container-xl">
+    <a class="navbar-brand d-flex align-items-center gap-1" href="../index.html">
+      <span class="logo-text">SKINZ</span><span class="logo-accent">.</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="../index.html">Головна</a></li>
+        <li class="nav-item"><a class="nav-link" href="categories.html">Категорії</a></li>
+        <li class="nav-item"><a class="nav-link" href="catalog.html">Каталог</a></li>
+        <li class="nav-item"><a class="nav-link" href="contacts.html">Контакти</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+        <button id="themeToggle" class="nav-icon-btn theme-toggle-btn" title="Змінити тему" aria-label="Змінити тему"><i class="bi bi-sun"></i></button>
+        <a href="#" class="nav-icon-btn"><i class="bi bi-search"></i></a>
+        <a href="wishlist.html" class="nav-icon-btn"><i class="bi bi-heart"></i></a>
+        <a href="cart.html" class="nav-icon-btn position-relative">
+          <i class="bi bi-bag"></i><span class="cart-badge" id="cartBadge">2</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="page-header">
+  <div class="container-xl">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="../index.html">Головна</a></li>
+        <li class="breadcrumb-item"><a href="cart.html">Кошик</a></li>
+        <li class="breadcrumb-item active">Оформлення замовлення</li>
+      </ol>
+    </nav>
+    <h1 class="page-title">Оформлення замовлення</h1>
+  </div>
+</div>
+
+<!-- CHECKOUT STEPS INDICATOR -->
+<div class="section-sm" style="border-bottom:1px solid var(--color-border);padding-top:0;padding-bottom:0;">
+  <div class="container-xl">
+    <div class="checkout-steps">
+      <div class="checkout-step active" id="step1Indicator">
+        <div class="checkout-step-num">1</div>
+        <div class="checkout-step-label">Контакти</div>
+      </div>
+      <div class="checkout-step-line"></div>
+      <div class="checkout-step" id="step2Indicator">
+        <div class="checkout-step-num">2</div>
+        <div class="checkout-step-label">Доставка</div>
+      </div>
+      <div class="checkout-step-line"></div>
+      <div class="checkout-step" id="step3Indicator">
+        <div class="checkout-step-num">3</div>
+        <div class="checkout-step-label">Оплата</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CHECKOUT CONTENT -->
+<section class="section-sm" id="checkoutMain">
+  <div class="container-xl">
+    <div class="row g-4 g-xl-5">
+
+      <!-- LEFT: FORM -->
+      <div class="col-lg-7 col-xl-8">
+
+        <!-- STEP 1: CONTACTS -->
+        <div id="formStep1">
+          <div class="checkout-section-card">
+            <div class="checkout-section-header">
+              <div class="checkout-section-num">01</div>
+              <h2 class="checkout-section-title">Контактні дані</h2>
+            </div>
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label class="form-label-custom" for="firstName">Ім'я <span class="text-accent">*</span></label>
+                <input type="text" id="firstName" class="filter-input w-100" placeholder="Олена" required/>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label-custom" for="lastName">Прізвище <span class="text-accent">*</span></label>
+                <input type="text" id="lastName" class="filter-input w-100" placeholder="Іваненко" required/>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label-custom" for="phone">Телефон <span class="text-accent">*</span></label>
+                <input type="tel" id="phone" class="filter-input w-100" placeholder="+380 50 000 00 00" required/>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label-custom" for="email">Email</label>
+                <input type="email" id="email" class="filter-input w-100" placeholder="your@email.com"/>
+              </div>
+              <div class="col-12">
+                <label class="form-label-custom" for="comment">Коментар до замовлення</label>
+                <textarea id="comment" class="filter-input w-100" rows="3" placeholder="Побажання щодо замовлення, зручний час для зв'язку тощо..."></textarea>
+              </div>
+            </div>
+            <div class="d-flex justify-content-end mt-4">
+              <button class="btn-accent" onclick="goToStep(2)">
+                Далі — Доставка <i class="bi bi-arrow-right ms-1"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: DELIVERY -->
+        <div id="formStep2" style="display:none;">
+          <div class="checkout-section-card">
+            <div class="checkout-section-header">
+              <div class="checkout-section-num">02</div>
+              <h2 class="checkout-section-title">Доставка</h2>
+            </div>
+
+            <!-- Delivery method tabs -->
+            <div class="checkout-delivery-tabs mb-4" id="deliveryTabs">
+              <button class="checkout-delivery-tab active" onclick="selectDelivery(this,'nova')" data-delivery="nova">
+                <i class="bi bi-truck"></i> Нова Пошта
+              </button>
+              <button class="checkout-delivery-tab" onclick="selectDelivery(this,'ukr')" data-delivery="ukr">
+                <i class="bi bi-envelope"></i> Укрпошта
+              </button>
+              <button class="checkout-delivery-tab" onclick="selectDelivery(this,'courier')" data-delivery="courier">
+                <i class="bi bi-person-walking"></i> Кур'єр
+              </button>
+              <button class="checkout-delivery-tab" onclick="selectDelivery(this,'pickup')" data-delivery="pickup">
+                <i class="bi bi-shop"></i> Самовивіз
+              </button>
+            </div>
+
+            <!-- Nova Poshta / Ukrposhta -->
+            <div id="deliveryNova" class="checkout-delivery-form">
+              <div class="row g-3">
+                <div class="col-sm-6">
+                  <label class="form-label-custom" for="city">Місто <span class="text-accent">*</span></label>
+                  <input type="text" id="city" class="filter-input w-100" placeholder="Київ" required/>
+                </div>
+                <div class="col-sm-6">
+                  <label class="form-label-custom" for="department">Відділення <span class="text-accent">*</span></label>
+                  <input type="text" id="department" class="filter-input w-100" placeholder="№ 1 (вул. Хрещатик, 1)" required/>
+                </div>
+              </div>
+            </div>
+
+            <div id="deliveryUkr" class="checkout-delivery-form" style="display:none;">
+              <div class="row g-3">
+                <div class="col-sm-6">
+                  <label class="form-label-custom" for="cityUkr">Місто <span class="text-accent">*</span></label>
+                  <input type="text" id="cityUkr" class="filter-input w-100" placeholder="Київ" required/>
+                </div>
+                <div class="col-sm-6">
+                  <label class="form-label-custom" for="postIndex">Поштовий індекс <span class="text-accent">*</span></label>
+                  <input type="text" id="postIndex" class="filter-input w-100" placeholder="01001" required/>
+                </div>
+                <div class="col-12">
+                  <label class="form-label-custom" for="addressUkr">Адреса відділення / поштомат <span class="text-accent">*</span></label>
+                  <input type="text" id="addressUkr" class="filter-input w-100" placeholder="вул. Хрещатик, 1" required/>
+                </div>
+              </div>
+            </div>
+
+            <div id="deliveryCourier" class="checkout-delivery-form" style="display:none;">
+              <div class="row g-3">
+                <div class="col-sm-6">
+                  <label class="form-label-custom" for="cityCourier">Місто <span class="text-accent">*</span></label>
+                  <input type="text" id="cityCourier" class="filter-input w-100" placeholder="Київ" required/>
+                </div>
+                <div class="col-sm-6">
+                  <label class="form-label-custom" for="streetCourier">Вулиця <span class="text-accent">*</span></label>
+                  <input type="text" id="streetCourier" class="filter-input w-100" placeholder="вул. Хрещатик" required/>
+                </div>
+                <div class="col-4">
+                  <label class="form-label-custom" for="houseCourier">Будинок <span class="text-accent">*</span></label>
+                  <input type="text" id="houseCourier" class="filter-input w-100" placeholder="1" required/>
+                </div>
+                <div class="col-4">
+                  <label class="form-label-custom" for="flatCourier">Квартира</label>
+                  <input type="text" id="flatCourier" class="filter-input w-100" placeholder="42"/>
+                </div>
+                <div class="col-4">
+                  <label class="form-label-custom" for="floorCourier">Поверх</label>
+                  <input type="text" id="floorCourier" class="filter-input w-100" placeholder="5"/>
+                </div>
+                <div class="col-12">
+                  <div class="checkout-info-box">
+                    <i class="bi bi-clock"></i>
+                    Кур'єрська доставка — від 1–2 робочих днів у межах Києва. Вартість уточнюється менеджером.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="deliveryPickup" class="checkout-delivery-form" style="display:none;">
+              <div class="checkout-info-box">
+                <i class="bi bi-geo-alt-fill text-accent"></i>
+                <span>Самовивіз з нашого шоу-руму: <strong>м. Київ, вул. Хрещатик, 1</strong><br/>
+                Пн–Пт: 10:00–20:00 &nbsp;|&nbsp; Сб–Нд: 11:00–18:00</span>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+              <button class="btn-outline-custom" onclick="goToStep(1)">
+                <i class="bi bi-arrow-left me-1"></i> Назад
+              </button>
+              <button class="btn-accent" onclick="goToStep(3)">
+                Далі — Оплата <i class="bi bi-arrow-right ms-1"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: PAYMENT -->
+        <div id="formStep3" style="display:none;">
+          <div class="checkout-section-card">
+            <div class="checkout-section-header">
+              <div class="checkout-section-num">03</div>
+              <h2 class="checkout-section-title">Спосіб оплати</h2>
+            </div>
+
+            <div class="checkout-payment-grid">
+
+              <label class="checkout-payment-option" id="payCard">
+                <input type="radio" name="payment" value="card" checked onchange="selectPayment('payCard')"/>
+                <div class="checkout-payment-body">
+                  <div class="checkout-payment-icon"><i class="bi bi-credit-card-2-front"></i></div>
+                  <div>
+                    <div class="checkout-payment-name">Оплата карткою онлайн</div>
+                    <div class="checkout-payment-desc">Visa / Mastercard / Apple Pay / Google Pay</div>
+                  </div>
+                </div>
+                <div class="checkout-payment-check"><i class="bi bi-check2"></i></div>
+              </label>
+
+              <label class="checkout-payment-option" id="payPrivat">
+                <input type="radio" name="payment" value="privat" onchange="selectPayment('payPrivat')"/>
+                <div class="checkout-payment-body">
+                  <div class="checkout-payment-icon"><i class="bi bi-phone"></i></div>
+                  <div>
+                    <div class="checkout-payment-name">Приват24 / Monobank</div>
+                    <div class="checkout-payment-desc">Оплата через застосунок банку</div>
+                  </div>
+                </div>
+                <div class="checkout-payment-check"><i class="bi bi-check2"></i></div>
+              </label>
+
+              <label class="checkout-payment-option" id="payCash">
+                <input type="radio" name="payment" value="cod" onchange="selectPayment('payCash')"/>
+                <div class="checkout-payment-body">
+                  <div class="checkout-payment-icon"><i class="bi bi-cash-stack"></i></div>
+                  <div>
+                    <div class="checkout-payment-name">Накладений платіж</div>
+                    <div class="checkout-payment-desc">Оплата при отриманні (комісія перевізника)</div>
+                  </div>
+                </div>
+                <div class="checkout-payment-check"><i class="bi bi-check2"></i></div>
+              </label>
+
+              <label class="checkout-payment-option" id="payTransfer">
+                <input type="radio" name="payment" value="transfer" onchange="selectPayment('payTransfer')"/>
+                <div class="checkout-payment-body">
+                  <div class="checkout-payment-icon"><i class="bi bi-bank"></i></div>
+                  <div>
+                    <div class="checkout-payment-name">Банківський переказ</div>
+                    <div class="checkout-payment-desc">Реквізити надійдуть на email / SMS</div>
+                  </div>
+                </div>
+                <div class="checkout-payment-check"><i class="bi bi-check2"></i></div>
+              </label>
+
+            </div>
+
+            <!-- Card fields (visible when card is selected) -->
+            <div id="cardFields" class="mt-4">
+              <div class="row g-3">
+                <div class="col-12">
+                  <label class="form-label-custom" for="cardNumber">Номер картки <span class="text-accent">*</span></label>
+                  <div class="checkout-card-input-wrap">
+                    <input type="text" id="cardNumber" class="filter-input w-100" placeholder="0000 0000 0000 0000" maxlength="19"
+                      oninput="formatCard(this)"/>
+                    <div class="checkout-card-icons">
+                      <i class="bi bi-credit-card-2-front"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <label class="form-label-custom" for="cardExpiry">Термін дії <span class="text-accent">*</span></label>
+                  <input type="text" id="cardExpiry" class="filter-input w-100" placeholder="MM / РР" maxlength="7"
+                    oninput="formatExpiry(this)"/>
+                </div>
+                <div class="col-6">
+                  <label class="form-label-custom" for="cardCvv">CVV / CVC <span class="text-accent">*</span></label>
+                  <input type="password" id="cardCvv" class="filter-input w-100" placeholder="•••" maxlength="3"/>
+                </div>
+                <div class="col-12">
+                  <label class="form-label-custom" for="cardName">Ім'я власника картки <span class="text-accent">*</span></label>
+                  <input type="text" id="cardName" class="filter-input w-100" placeholder="OLENA IVANENKO"
+                    oninput="this.value=this.value.toUpperCase()"/>
+                </div>
+              </div>
+              <div class="checkout-secure-note">
+                <i class="bi bi-shield-lock-fill text-accent"></i>
+                Захищено SSL-шифруванням. Ваші дані в безпеці.
+              </div>
+            </div>
+
+            <!-- User agreement -->
+            <div class="mt-4">
+              <label class="checkout-agree">
+                <input type="checkbox" id="agreeTerms" checked/>
+                <span>Я погоджуюсь з <a href="#" class="text-accent">умовами оферти</a> та <a href="#" class="text-accent">політикою конфіденційності</a></span>
+              </label>
+              <label class="checkout-agree mt-2">
+                <input type="checkbox" id="agreeNotify" checked/>
+                <span>Отримувати сповіщення про статус замовлення</span>
+              </label>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+              <button class="btn-outline-custom" onclick="goToStep(2)">
+                <i class="bi bi-arrow-left me-1"></i> Назад
+              </button>
+              <button class="btn-accent btn-lg-custom" onclick="placeOrder()">
+                <i class="bi bi-lock-fill me-2"></i>Підтвердити замовлення
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /LEFT col -->
+
+      <!-- RIGHT: ORDER SUMMARY -->
+      <div class="col-lg-5 col-xl-4">
+        <div class="checkout-summary" id="orderSummary">
+
+          <div class="checkout-summary-header">
+            <h3 class="checkout-summary-title">Ваше замовлення</h3>
+            <a href="cart.html" class="checkout-summary-edit"><i class="bi bi-pencil"></i> Змінити</a>
+          </div>
+
+          <!-- Items -->
+          <div class="checkout-items">
+
+            <div class="checkout-item">
+              <div class="checkout-item-img">
+                <img src="https://images.pexels.com/photos/2726111/pexels-photo-2726111.jpeg?auto=compress&cs=tinysrgb&w=120&h=160&fit=crop" alt="Боді Velvet Black"/>
+                <span class="checkout-item-qty">1</span>
+              </div>
+              <div class="checkout-item-info">
+                <div class="checkout-item-name">Боді Velvet Black</div>
+                <div class="checkout-item-attrs">Розмір: M &nbsp;|&nbsp; Колір: Чорний</div>
+                <div class="checkout-item-price">₴890</div>
+              </div>
+            </div>
+
+            <div class="checkout-item">
+              <div class="checkout-item-img">
+                <img src="https://images.pexels.com/photos/1758144/pexels-photo-1758144.jpeg?auto=compress&cs=tinysrgb&w=120&h=160&fit=crop" alt="Сукня Maxi Black"/>
+                <span class="checkout-item-qty">1</span>
+              </div>
+              <div class="checkout-item-info">
+                <div class="checkout-item-name">Сукня Maxi Black</div>
+                <div class="checkout-item-attrs">Розмір: S &nbsp;|&nbsp; Колір: Чорний</div>
+                <div class="checkout-item-price">
+                  ₴1 512 <span class="checkout-item-price-old">₴1 890</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Promo code -->
+          <div class="checkout-promo">
+            <div class="checkout-promo-row">
+              <input type="text" class="filter-input" id="promoCode" placeholder="Промокод" style="flex:1;"/>
+              <button class="btn-outline-custom" onclick="applyPromo()">Застосувати</button>
+            </div>
+            <div class="text-small text-muted-custom mt-1" id="promoHint">Маєте промокод? Введіть для отримання знижки</div>
+          </div>
+
+          <!-- Totals -->
+          <div class="checkout-totals">
+            <div class="checkout-total-row">
+              <span>Товари (2)</span>
+              <span id="subtotal">₴2 402</span>
+            </div>
+            <div class="checkout-total-row">
+              <span>Знижка</span>
+              <span id="discount" class="text-accent">−₴378</span>
+            </div>
+            <div class="checkout-total-row" id="deliveryRow">
+              <span>Доставка</span>
+              <span id="deliveryCost" class="text-success-custom">Безкоштовно</span>
+            </div>
+            <div class="checkout-total-row checkout-total-final">
+              <span>До сплати</span>
+              <span id="totalPrice">₴2 402</span>
+            </div>
+          </div>
+
+          <!-- CTA (mobile duplicate) -->
+          <div class="d-lg-none mt-3">
+            <button class="btn-accent w-100" onclick="placeOrder()">
+              <i class="bi bi-lock-fill me-2"></i>Підтвердити замовлення
+            </button>
+          </div>
+
+          <!-- Trust badges -->
+          <div class="checkout-trust">
+            <div class="checkout-trust-item"><i class="bi bi-shield-check text-accent"></i> Безпечна оплата</div>
+            <div class="checkout-trust-item"><i class="bi bi-arrow-counterclockwise text-accent"></i> Повернення 14 днів</div>
+            <div class="checkout-trust-item"><i class="bi bi-truck text-accent"></i> Безкоштовна доставка від ₴1500</div>
+          </div>
+
+        </div>
+      </div><!-- /RIGHT col -->
+
+    </div>
+  </div>
+</section>
+
+<!-- SUCCESS OVERLAY -->
+<div id="orderSuccess" style="display:none;">
+  <div class="container-xl">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 text-center">
+        <div class="checkout-success-card">
+          <div class="checkout-success-icon">
+            <i class="bi bi-check-circle-fill"></i>
+          </div>
+          <h2 class="checkout-success-title">Замовлення прийнято!</h2>
+          <p class="checkout-success-num">№ <strong id="orderNum">SK-0042</strong></p>
+          <p class="checkout-success-text">
+            Дякуємо за покупку! Ми зв'яжемося з вами найближчим часом для підтвердження замовлення.
+            Очікуйте SMS або дзвінок на вказаний номер телефону.
+          </p>
+          <div class="checkout-success-meta">
+            <div class="checkout-success-meta-item">
+              <i class="bi bi-truck"></i>
+              <span>Орієнтовна доставка: <strong>2–4 робочих дні</strong></span>
+            </div>
+            <div class="checkout-success-meta-item">
+              <i class="bi bi-envelope"></i>
+              <span>Підтвердження на: <strong id="orderEmail">your@email.com</strong></span>
+            </div>
+          </div>
+          <div class="d-flex gap-3 justify-content-center flex-wrap mt-4">
+            <a href="../index.html" class="btn-outline-custom">На головну</a>
+            <a href="catalog.html" class="btn-accent">Продовжити покупки</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container-xl">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="footer-logo"><span class="logo-text">SKINZ</span><span class="logo-accent">.</span></div>
+        <p class="footer-tagline">Сучасний жіночий одяг від українського бренду.</p>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-link"><i class="bi bi-tiktok"></i></a>
+          <a href="#" class="social-link"><i class="bi bi-telegram"></i></a>
+          <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-2 offset-lg-1">
+        <h6 class="footer-heading">Каталог</h6>
+        <ul class="footer-links">
+          <li><a href="catalog.html">Боді</a></li>
+          <li><a href="catalog.html">Сукні</a></li>
+          <li><a href="catalog.html">Нижня білизна</a></li>
+          <li><a href="catalog.html">Топи</a></li>
+          <li><a href="catalog.html">Комбінезони</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <h6 class="footer-heading">Інформація</h6>
+        <ul class="footer-links">
+          <li><a href="#">Про бренд</a></li>
+          <li><a href="#">Доставка та оплата</a></li>
+          <li><a href="#">Повернення</a></li>
+          <li><a href="#">Таблиця розмірів</a></li>
+          <li><a href="contacts.html">Контакти</a></li>
+          <li><a href="auth.html">Вхід / Реєстрація</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3">
+        <h6 class="footer-heading">Контакти</h6>
+        <div class="footer-contact-item"><i class="bi bi-geo-alt"></i><span>м. Київ, вул. Хрещатик, 1</span></div>
+        <div class="footer-contact-item"><i class="bi bi-telephone"></i><span>+380 50 100 20 30</span></div>
+        <div class="footer-contact-item"><i class="bi bi-envelope"></i><span>hello@skinz.com.ua</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 SKINZ. Всі права захищені.</span>
+      <div class="d-flex gap-3">
+        <a href="#">Публічна оферта</a>
+        <a href="#">Конфіденційність</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button id="backToTop" aria-label="Вгору"><i class="bi bi-arrow-up"></i></button>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/main.js"></script>
+<script>
+  /* ---- STEP NAVIGATION ---- */
+  const steps = ['formStep1','formStep2','formStep3'];
+  const indicators = ['step1Indicator','step2Indicator','step3Indicator'];
+
+  function goToStep(n) {
+    steps.forEach((id, i) => {
+      document.getElementById(id).style.display = (i === n - 1) ? 'block' : 'none';
+    });
+    indicators.forEach((id, i) => {
+      const el = document.getElementById(id);
+      el.classList.toggle('active', i < n);
+      el.classList.toggle('done', i < n - 1);
+    });
+    window.scrollTo({ top: document.getElementById('checkoutMain').offsetTop - 80, behavior: 'smooth' });
+  }
+
+  /* ---- DELIVERY TABS ---- */
+  const deliveryForms = { nova:'deliveryNova', ukr:'deliveryUkr', courier:'deliveryCourier', pickup:'deliveryPickup' };
+
+  function selectDelivery(btn, type) {
+    document.querySelectorAll('.checkout-delivery-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    Object.values(deliveryForms).forEach(id => document.getElementById(id).style.display = 'none');
+    document.getElementById(deliveryForms[type]).style.display = 'block';
+
+    const deliveryCost = document.getElementById('deliveryCost');
+    if (type === 'pickup') {
+      deliveryCost.textContent = 'Безкоштовно';
+      deliveryCost.className = 'text-success-custom';
+    } else if (type === 'courier') {
+      deliveryCost.textContent = 'Уточнюється';
+      deliveryCost.className = 'text-muted-custom';
+    } else {
+      deliveryCost.textContent = 'Безкоштовно від ₴1500';
+      deliveryCost.className = 'text-success-custom';
+    }
+  }
+
+  /* ---- PAYMENT SELECTION ---- */
+  function selectPayment(selectedId) {
+    ['payCard','payPrivat','payCash','payTransfer'].forEach(id => {
+      document.getElementById(id)?.classList.remove('selected');
+    });
+    document.getElementById(selectedId)?.classList.add('selected');
+    document.getElementById('cardFields').style.display = (selectedId === 'payCard') ? 'block' : 'none';
+  }
+
+  /* ---- CARD FORMATTING ---- */
+  function formatCard(el) {
+    let v = el.value.replace(/\D/g,'').substring(0,16);
+    el.value = v.replace(/(.{4})/g,'$1 ').trim();
+  }
+
+  function formatExpiry(el) {
+    let v = el.value.replace(/\D/g,'').substring(0,4);
+    if (v.length >= 3) v = v.substring(0,2) + ' / ' + v.substring(2);
+    el.value = v;
+  }
+
+  /* ---- PROMO CODE ---- */
+  function applyPromo() {
+    const code = document.getElementById('promoCode').value.trim().toUpperCase();
+    const hint = document.getElementById('promoHint');
+    if (code === 'SKINZ10') {
+      hint.textContent = '✓ Промокод застосовано — знижка 10%';
+      hint.style.color = 'var(--color-success)';
+    } else if (code === '') {
+      hint.textContent = 'Маєте промокод? Введіть для отримання знижки';
+      hint.style.color = '';
+    } else {
+      hint.textContent = '✗ Невірний промокод';
+      hint.style.color = 'var(--color-danger)';
+    }
+  }
+
+  /* ---- PLACE ORDER ---- */
+  function placeOrder() {
+    if (!document.getElementById('agreeTerms').checked) {
+      alert('Будь ласка, погодьтесь з умовами оферти');
+      return;
+    }
+    const emailVal = document.getElementById('email').value || 'your@email.com';
+    document.getElementById('orderEmail').textContent = emailVal;
+    document.getElementById('orderNum').textContent = 'SK-' + String(Math.floor(1000 + Math.random() * 9000));
+    document.getElementById('checkoutMain').style.display = 'none';
+    const success = document.getElementById('orderSuccess');
+    success.style.display = 'block';
+    success.className = 'section';
+    document.getElementById('cartBadge').textContent = '0';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ---- INIT ---- */
+  document.getElementById('payCard').classList.add('selected');
+</script>
+</body>
+</html>
