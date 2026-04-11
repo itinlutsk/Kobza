@@ -59,7 +59,7 @@
 [data-theme="light"] ::-webkit-scrollbar-track { background: var(--color-surface-2); }
 [data-theme="light"] ::-webkit-scrollbar-thumb { background: #ccc; }
 [data-theme="light"] .swiper-button-next,
-[data-theme="light"] .swiper-button-prev { background: rgba(248,248,246,0.9); }
+[data-theme="light"] .swiper-button-prev { background: var(--color-accent); color: #fff !important; }
 /* btn-outline-light adapts in light mode (hero always stays dark so this is mostly unused) */
 [data-theme="light"] .btn-outline-light {
   border-color: rgba(15,15,15,0.25);
