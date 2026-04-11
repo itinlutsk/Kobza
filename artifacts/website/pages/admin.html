@@ -254,6 +254,37 @@
     .toggle-switch input:checked + .toggle-slider { background: var(--success); }
     .toggle-switch input:checked + .toggle-slider::before { transform: translateX(16px); }
 
+    /* BANNER GRID */
+    .banner-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.875rem;
+    }
+    @media(max-width:1100px){ .banner-grid { grid-template-columns: repeat(4,1fr); } }
+    @media(max-width:800px){ .banner-grid { grid-template-columns: repeat(3,1fr); } }
+    @media(max-width:500px){ .banner-grid { grid-template-columns: repeat(2,1fr); } }
+    .banner-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--bg);
+      transition: box-shadow .15s, border-color .15s;
+    }
+    .banner-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 2px 12px rgba(139,26,42,0.15);
+    }
+    .banner-card img {
+      width: 100%; aspect-ratio: 16/9;
+      object-fit: cover; display: block;
+    }
+    .banner-card__name {
+      padding: .4rem .5rem;
+      font-size: .7rem; color: var(--muted);
+      font-weight: 500; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+
     /* HAMBURGER for mobile */
     .admin-mobile-topbar {
       display: none; background: var(--sidebar-bg);
@@ -400,12 +431,90 @@
       </div>
     </div>
     <div id="sectionBanners" style="display:none">
-      <div class="admin-section-card">
-        <div class="admin-section-card__header"><div class="admin-section-card__title">Банери</div></div>
-        <div class="admin-section-card__body">
-          <div class="empty-state"><i class="bi bi-image"></i>Розділ банерів у розробці</div>
+
+      <!-- Banner stats -->
+      <div class="admin-stats" style="margin-bottom:1.5rem">
+        <div class="admin-stat-card">
+          <div class="admin-stat-card__icon"><i class="bi bi-images"></i></div>
+          <div class="admin-stat-card__label">Всього фото</div>
+          <div class="admin-stat-card__value">20</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-card__icon"><i class="bi bi-flower1"></i></div>
+          <div class="admin-stat-card__label">Весна / Літо</div>
+          <div class="admin-stat-card__value">10</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-card__icon"><i class="bi bi-cloud-snow"></i></div>
+          <div class="admin-stat-card__label">Осінь / Зима</div>
+          <div class="admin-stat-card__value">10</div>
         </div>
       </div>
+
+      <!-- SPRING -->
+      <div class="admin-section-card" style="margin-bottom:1.25rem">
+        <div class="admin-section-card__header">
+          <div class="admin-section-card__title">🌸 Весна — 5 фото</div>
+        </div>
+        <div class="admin-section-card__body">
+          <div class="banner-grid">
+            <div class="banner-card"><img src="../rootImages/slider/spring-01.png" alt="spring-01"/><div class="banner-card__name">spring-01.png</div></div>
+            <div class="banner-card"><img src="../rootImages/slider/spring-02.png" alt="spring-02"/><div class="banner-card__name">spring-02.png</div></div>
+            <div class="banner-card"><img src="../rootImages/slider/spring-03.png" alt="spring-03"/><div class="banner-card__name">spring-03.png</div></div>
+            <div class="banner-card"><img src="../rootImages/slider/spring-04.png" alt="spring-04"/><div class="banner-card__name">spring-04.png</div></div>
+            <div class="banner-card"><img src="../rootImages/slider/spring-05.png" alt="spring-05"/><div class="banner-card__name">spring-05.png</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUMMER -->
+      <div class="admin-section-card" style="margin-bottom:1.25rem">
+        <div class="admin-section-card__header">
+          <div class="admin-section-card__title">☀️ Літо — 5 фото</div>
+        </div>
+        <div class="admin-section-card__body">
+          <div class="banner-grid">
+            <div class="banner-card"><img src="../rootImages/slider/summer-01.png" alt="summer-01"/><div class="banner-card__name">summer-01.png</div></div>
+            <div class="banner-card"><img src="../rootImages/slider/summer-02.png" alt="summer-02"/><div class="banner-card__name">summer-02.png</div></div>
+            <div class="banner-card"><img src="../rootImages/slider/summer-03.png" alt="summer-03"/><div class="banner-card__name">summer-03.png</div></div>
+            <div class="banner-card"><img src="../rootImages/slider/summer-04.png" alt="summer-04"/><div class="banner-card__name">summer-04.png</div></div>
+            <div class="banner-card"><img src="../rootImages/slider/summer-05.png" alt="summer-05"/><div class="banner-card__name">summer-05.png</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AUTUMN -->
+      <div class="admin-section-card" style="margin-bottom:1.25rem">
+        <div class="admin-section-card__header">
+          <div class="admin-section-card__title">🍂 Осінь — 5 фото</div>
+        </div>
+        <div class="admin-section-card__body">
+          <div class="banner-grid">
+            <div class="banner-card"><img src="../rootImages/slider/autumn-01.png" alt="autumn-01"/><div class="banner-card__name">autumn-01.png</div></div>
+            <div class="banner-card"><img src="../rootImages/slider/autumn-02.png" alt="autumn-02"/><div class="banner-card__name">autumn-02.png</div></div>
+            <div class="banner-card"><img src="../rootImages/slider/autumn-03.png" alt="autumn-03"/><div class="banner-card__name">autumn-03.png</div></div>
+            <div class="banner-card"><img src="../rootImages/slider/autumn-04.png" alt="autumn-04"/><div class="banner-card__name">autumn-04.png</div></div>
+            <div class="banner-card"><img src="../rootImages/slider/autumn-05.png" alt="autumn-05"/><div class="banner-card__name">autumn-05.png</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WINTER -->
+      <div class="admin-section-card">
+        <div class="admin-section-card__header">
+          <div class="admin-section-card__title">❄️ Зима — 5 фото</div>
+        </div>
+        <div class="admin-section-card__body">
+          <div class="banner-grid">
+            <div class="banner-card"><img src="../rootImages/slider/winter-01.png" alt="winter-01"/><div class="banner-card__name">winter-01.png</div></div>
+            <div class="banner-card"><img src="../rootImages/slider/winter-02.png" alt="winter-02"/><div class="banner-card__name">winter-02.png</div></div>
+            <div class="banner-card"><img src="../rootImages/slider/winter-03.png" alt="winter-03"/><div class="banner-card__name">winter-03.png</div></div>
+            <div class="banner-card"><img src="../rootImages/slider/winter-04.png" alt="winter-04"/><div class="banner-card__name">winter-04.png</div></div>
+            <div class="banner-card"><img src="../rootImages/slider/winter-05.png" alt="winter-05"/><div class="banner-card__name">winter-05.png</div></div>
+          </div>
+        </div>
+      </div>
+
     </div>
     <div id="sectionSettings" style="display:none">
       <div class="admin-section-card">
