@@ -18,9 +18,8 @@
     <a class="navbar-brand d-flex align-items-center gap-1" href="../index.html">
       <span class="logo-text">SKINZ</span><span class="logo-accent">.</span>
     </a>
-    <!-- Мобільна панель: тема + обране + X/меню -->
     <div class="d-flex d-lg-none align-items-center gap-1 ms-auto">
-      <button class="nav-icon-btn theme-toggle-btn" id="themeToggleMob" aria-label="Змінити тему" title="Змінити тему"><i class="bi bi-sun"></i></button>
+      <button class="nav-icon-btn theme-toggle-btn" id="themeToggleMob" aria-label="Змінити тему"><i class="bi bi-sun"></i></button>
       <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navMain" aria-expanded="false">
         <i class="bi bi-list nav-hamburger-icon"></i>
         <i class="bi bi-x-lg nav-close-icon"></i>
@@ -59,148 +58,162 @@
       </ol>
     </nav>
     <h1 class="page-header-title">Контакти</h1>
-    <p class="page-header-desc">Зв'яжіться з нами зручним для вас способом</p>
+    <p class="page-header-desc">Ми завжди на зв'язку — оберіть зручний спосіб</p>
   </div>
 </div>
 
-<!-- CONTACTS SECTION -->
+<!-- CONTACT CHANNEL CARDS -->
 <section class="section">
   <div class="container-xl">
-    <div class="row g-5">
+    <div class="row g-4">
 
-      <!-- CONTACT INFO -->
-      <div class="col-lg-5">
-        <p class="section-eyebrow">Ми на зв'язку</p>
-        <h2 class="section-title">Як з нами зв'язатися</h2>
-        <p style="color:var(--color-text-muted);margin-bottom:2rem">Маєте питання щодо замовлення, розмірів або доставки? Наша команда відповість швидко!</p>
-
-        <div class="contact-info-item">
-          <div class="contact-info-item__icon"><i class="bi bi-geo-alt-fill"></i></div>
-          <div>
-            <div class="contact-info-item__label">Адреса шоуруму</div>
-            <div class="contact-info-item__value">м. Київ, вул. Хрещатик, 1<br/>2-й поверх, зала 12</div>
+      <!-- PHONE -->
+      <div class="col-md-6 col-lg-3">
+        <div class="ccontact-channel-card">
+          <div class="ccontact-channel-icon">
+            <i class="bi bi-telephone-fill"></i>
           </div>
-        </div>
-
-        <div class="contact-info-item">
-          <div class="contact-info-item__icon"><i class="bi bi-telephone-fill"></i></div>
-          <div>
-            <div class="contact-info-item__label">Телефон</div>
-            <div class="contact-info-item__value">
-              <a href="tel:+380501002030">+380 50 100 20 30</a><br/>
-              <a href="tel:+380672003040">+380 67 200 30 40</a>
-            </div>
+          <div class="ccontact-channel-label">Телефон</div>
+          <div class="ccontact-channel-values">
+            <a href="tel:+380501002030">+380 50 100 20 30</a>
+            <a href="tel:+380672003040">+380 67 200 30 40</a>
           </div>
-        </div>
-
-        <div class="contact-info-item">
-          <div class="contact-info-item__icon"><i class="bi bi-envelope-fill"></i></div>
-          <div>
-            <div class="contact-info-item__label">Електронна пошта</div>
-            <div class="contact-info-item__value">
-              <a href="mailto:hello@skinz.com.ua">hello@skinz.com.ua</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="contact-info-item">
-          <div class="contact-info-item__icon"><i class="bi bi-clock-fill"></i></div>
-          <div>
-            <div class="contact-info-item__label">Графік роботи</div>
-            <div class="contact-info-item__value">
-              Пн–Пт: 9:00–19:00<br/>
-              Сб: 10:00–17:00<br/>
-              Нд: вихідний
-            </div>
-          </div>
-        </div>
-
-        <!-- Social -->
-        <div class="mt-4">
-          <div class="contact-info-item__label mb-3">Ми в соцмережах</div>
-          <div class="d-flex flex-wrap gap-2">
-            <a href="#" class="social-btn"><i class="bi bi-instagram"></i> Instagram</a>
-            <a href="#" class="social-btn"><i class="bi bi-tiktok"></i> TikTok</a>
-            <a href="#" class="social-btn"><i class="bi bi-telegram"></i> Telegram</a>
-            <a href="#" class="social-btn"><i class="bi bi-facebook"></i> Facebook</a>
-          </div>
-        </div>
-
-        <!-- Map -->
-        <div class="mt-4">
-          <div class="contact-info-item__label mb-2">Знайти нас на карті</div>
-          <div class="map-embed">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2540.6348553688!2d30.5191!3d50.4501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d4cf4e784a0a71%3A0x2e9f5e48ed87ca3a!2z0KXRgNC10YnQsNGC0LjQuiDQmtC40ZfQsg!5e0!3m2!1suk!2sua!4v1700000000000!5m2!1suk!2sua"
-              width="100%"
-              height="220"
-              style="border:0;border-radius:var(--radius)"
-              allowfullscreen=""
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              title="SKINZ на карті">
-            </iframe>
-          </div>
+          <a href="tel:+380501002030" class="ccontact-channel-btn">
+            <i class="bi bi-telephone"></i> Зателефонувати
+          </a>
         </div>
       </div>
 
-      <!-- CONTACT FORM -->
-      <div class="col-lg-7">
-        <div class="contact-form-card">
-          <h3 class="contact-form-title">Напишіть нам</h3>
-          <p class="contact-form-subtitle">Заповніть форму і ми відповімо протягом 2 годин у робочий час</p>
-          <form id="contactForm" novalidate>
-            <div class="row g-3">
-              <div class="col-sm-6">
-                <label class="form-label-custom" for="contactName">Ім'я *</label>
-                <input type="text" id="contactName" class="form-input-custom" placeholder="Ваше ім'я" required/>
-              </div>
-              <div class="col-sm-6">
-                <label class="form-label-custom" for="contactPhone">Телефон *</label>
-                <input type="tel" id="contactPhone" class="form-input-custom" placeholder="+380 00 000 00 00" required/>
-              </div>
-              <div class="col-sm-6">
-                <label class="form-label-custom" for="contactEmail">Email</label>
-                <input type="email" id="contactEmail" class="form-input-custom" placeholder="email@example.com"/>
-              </div>
-              <div class="col-sm-6">
-                <label class="form-label-custom" for="contactSubject">Тема</label>
-                <select id="contactSubject" class="form-input-custom">
-                  <option value="">Оберіть тему</option>
-                  <option>Питання щодо замовлення</option>
-                  <option>Доставка та оплата</option>
-                  <option>Повернення та обмін</option>
-                  <option>Підбір розміру</option>
-                  <option>Оптові замовлення</option>
-                  <option>Інше</option>
-                </select>
-              </div>
-              <div class="col-12">
-                <label class="form-label-custom" for="contactOrder">Номер замовлення (за наявності)</label>
-                <input type="text" id="contactOrder" class="form-input-custom" placeholder="SKZ-XXXXX"/>
-              </div>
-              <div class="col-12">
-                <label class="form-label-custom" for="contactMessage">Повідомлення *</label>
-                <textarea id="contactMessage" class="form-input-custom" rows="5" placeholder="Опишіть ваше запитання або побажання..." required></textarea>
-              </div>
-              <div class="col-12">
-                <button type="submit" class="btn-accent w-100" style="padding:0.9rem;border-radius:6px;font-size:1rem;">
-                  <i class="bi bi-send"></i> Надіслати повідомлення
-                </button>
-              </div>
-              <div class="col-12">
-                <p class="form-privacy-note">
-                  <i class="bi bi-shield-check"></i>
-                  Натискаючи кнопку, ви погоджуєтесь з <a href="#">Політикою конфіденційності</a>. Ваші дані захищені.
-                </p>
-              </div>
-              <div id="formSuccess" class="col-12 form-success-msg" style="display:none">
-                <i class="bi bi-check-circle-fill"></i> Ваше повідомлення надіслано! Ми відповімо найближчим часом.
-              </div>
-            </div>
-          </form>
+      <!-- EMAIL -->
+      <div class="col-md-6 col-lg-3">
+        <div class="ccontact-channel-card">
+          <div class="ccontact-channel-icon">
+            <i class="bi bi-envelope-fill"></i>
+          </div>
+          <div class="ccontact-channel-label">Електронна пошта</div>
+          <div class="ccontact-channel-values">
+            <a href="mailto:hello@skinz.com.ua">hello@skinz.com.ua</a>
+          </div>
+          <a href="mailto:hello@skinz.com.ua" class="ccontact-channel-btn">
+            <i class="bi bi-envelope"></i> Написати листа
+          </a>
         </div>
       </div>
+
+      <!-- TELEGRAM -->
+      <div class="col-md-6 col-lg-3">
+        <div class="ccontact-channel-card">
+          <div class="ccontact-channel-icon">
+            <i class="bi bi-telegram"></i>
+          </div>
+          <div class="ccontact-channel-label">Telegram</div>
+          <div class="ccontact-channel-values">
+            <a href="#">@skinz_ua</a>
+          </div>
+          <a href="#" class="ccontact-channel-btn">
+            <i class="bi bi-telegram"></i> Написати у Telegram
+          </a>
+        </div>
+      </div>
+
+      <!-- INSTAGRAM -->
+      <div class="col-md-6 col-lg-3">
+        <div class="ccontact-channel-card">
+          <div class="ccontact-channel-icon">
+            <i class="bi bi-instagram"></i>
+          </div>
+          <div class="ccontact-channel-label">Instagram</div>
+          <div class="ccontact-channel-values">
+            <a href="#">@skinz.com.ua</a>
+          </div>
+          <a href="#" class="ccontact-channel-btn">
+            <i class="bi bi-instagram"></i> Перейти в Instagram
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ADDRESS + HOURS + MAP -->
+<section class="section" style="padding-top:0">
+  <div class="container-xl">
+    <div class="row g-4 align-items-stretch">
+
+      <!-- LEFT: ADDRESS + HOURS -->
+      <div class="col-lg-4 d-flex flex-column gap-4">
+
+        <div class="ccontact-info-block">
+          <div class="ccontact-info-block__header">
+            <span class="ccontact-info-block__icon"><i class="bi bi-geo-alt-fill"></i></span>
+            <span class="ccontact-info-block__title">Шоурум</span>
+          </div>
+          <div class="ccontact-info-block__body">
+            <p>м. Київ, вул. Хрещатик, 1<br/>2-й поверх, зала 12</p>
+            <a href="https://maps.google.com" target="_blank" class="ccontact-info-link">
+              <i class="bi bi-map"></i> Прокласти маршрут
+            </a>
+          </div>
+        </div>
+
+        <div class="ccontact-info-block">
+          <div class="ccontact-info-block__header">
+            <span class="ccontact-info-block__icon"><i class="bi bi-clock-fill"></i></span>
+            <span class="ccontact-info-block__title">Графік роботи</span>
+          </div>
+          <div class="ccontact-info-block__body">
+            <div class="ccontact-hours">
+              <div class="ccontact-hours__row">
+                <span class="ccontact-hours__days">Пн – Пт</span>
+                <span class="ccontact-hours__time">9:00 – 19:00</span>
+              </div>
+              <div class="ccontact-hours__row">
+                <span class="ccontact-hours__days">Субота</span>
+                <span class="ccontact-hours__time">10:00 – 17:00</span>
+              </div>
+              <div class="ccontact-hours__row">
+                <span class="ccontact-hours__days">Неділя</span>
+                <span class="ccontact-hours__time ccontact-hours__closed">Вихідний</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SOCIAL -->
+        <div class="ccontact-info-block">
+          <div class="ccontact-info-block__header">
+            <span class="ccontact-info-block__icon"><i class="bi bi-share-fill"></i></span>
+            <span class="ccontact-info-block__title">Ми в соцмережах</span>
+          </div>
+          <div class="ccontact-info-block__body">
+            <div class="d-flex flex-wrap gap-2 mt-1">
+              <a href="#" class="ccontact-social-pill"><i class="bi bi-instagram"></i> Instagram</a>
+              <a href="#" class="ccontact-social-pill"><i class="bi bi-tiktok"></i> TikTok</a>
+              <a href="#" class="ccontact-social-pill"><i class="bi bi-telegram"></i> Telegram</a>
+              <a href="#" class="ccontact-social-pill"><i class="bi bi-facebook"></i> Facebook</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: MAP -->
+      <div class="col-lg-8">
+        <div class="ccontact-map-wrap">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2540.6348553688!2d30.5191!3d50.4501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d4cf4e784a0a71%3A0x2e9f5e48ed87ca3a!2z0KXRgNC10YnQsNGC0LjQuiDQmtC40ZfQsg!5e0!3m2!1suk!2sua!4v1700000000000!5m2!1suk!2sua"
+            width="100%"
+            height="100%"
+            style="border:0"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="SKINZ на карті">
+          </iframe>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -313,7 +326,7 @@
           <li><a href="#">Повернення</a></li>
           <li><a href="#">Таблиця розмірів</a></li>
           <li><a href="contacts.html">Контакти</a></li>
-          <li><a href="auth.html" onclick="event.preventDefault();window.location.href=location.origin+location.pathname.split('/').slice(0,location.pathname.split('/').indexOf('pages')+1).join('/')+'/auth.html'">Вхід</a></li>
+          <li><a href="auth.html">Вхід</a></li>
         </ul>
       </div>
       <div class="col-lg-3">
