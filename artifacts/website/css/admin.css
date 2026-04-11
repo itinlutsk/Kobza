@@ -288,8 +288,43 @@ body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color
 @media(max-width:500px){ .banner-grid { grid-template-columns: repeat(2,1fr); } }
 .banner-card { border-radius: 10px; overflow: hidden; background: var(--bg); box-shadow: var(--sh); transition: box-shadow .15s, transform .15s; }
 .banner-card:hover { box-shadow: var(--sh-md); transform: translateY(-2px); }
-.banner-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
-.banner-card__name { padding: .4375rem .625rem; font-size: .6875rem; color: var(--muted); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ─── BANNER PAGE ────────────────────────── */
+.banner-img-wrap { position: relative; overflow: hidden; aspect-ratio: 16/9; background: var(--bg); }
+.banner-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s; }
+.banner-card:hover .banner-img-wrap img { transform: scale(1.04); }
+.banner-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,.52);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity .2s;
+}
+.banner-card:hover .banner-overlay { opacity: 1; }
+.banner-change-btn {
+  display: inline-flex; align-items: center; gap: .4rem;
+  background: white; color: #0D0D0D;
+  padding: .45rem .95rem; border-radius: 8px;
+  font-size: .8125rem; font-weight: 600; cursor: pointer;
+  transition: background .15s; user-select: none;
+}
+.banner-change-btn:hover { background: #e8e8e8; }
+.banner-change-btn input[type="file"] { display: none; }
+.banner-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .375rem .625rem; gap: .5rem;
+}
+.banner-footer-name { font-size: .6875rem; color: var(--muted); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
+.banner-reset-btn {
+  display: none; align-items: center; justify-content: center;
+  background: none; border: none; cursor: pointer;
+  color: var(--muted); font-size: .875rem; padding: .15rem .35rem;
+  border-radius: 4px; transition: color .15s, background .15s; flex-shrink: 0;
+}
+.banner-reset-btn:hover { color: var(--danger); background: rgba(220,38,38,.08); }
+.banner-changed-badge {
+  display: none; align-items: center; gap: .25rem;
+  font-size: .65rem; font-weight: 700; color: #3E6AE1; background: #EEF4FF;
+  padding: .1rem .45rem; border-radius: 100px; flex-shrink: 0;
+}
 
 /* ─── COUNT PILL ─────────────────────────── */
 .count-pill {
