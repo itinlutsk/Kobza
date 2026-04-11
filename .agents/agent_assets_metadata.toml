@@ -102,3 +102,63 @@ id = "X0WsaeJkPwN__QJOgclhS"
 uri = "file://artifacts/website/images/categories/skirt.png"
 type = "image"
 title = "skirt category"
+
+[[generated]]
+id = "DZebaUgE1k4WeuYMKLeUv"
+uri = "file://artifacts/website/images/categories/jeans.png"
+type = "image"
+title = "jeans category"
+
+[[generated]]
+id = "PMdcElquDfBOybwLIAfAF"
+uri = "file://artifacts/website/images/categories/trousers.png"
+type = "image"
+title = "trousers category"
+
+[[generated]]
+id = "oSXCNYz_lXEN-01TFM77T"
+uri = "file://artifacts/website/images/categories/blouse.png"
+type = "image"
+title = "blouse category"
+
+[[generated]]
+id = "XAHNaIeAE58pq23XOcI6B"
+uri = "file://artifacts/website/images/categories/shirt.png"
+type = "image"
+title = "shirt category"
+
+[[generated]]
+id = "id_v5EDwhZWbL_gGSOn2R"
+uri = "file://artifacts/website/images/categories/sweater.png"
+type = "image"
+title = "sweater category"
+
+[[generated]]
+id = "YJlJDM57Pfe_pGNmL_lex"
+uri = "file://artifacts/website/images/categories/cardigan.png"
+type = "image"
+title = "cardigan category"
+
+[[generated]]
+id = "_BL-_PtuJKb69xEmj2BCJ"
+uri = "file://artifacts/website/images/categories/jacket.png"
+type = "image"
+title = "jacket category"
+
+[[generated]]
+id = "599DcLu-0G_Q-TnoARt4x"
+uri = "file://artifacts/website/images/categories/coat.png"
+type = "image"
+title = "coat category"
+
+[[generated]]
+id = "BaAb8jTFfrRP9ZbqP8ars"
+uri = "file://artifacts/website/images/categories/swimwear.png"
+type = "image"
+title = "swimwear category"
+
+[[generated]]
+id = "VAmxsLcVejV9XuEWLpNwZ"
+uri = "file://artifacts/website/images/categories/activewear.png"
+type = "image"
+title = "activewear category"
