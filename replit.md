@@ -33,6 +33,28 @@ See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and pa
 - Stack: Vite + Vanilla JS + Bootstrap + CSS
 - Multi-page clothing e-commerce website in Ukrainian
 
+#### 🔒 LOCKED — Do NOT change without explicit user permission:
+- **Hero slider** on index.html (3 Unsplash images: photo-1539109136881, photo-1469334031218, photo-1581044777550)
+- **Navbar / Header** on index.html and all pages/*.html
+- **catalog.html** — full page structure and content
+- **index.html categories section** — now uses local AI images from images/categories/
+
+#### Pages inventory:
+- index.html — Home (hero slider, stats, benefits, categories, bestsellers, CTA)
+- pages/categories.html — 18 categories with AI-generated photos
+- pages/catalog.html — Product catalog with filters ⛔ LOCKED
+- pages/product.html — Single product page
+- pages/cart.html — Shopping cart
+- pages/wishlist.html — Wishlist
+- pages/auth.html — Login / Registration
+- pages/checkout.html — Order checkout (3-step: Contacts → Delivery → Payment)
+- pages/contacts.html — Contacts
+
+#### Images:
+- Hero: Unsplash CDN (LOCKED)
+- Category cards: local AI-generated PNGs at images/categories/ (18 categories)
+- Product cards: Pexels CDN
+
 ### Волинська аудіо-компанія (artifacts/audio)
 - Preview path: /audio/
 - Stack: React + Vite + Tailwind CSS + TypeScript + Wouter + Framer Motion
