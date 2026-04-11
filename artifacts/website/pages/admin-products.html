@@ -8,6 +8,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../css/admin.css"/>
+  <style>
+    .price-col { white-space:nowrap; }
+    .price-main { font-size:.875rem; font-weight:700; color:var(--accent); }
+    .price-sale { font-size:.75rem; color:var(--muted); text-decoration:line-through; display:block; margin-top:.05rem; }
+    .per-page-select { font-family:inherit; font-size:.8125rem; color:var(--text); border:1px solid var(--border); border-radius:7px; padding:.25rem .5rem; background:var(--card); cursor:pointer; outline:none; }
+    @media(max-width:768px){
+      .col-cat, .col-colors { display:none; }
+    }
+  </style>
 </head>
 <body>
 
@@ -70,6 +79,7 @@
 
   <div class="admin-content">
 
+    <!-- Stats -->
     <div class="admin-stats">
       <div class="admin-stat-card">
         <div class="admin-stat-card__top">
@@ -101,24 +111,54 @@
       </div>
     </div>
 
+    <!-- Table card -->
     <div class="admin-section-card">
-      <div class="admin-section-card__header">
-        <div class="admin-section-card__title">Всі товари</div>
-        <div class="admin-search">
-          <i class="bi bi-search"></i>
-          <input type="text" id="prodSearch" placeholder="Пошук товару…" oninput="renderGrid()"/>
-        </div>
-      </div>
-      <div class="filter-chips" id="filterChips"></div>
-      <div style="padding:1.25rem">
-        <div class="cat-grid" id="prodGrid" style="grid-template-columns:repeat(auto-fill,minmax(190px,1fr))"></div>
-        <div id="prodEmptyState" class="empty-state" style="display:none">
-          <i class="bi bi-bag"></i>
-          <p>Товарів не знайдено</p>
-        </div>
-      </div>
-    </div>
 
+      <!-- Header: search + filters -->
+      <div class="admin-section-card__header" style="flex-wrap:wrap;gap:.75rem">
+        <div class="admin-section-card__title">Всі товари</div>
+        <div style="display:flex;align-items:center;gap:.625rem;flex-wrap:wrap;margin-left:auto">
+          <div class="admin-search">
+            <i class="bi bi-search"></i>
+            <input type="text" id="prodSearch" placeholder="Пошук…" oninput="goPage(1)"/>
+          </div>
+          <select class="per-page-select" id="perPageSel" onchange="goPage(1)">
+            <option value="10">10 / сторінка</option>
+            <option value="20" selected>20 / сторінка</option>
+            <option value="50">50 / сторінка</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Category chips -->
+      <div class="filter-chips" id="filterChips"></div>
+
+      <!-- Table (horizontal scroll on mobile) -->
+      <div style="overflow-x:auto">
+        <table class="prod-table">
+          <thead>
+            <tr>
+              <th style="width:52px"></th>
+              <th>Товар</th>
+              <th>Ціна</th>
+              <th class="col-colors">Кольори</th>
+              <th class="col-cat">Категорія</th>
+              <th style="width:80px;text-align:center">Активний</th>
+              <th style="width:72px;text-align:center">Дії</th>
+            </tr>
+          </thead>
+          <tbody id="prodTbody">
+          </tbody>
+        </table>
+        <div id="prodEmpty" class="empty-state" style="display:none">
+          <i class="bi bi-bag"></i><p>Товарів не знайдено</p>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div id="paginationRow" class="pagination" style="display:none"></div>
+
+    </div>
   </div>
 </div>
 
@@ -134,8 +174,8 @@
     </div>
     <div class="admin-modal-divider"></div>
     <div class="admin-modal-body">
-      <p style="color:var(--muted);font-size:.9rem">
-        Ви впевнені, що хочете видалити товар <strong id="deleteName" style="color:var(--text)"></strong>?
+      <p style="color:var(--muted);font-size:.875rem">
+        Видалити <strong id="deleteName" style="color:var(--text)"></strong>?
       </p>
     </div>
     <div class="admin-modal-footer">
@@ -152,161 +192,189 @@
 <script>
 const LS_PRODUCTS   = 'skinz_admin_products';
 const LS_CATEGORIES = 'skinz_admin_categories';
+const PAGE_SIZE_DEFAULT = 20;
 
 const DEFAULT_PRODUCTS = [
-  {
-    id:1, name:'Боді класичне', price:1200, oldPrice:1500,
-    description:'Класичне боді з еластичного трикотажу. Ідеально для повсякденного образу.',
-    categoryId:1, active:true,
-    photo:'https://images.pexels.com/photos/5935748/pexels-photo-5935748.jpeg?auto=compress&cs=tinysrgb&w=400',
-    colors:[
-      {id:'c1a',name:'Чорний',hex:'#1A1A1A',sizes:[{size:'XS',stock:3},{size:'S',stock:5},{size:'M',stock:7},{size:'L',stock:4},{size:'XL',stock:2},{size:'XXL',stock:1}]},
-      {id:'c1b',name:'Бежевий',hex:'#C8B49A',sizes:[{size:'XS',stock:2},{size:'S',stock:4},{size:'M',stock:5},{size:'L',stock:3},{size:'XL',stock:1},{size:'XXL',stock:0}]},
-    ]
-  },
-  {
-    id:2, name:'Сукня вечірня', price:2800, oldPrice:null,
-    description:'Елегантна вечірня сукня для особливих подій.',
-    categoryId:2, active:true,
-    photo:'https://images.pexels.com/photos/1187719/pexels-photo-1187719.jpeg?auto=compress&cs=tinysrgb&w=400',
-    colors:[
-      {id:'c2a',name:'Бордовий',hex:'#8B1A2A',sizes:[{size:'XS',stock:1},{size:'S',stock:3},{size:'M',stock:4},{size:'L',stock:2},{size:'XL',stock:1},{size:'XXL',stock:0}]},
-      {id:'c2b',name:'Чорний',hex:'#1A1A1A',sizes:[{size:'XS',stock:2},{size:'S',stock:3},{size:'M',stock:5},{size:'L',stock:2},{size:'XL',stock:0},{size:'XXL',stock:0}]},
-    ]
-  },
-  {
-    id:3, name:'Топ базовий', price:650, oldPrice:null,
-    description:'Базовий топ на кожен день.',
-    categoryId:4, active:true,
-    photo:'https://images.pexels.com/photos/2249528/pexels-photo-2249528.jpeg?auto=compress&cs=tinysrgb&w=400',
-    colors:[
-      {id:'c3a',name:'Білий',hex:'#F0EDE8',sizes:[{size:'XS',stock:5},{size:'S',stock:8},{size:'M',stock:10},{size:'L',stock:6},{size:'XL',stock:3},{size:'XXL',stock:2}]},
-      {id:'c3b',name:'Чорний',hex:'#1A1A1A',sizes:[{size:'XS',stock:4},{size:'S',stock:6},{size:'M',stock:8},{size:'L',stock:5},{size:'XL',stock:2},{size:'XXL',stock:1}]},
-      {id:'c3c',name:'Рожевий',hex:'#E8B4C0',sizes:[{size:'XS',stock:3},{size:'S',stock:5},{size:'M',stock:6},{size:'L',stock:4},{size:'XL',stock:2},{size:'XXL',stock:0}]},
-    ]
-  },
-  {
-    id:4, name:'Комбінезон літній', price:1800, oldPrice:2200,
-    description:'Легкий літній комбінезон з натуральних тканин.',
-    categoryId:5, active:true,
-    photo:'https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinysrgb&w=400',
-    colors:[
-      {id:'c4a',name:'Оливковий',hex:'#6B7645',sizes:[{size:'XS',stock:2},{size:'S',stock:4},{size:'M',stock:5},{size:'L',stock:3},{size:'XL',stock:1},{size:'XXL',stock:0}]},
-    ]
-  },
-  {
-    id:5, name:'Спідниця міді', price:950, oldPrice:null,
-    description:'Класична спідниця міді-довжини.',
-    categoryId:8, active:false,
-    photo:'https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinysrgb&w=400',
-    colors:[
-      {id:'c5a',name:'Чорний',hex:'#1A1A1A',sizes:[{size:'XS',stock:0},{size:'S',stock:2},{size:'M',stock:3},{size:'L',stock:1},{size:'XL',stock:0},{size:'XXL',stock:0}]},
-      {id:'c5b',name:'Темно-зелений',hex:'#2D4A3E',sizes:[{size:'XS',stock:1},{size:'S',stock:3},{size:'M',stock:4},{size:'L',stock:2},{size:'XL',stock:1},{size:'XXL',stock:0}]},
-    ]
-  },
+  {id:1,name:'Боді класичне',price:1200,oldPrice:1500,description:'Класичне боді з еластичного трикотажу. Ідеально для повсякденного образу.',categoryId:1,active:true,
+   photo:'https://images.pexels.com/photos/5935748/pexels-photo-5935748.jpeg?auto=compress&cs=tinysrgb&w=400',
+   colors:[{id:'c1a',name:'Чорний',hex:'#1A1A1A',sizes:[{size:'XS',stock:3},{size:'S',stock:5},{size:'M',stock:7},{size:'L',stock:4},{size:'XL',stock:2},{size:'XXL',stock:1}]},{id:'c1b',name:'Бежевий',hex:'#C8B49A',sizes:[{size:'XS',stock:2},{size:'S',stock:4},{size:'M',stock:5},{size:'L',stock:3},{size:'XL',stock:1},{size:'XXL',stock:0}]}]},
+  {id:2,name:'Сукня вечірня',price:2800,oldPrice:null,description:'Елегантна вечірня сукня для особливих подій.',categoryId:2,active:true,
+   photo:'https://images.pexels.com/photos/1187719/pexels-photo-1187719.jpeg?auto=compress&cs=tinysrgb&w=400',
+   colors:[{id:'c2a',name:'Бордовий',hex:'#8B1A2A',sizes:[{size:'XS',stock:1},{size:'S',stock:3},{size:'M',stock:4},{size:'L',stock:2},{size:'XL',stock:1},{size:'XXL',stock:0}]},{id:'c2b',name:'Чорний',hex:'#1A1A1A',sizes:[{size:'XS',stock:2},{size:'S',stock:3},{size:'M',stock:5},{size:'L',stock:2},{size:'XL',stock:0},{size:'XXL',stock:0}]}]},
+  {id:3,name:'Топ базовий',price:650,oldPrice:null,description:'Базовий топ на кожен день.',categoryId:4,active:true,
+   photo:'https://images.pexels.com/photos/2249528/pexels-photo-2249528.jpeg?auto=compress&cs=tinysrgb&w=400',
+   colors:[{id:'c3a',name:'Білий',hex:'#F0EDE8',sizes:[{size:'XS',stock:5},{size:'S',stock:8},{size:'M',stock:10},{size:'L',stock:6},{size:'XL',stock:3},{size:'XXL',stock:2}]},{id:'c3b',name:'Чорний',hex:'#1A1A1A',sizes:[{size:'XS',stock:4},{size:'S',stock:6},{size:'M',stock:8},{size:'L',stock:5},{size:'XL',stock:2},{size:'XXL',stock:1}]},{id:'c3c',name:'Рожевий',hex:'#E8B4C0',sizes:[{size:'XS',stock:3},{size:'S',stock:5},{size:'M',stock:6},{size:'L',stock:4},{size:'XL',stock:2},{size:'XXL',stock:0}]}]},
+  {id:4,name:'Комбінезон літній',price:1800,oldPrice:2200,description:'Легкий літній комбінезон з натуральних тканин.',categoryId:5,active:true,
+   photo:'https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinysrgb&w=400',
+   colors:[{id:'c4a',name:'Оливковий',hex:'#6B7645',sizes:[{size:'XS',stock:2},{size:'S',stock:4},{size:'M',stock:5},{size:'L',stock:3},{size:'XL',stock:1},{size:'XXL',stock:0}]}]},
+  {id:5,name:'Спідниця міді',price:950,oldPrice:null,description:'Класична спідниця міді-довжини.',categoryId:8,active:false,
+   photo:'https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinysrgb&w=400',
+   colors:[{id:'c5a',name:'Чорний',hex:'#1A1A1A',sizes:[{size:'XS',stock:0},{size:'S',stock:2},{size:'M',stock:3},{size:'L',stock:1},{size:'XL',stock:0},{size:'XXL',stock:0}]},{id:'c5b',name:'Темно-зелений',hex:'#2D4A3E',sizes:[{size:'XS',stock:1},{size:'S',stock:3},{size:'M',stock:4},{size:'L',stock:2},{size:'XL',stock:1},{size:'XXL',stock:0}]}]},
 ];
 
-let products   = [];
-let categories = [];
-let activeFilter = null;
+let products      = [];
+let categories    = [];
+let activeFilter  = null;
+let currentPage   = 1;
 let deleteTargetId = null;
 
-function loadData() {
-  const storedP = localStorage.getItem(LS_PRODUCTS);
-  products = storedP ? JSON.parse(storedP) : DEFAULT_PRODUCTS;
-  if (!storedP) localStorage.setItem(LS_PRODUCTS, JSON.stringify(products));
+function pageSize() { return parseInt(document.getElementById('perPageSel')?.value) || PAGE_SIZE_DEFAULT; }
 
-  const storedC = localStorage.getItem(LS_CATEGORIES);
-  categories = storedC ? JSON.parse(storedC) : [];
+/* ─── Load ─── */
+function loadData() {
+  const sp = localStorage.getItem(LS_PRODUCTS);
+  products = sp ? JSON.parse(sp) : DEFAULT_PRODUCTS;
+  if (!sp) localStorage.setItem(LS_PRODUCTS, JSON.stringify(products));
+
+  const sc = localStorage.getItem(LS_CATEGORIES);
+  categories = sc ? JSON.parse(sc) : [];
 }
 
+function save() { localStorage.setItem(LS_PRODUCTS, JSON.stringify(products)); }
+
 function getCatName(id) {
-  const c = categories.find(c => c.id === id);
+  const c = categories.find(c => c.id == id);
   return c ? c.name : '—';
 }
 
-function escHtml(str) {
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-function fmtPrice(p) {
-  return p ? p.toLocaleString('uk-UA') + '\u00a0₴' : '';
-}
+function fmtPrice(p) { return p ? p.toLocaleString('uk-UA') + '\u00a0₴' : ''; }
 
 /* ─── Filters ─── */
 function buildFilterChips() {
-  const usedCatIds = [...new Set(products.map(p => p.categoryId))];
-  const chips = [{ id: null, name: 'Всі' }, ...categories.filter(c => usedCatIds.includes(c.id))];
+  const usedIds = [...new Set(products.map(p => p.categoryId))];
+  const chips   = [{ id: null, name: 'Всі' }, ...categories.filter(c => usedIds.includes(c.id))];
   document.getElementById('filterChips').innerHTML = chips.map(c => `
-    <button class="filter-chip${c.id === activeFilter ? ' active' : ''}" onclick="setFilter(${c.id === null ? 'null' : c.id})">
+    <button class="filter-chip${c.id === activeFilter ? ' active' : ''}"
+      onclick="setFilter(${c.id === null ? 'null' : c.id})">
       ${escHtml(c.name)}
-    </button>
-  `).join('');
+    </button>`).join('');
 }
 
-function setFilter(catId) {
-  activeFilter = catId;
-  buildFilterChips();
-  renderGrid();
+function setFilter(catId) { activeFilter = catId; currentPage = 1; buildFilterChips(); renderTable(); }
+
+/* ─── Filtered list ─── */
+function getFiltered() {
+  const q = (document.getElementById('prodSearch')?.value || '').toLowerCase();
+  return products.filter(p =>
+    p.name.toLowerCase().includes(q) &&
+    (activeFilter === null || p.categoryId == activeFilter)
+  );
 }
 
-/* ─── Render grid ─── */
-function renderGrid() {
-  const query = (document.getElementById('prodSearch')?.value || '').toLowerCase();
-  const filtered = products.filter(p => {
-    const matchQ = p.name.toLowerCase().includes(query);
-    const matchC = activeFilter === null || p.categoryId === activeFilter;
-    return matchQ && matchC;
-  });
+/* ─── Table ─── */
+function renderTable() {
+  const filtered = getFiltered();
+  const ps       = pageSize();
+  const pages    = Math.max(1, Math.ceil(filtered.length / ps));
+  if (currentPage > pages) currentPage = pages;
+  const slice    = filtered.slice((currentPage - 1) * ps, currentPage * ps);
 
-  const grid  = document.getElementById('prodGrid');
-  const empty = document.getElementById('prodEmptyState');
+  const tbody  = document.getElementById('prodTbody');
+  const empty  = document.getElementById('prodEmpty');
+  const pagRow = document.getElementById('paginationRow');
 
-  if (filtered.length === 0) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+  if (filtered.length === 0) {
+    tbody.innerHTML = '';
+    empty.style.display  = 'block';
+    pagRow.style.display = 'none';
+    return;
+  }
   empty.style.display = 'none';
 
-  grid.innerHTML = filtered.map(prod => {
-    const colorDots = (prod.colors || []).map(c =>
+  tbody.innerHTML = slice.map(p => {
+    const thumb = p.photo
+      ? `<img class="prod-thumb" src="${escHtml(p.photo)}" alt="" onerror="this.replaceWith(makePhPh())">`
+      : `<div class="prod-thumb-ph"><i class="bi bi-image"></i></div>`;
+
+    const pricePart = p.oldPrice
+      ? `<span class="price-main">${fmtPrice(p.price)}</span><span class="price-sale">${fmtPrice(p.oldPrice)}</span>`
+      : `<span class="price-main">${fmtPrice(p.price)}</span>`;
+
+    const dots = (p.colors||[]).map(c =>
       `<span class="color-dot" style="background:${escHtml(c.hex)}" title="${escHtml(c.name)}"></span>`
     ).join('');
 
-    const priceHtml = prod.oldPrice
-      ? `<span class="prod-price">${fmtPrice(prod.price)}</span> <span class="prod-old-price">${fmtPrice(prod.oldPrice)}</span>`
-      : `<span class="prod-price">${fmtPrice(prod.price)}</span>`;
-
     return `
-    <div class="cat-card">
-      <div class="cat-card-img">
-        ${prod.photo
-          ? `<img src="${escHtml(prod.photo)}" alt="${escHtml(prod.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
-          : ''}
-        <div class="cat-card-img-placeholder" ${prod.photo ? 'style="display:none"' : ''}>
-          <i class="bi bi-image"></i>
-        </div>
-        <div class="cat-card-status">
-          <span class="${prod.active ? 'badge-active' : 'badge-hidden'}" style="font-size:.6rem;padding:.15rem .45rem">
-            ${prod.active ? 'Активний' : 'Прихований'}
-          </span>
-        </div>
-        <div class="cat-card-actions">
-          <a href="admin-product.html?id=${prod.id}" class="cat-card-btn" title="Редагувати">
+    <tr id="row-${p.id}">
+      <td>${thumb}</td>
+      <td>
+        <a href="admin-product.html?id=${p.id}" class="prod-list-name">${escHtml(p.name)}</a>
+        <div style="font-size:.7rem;color:var(--muted);margin-top:.1rem"># ${p.id}</div>
+      </td>
+      <td class="price-col">${pricePart}</td>
+      <td class="col-colors">
+        <div class="prod-colors-row">${dots}</div>
+      </td>
+      <td class="col-cat" style="font-size:.8125rem;color:var(--muted)">${escHtml(getCatName(p.categoryId))}</td>
+      <td style="text-align:center">
+        <label class="toggle-switch" title="${p.active ? 'Активний' : 'Прихований'}">
+          <input type="checkbox" ${p.active ? 'checked' : ''} onchange="toggleStatus(${p.id}, this.checked)"/>
+          <span class="toggle-slider"></span>
+        </label>
+      </td>
+      <td>
+        <div style="display:flex;gap:.3rem;justify-content:center">
+          <a href="admin-product.html?id=${p.id}" class="tbl-icon-btn" title="Редагувати">
             <i class="bi bi-pencil"></i>
           </a>
-          <button class="cat-card-btn danger" onclick="openDeleteModal(${prod.id})" title="Видалити">
+          <button class="tbl-icon-btn danger" onclick="openDeleteModal(${p.id})" title="Видалити">
             <i class="bi bi-trash3"></i>
           </button>
         </div>
-      </div>
-      <div class="cat-card-body">
-        <a href="admin-product.html?id=${prod.id}" class="cat-card-name">${escHtml(prod.name)}</a>
-        <div style="display:flex;align-items:center;gap:.3rem;flex-wrap:wrap">${priceHtml}</div>
-        ${(prod.colors||[]).length ? `<div class="prod-colors-row">${colorDots}</div>` : ''}
-        <div class="cat-card-meta">
-          <span class="cat-card-id">${escHtml(getCatName(prod.categoryId))}</span>
-        </div>
-      </div>
-    </div>
-    `;
+      </td>
+    </tr>`;
   }).join('');
+
+  renderPagination(pages, filtered.length);
+}
+
+function makePhPh() {
+  const d = document.createElement('div');
+  d.className = 'prod-thumb-ph';
+  d.innerHTML = '<i class="bi bi-image"></i>';
+  return d;
+}
+
+/* ─── Pagination ─── */
+function renderPagination(pages, total) {
+  const ps  = pageSize();
+  const row = document.getElementById('paginationRow');
+  if (pages <= 1) { row.style.display = 'none'; return; }
+  row.style.display = 'flex';
+
+  const from = (currentPage - 1) * ps + 1;
+  const to   = Math.min(currentPage * ps, total);
+  let html = `<span class="page-info">${from}–${to} з ${total}</span>`;
+
+  html += `<button class="page-btn" onclick="goPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+    <i class="bi bi-chevron-left" style="font-size:.7rem"></i></button>`;
+
+  const maxBtns = 7;
+  let start = Math.max(1, currentPage - Math.floor(maxBtns / 2));
+  let end   = Math.min(pages, start + maxBtns - 1);
+  if (end - start < maxBtns - 1) start = Math.max(1, end - maxBtns + 1);
+
+  if (start > 1) html += `<button class="page-btn" onclick="goPage(1)">1</button>${start > 2 ? '<span class="page-info">…</span>' : ''}`;
+  for (let i = start; i <= end; i++) {
+    html += `<button class="page-btn${i === currentPage ? ' active' : ''}" onclick="goPage(${i})">${i}</button>`;
+  }
+  if (end < pages) html += `${end < pages - 1 ? '<span class="page-info">…</span>' : ''}<button class="page-btn" onclick="goPage(${pages})">${pages}</button>`;
+
+  html += `<button class="page-btn" onclick="goPage(${currentPage + 1})" ${currentPage === pages ? 'disabled' : ''}>
+    <i class="bi bi-chevron-right" style="font-size:.7rem"></i></button>`;
+
+  row.innerHTML = html;
+}
+
+function goPage(n) {
+  const ps = pageSize();
+  const pages = Math.max(1, Math.ceil(getFiltered().length / ps));
+  currentPage = Math.max(1, Math.min(n, pages));
+  renderTable();
+  document.querySelector('.admin-section-card')?.scrollIntoView({ behavior:'smooth', block:'start' });
 }
 
 /* ─── Stats ─── */
@@ -315,6 +383,16 @@ function updateStats() {
   document.getElementById('statActive').textContent = products.filter(p => p.active).length;
   document.getElementById('statHidden').textContent = products.filter(p => !p.active).length;
   document.getElementById('statColors').textContent = products.reduce((s,p) => s + (p.colors||[]).length, 0);
+}
+
+/* ─── Status toggle ─── */
+function toggleStatus(id, isActive) {
+  const p = products.find(p => p.id === id);
+  if (!p) return;
+  p.active = isActive;
+  save();
+  updateStats();
+  showToast(isActive ? 'Товар активовано' : 'Товар приховано');
 }
 
 /* ─── Delete ─── */
@@ -332,21 +410,19 @@ function closeDeleteModal() {
 function confirmDelete() {
   if (!deleteTargetId) return;
   products = products.filter(p => p.id !== deleteTargetId);
-  localStorage.setItem(LS_PRODUCTS, JSON.stringify(products));
+  save();
   closeDeleteModal();
   updateStats();
   buildFilterChips();
-  renderGrid();
+  renderTable();
   showToast('Товар видалено');
 }
 
 /* ─── Toast ─── */
 function showToast(msg, type = 'success') {
   const t = document.getElementById('toast');
-  const m = document.getElementById('toastMsg');
-  const i = t.querySelector('i');
-  if (m) m.textContent = msg;
-  if (i) i.className = type === 'error' ? 'bi bi-x-circle-fill' : 'bi bi-check-circle-fill';
+  document.getElementById('toastMsg').textContent = msg;
+  t.querySelector('i').className = type === 'error' ? 'bi bi-x-circle-fill' : 'bi bi-check-circle-fill';
   t.className = 'admin-toast ' + type + ' show';
   setTimeout(() => t.classList.remove('show'), 3000);
 }
@@ -360,7 +436,7 @@ function toggleSidebar() {
 loadData();
 updateStats();
 buildFilterChips();
-renderGrid();
+renderTable();
 </script>
 </body>
 </html>

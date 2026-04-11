@@ -321,6 +321,43 @@ textarea.form-control-admin { resize:vertical; min-height:90px; line-height:1.5;
 .form-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
 @media(max-width:640px){ .form-grid-2 { grid-template-columns:1fr; } }
 
+/* ─── PRODUCT LIST TABLE ─────────────────── */
+.prod-table { width:100%; border-collapse:collapse; }
+.prod-table th {
+  font-size:.7rem; font-weight:700; color:var(--muted); text-transform:uppercase;
+  letter-spacing:.05em; padding:.625rem 1rem; border-bottom:2px solid var(--border);
+  text-align:left; background:var(--bg); white-space:nowrap;
+}
+.prod-table td { padding:.75rem 1rem; border-bottom:1px solid var(--border); vertical-align:middle; }
+.prod-table tbody tr:hover { background:rgba(0,0,0,.018); }
+.prod-table tbody tr:last-child td { border-bottom:none; }
+.prod-thumb { width:40px; height:53px; object-fit:cover; border-radius:6px; display:block; flex-shrink:0; }
+.prod-thumb-ph { width:40px; height:53px; border-radius:6px; background:var(--bg); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:.8rem; }
+.prod-list-name { font-size:.875rem; font-weight:600; color:var(--text); text-decoration:none; line-height:1.2; }
+.prod-list-name:hover { color:var(--accent); }
+.tbl-icon-btn {
+  width:28px; height:28px; border:1px solid var(--border); background:var(--card);
+  border-radius:6px; cursor:pointer; display:inline-flex; align-items:center;
+  justify-content:center; font-size:.875rem; color:var(--muted);
+  text-decoration:none; transition:all .15s;
+}
+.tbl-icon-btn:hover { border-color:#bbb; color:var(--text); }
+.tbl-icon-btn.danger:hover { border-color:#DC2626; color:#DC2626; background:rgba(220,38,38,.06); }
+
+/* ─── PAGINATION ─────────────────────────── */
+.pagination { display:flex; align-items:center; justify-content:center; gap:.375rem; padding:1rem 1.25rem; border-top:1px solid var(--border); flex-wrap:wrap; }
+.page-btn {
+  min-width:32px; height:32px; padding:0 .5rem;
+  border:1px solid var(--border); background:var(--card); border-radius:7px;
+  cursor:pointer; display:inline-flex; align-items:center; justify-content:center;
+  font-size:.8125rem; font-weight:600; color:var(--muted); font-family:inherit;
+  transition:all .15s; user-select:none;
+}
+.page-btn:hover:not(:disabled) { border-color:#bbb; color:var(--text); }
+.page-btn.active { background:var(--text); color:#fff; border-color:var(--text); }
+.page-btn:disabled { opacity:.35; cursor:not-allowed; pointer-events:none; }
+.page-info { font-size:.8125rem; color:var(--muted); }
+
 /* ─── FILTER CHIPS ──────────────────────── */
 .filter-chips { display: flex; gap: .4rem; flex-wrap: wrap; padding: .75rem 1.25rem; border-bottom: 1px solid var(--border); }
 .filter-chip {
