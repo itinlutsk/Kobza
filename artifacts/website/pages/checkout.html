@@ -149,12 +149,6 @@
               <button class="checkout-delivery-tab" onclick="selectDelivery(this,'ukr')" data-delivery="ukr">
                 <i class="bi bi-envelope"></i> Укрпошта
               </button>
-              <button class="checkout-delivery-tab" onclick="selectDelivery(this,'courier')" data-delivery="courier">
-                <i class="bi bi-person-walking"></i> Кур'єр
-              </button>
-              <button class="checkout-delivery-tab" onclick="selectDelivery(this,'pickup')" data-delivery="pickup">
-                <i class="bi bi-shop"></i> Самовивіз
-              </button>
             </div>
 
             <!-- Nova Poshta / Ukrposhta -->
@@ -185,45 +179,6 @@
                   <label class="form-label-custom" for="addressUkr">Адреса відділення / поштомат <span class="text-accent">*</span></label>
                   <input type="text" id="addressUkr" class="filter-input w-100" placeholder="вул. Хрещатик, 1" required/>
                 </div>
-              </div>
-            </div>
-
-            <div id="deliveryCourier" class="checkout-delivery-form" style="display:none;">
-              <div class="row g-3">
-                <div class="col-sm-6">
-                  <label class="form-label-custom" for="cityCourier">Місто <span class="text-accent">*</span></label>
-                  <input type="text" id="cityCourier" class="filter-input w-100" placeholder="Київ" required/>
-                </div>
-                <div class="col-sm-6">
-                  <label class="form-label-custom" for="streetCourier">Вулиця <span class="text-accent">*</span></label>
-                  <input type="text" id="streetCourier" class="filter-input w-100" placeholder="вул. Хрещатик" required/>
-                </div>
-                <div class="col-4">
-                  <label class="form-label-custom" for="houseCourier">Будинок <span class="text-accent">*</span></label>
-                  <input type="text" id="houseCourier" class="filter-input w-100" placeholder="1" required/>
-                </div>
-                <div class="col-4">
-                  <label class="form-label-custom" for="flatCourier">Квартира</label>
-                  <input type="text" id="flatCourier" class="filter-input w-100" placeholder="42"/>
-                </div>
-                <div class="col-4">
-                  <label class="form-label-custom" for="floorCourier">Поверх</label>
-                  <input type="text" id="floorCourier" class="filter-input w-100" placeholder="5"/>
-                </div>
-                <div class="col-12">
-                  <div class="checkout-info-box">
-                    <i class="bi bi-clock"></i>
-                    Кур'єрська доставка — від 1–2 робочих днів у межах Києва. Вартість уточнюється менеджером.
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div id="deliveryPickup" class="checkout-delivery-form" style="display:none;">
-              <div class="checkout-info-box">
-                <i class="bi bi-geo-alt-fill text-accent"></i>
-                <span>Самовивіз з нашого шоу-руму: <strong>м. Київ, вул. Хрещатик, 1</strong><br/>
-                Пн–Пт: 10:00–20:00 &nbsp;|&nbsp; Сб–Нд: 11:00–18:00</span>
               </div>
             </div>
 
@@ -546,7 +501,7 @@
   }
 
   /* ---- DELIVERY TABS ---- */
-  const deliveryForms = { nova:'deliveryNova', ukr:'deliveryUkr', courier:'deliveryCourier', pickup:'deliveryPickup' };
+  const deliveryForms = { nova:'deliveryNova', ukr:'deliveryUkr' };
 
   function selectDelivery(btn, type) {
     document.querySelectorAll('.checkout-delivery-tab').forEach(b => b.classList.remove('active'));
@@ -555,16 +510,8 @@
     document.getElementById(deliveryForms[type]).style.display = 'block';
 
     const deliveryCost = document.getElementById('deliveryCost');
-    if (type === 'pickup') {
-      deliveryCost.textContent = 'Безкоштовно';
-      deliveryCost.className = 'text-success-custom';
-    } else if (type === 'courier') {
-      deliveryCost.textContent = 'Уточнюється';
-      deliveryCost.className = 'text-muted-custom';
-    } else {
-      deliveryCost.textContent = 'Безкоштовно від ₴1500';
-      deliveryCost.className = 'text-success-custom';
-    }
+    deliveryCost.textContent = 'Безкоштовно від ₴1500';
+    deliveryCost.className = 'text-success-custom';
   }
 
   /* ---- PAYMENT SELECTION ---- */
