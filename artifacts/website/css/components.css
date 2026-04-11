@@ -397,7 +397,7 @@
 .category-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-card);
-  border-color: rgba(255,184,0,0.3);
+  border-color: rgba(139,26,42,0.4);
 }
 .category-card-img {
   aspect-ratio: 3/4;
@@ -411,7 +411,7 @@
 
 .category-card-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+  background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.35) 55%, transparent 100%);
   transition: opacity var(--transition);
 }
 .category-card-body {
@@ -419,10 +419,17 @@
   padding: 1.25rem;
 }
 .category-card-name {
-  font-size: 1rem; font-weight: 700; color: var(--color-text);
+  font-size: 1rem; font-weight: 700;
+  color: #F5F5F5;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+}
+.category-card:hover .category-card-name {
+  color: #fff;
+  text-shadow: 0 0 14px rgba(139,26,42,0.55), 0 1px 6px rgba(0,0,0,0.7);
 }
 .category-card-count {
-  font-size: 0.75rem; color: rgba(255,255,255,0.6); margin-top: 0.2rem;
+  font-size: 0.75rem; color: rgba(255,255,255,0.65); margin-top: 0.2rem;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
 .category-arrow {
   position: absolute; bottom: 1.25rem; right: 1.25rem;
