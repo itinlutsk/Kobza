@@ -397,15 +397,6 @@
 
           </div>
 
-          <!-- Promo code -->
-          <div class="checkout-promo">
-            <div class="checkout-promo-row">
-              <input type="text" class="filter-input" id="promoCode" placeholder="Промокод" style="flex:1;"/>
-              <button class="btn-outline-custom" onclick="applyPromo()">Застосувати</button>
-            </div>
-            <div class="text-small text-muted-custom mt-1" id="promoHint">Маєте промокод? Введіть для отримання знижки</div>
-          </div>
-
           <!-- Totals -->
           <div class="checkout-totals">
             <div class="checkout-total-row">
@@ -597,21 +588,7 @@
     el.value = v;
   }
 
-  /* ---- PROMO CODE ---- */
-  function applyPromo() {
-    const code = document.getElementById('promoCode').value.trim().toUpperCase();
-    const hint = document.getElementById('promoHint');
-    if (code === 'SKINZ10') {
-      hint.textContent = '✓ Промокод застосовано — знижка 10%';
-      hint.style.color = 'var(--color-success)';
-    } else if (code === '') {
-      hint.textContent = 'Маєте промокод? Введіть для отримання знижки';
-      hint.style.color = '';
-    } else {
-      hint.textContent = '✗ Невірний промокод';
-      hint.style.color = 'var(--color-danger)';
-    }
-  }
+
 
   /* ---- PLACE ORDER ---- */
   function placeOrder() {
