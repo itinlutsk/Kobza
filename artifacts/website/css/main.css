@@ -300,8 +300,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 .btn-outline-accent:hover {
   background: var(--color-accent);
-  color: #111;
+  color: #fff;
 }
+.btn-outline-accent:active { color: #fff; }
 
 .btn-outline-light {
   background: transparent;
