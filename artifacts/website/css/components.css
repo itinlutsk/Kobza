@@ -346,6 +346,17 @@
 }
 
 .product-card-body { padding: 0.75rem 0.25rem 0.25rem; flex: 1; }
+.card-color-dots {
+  display: flex; align-items: center; gap: 0.3rem; margin-top: 0.45rem;
+}
+.card-color-dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 1.5px solid transparent;
+  outline: 1.5px solid rgba(0,0,0,0.10);
+  transition: transform 0.2s, outline-color 0.2s;
+  cursor: pointer; flex-shrink: 0;
+}
+.card-color-dot:hover { transform: scale(1.25); outline-color: var(--color-accent); }
 .product-card-category {
   font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--color-accent); margin-bottom: 0.2rem;
