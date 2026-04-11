@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Адмін — SKINZ</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    :root {
+      --accent: #8B1A2A;
+      --accent-hover: #6d1421;
+      --bg: #F4F5F7;
+      --sidebar-bg: #0D0D0D;
+      --sidebar-text: rgba(255,255,255,0.7);
+      --sidebar-active: #fff;
+      --card-bg: #fff;
+      --border: #E2E4E9;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --danger: #dc2626;
+      --success: #16a34a;
+      --radius: 10px;
+      --shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    body { margin:0; font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    /* LAYOUT */
+    .admin-layout { display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    .admin-sidebar {
+      width: 240px; flex-shrink: 0;
+      background: var(--sidebar-bg);
+      display: flex; flex-direction: column;
+      position: fixed; top: 0; left: 0; height: 100vh;
+      z-index: 100; transition: transform .25s;
+    }
+    .admin-sidebar-logo {
+      padding: 1.5rem 1.25rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .admin-sidebar-logo .brand { font-size: 1.25rem; font-weight: 800; color: #fff; letter-spacing: -0.03em; }
+    .admin-sidebar-logo .brand span { color: var(--accent); }
+    .admin-sidebar-logo .sub { font-size: 0.7rem; color: var(--sidebar-text); margin-top: 0.15rem; letter-spacing: 0.06em; text-transform: uppercase; }
+    .admin-nav { padding: 1rem 0; flex: 1; }
+    .admin-nav-label {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(255,255,255,0.3);
+      padding: 0.5rem 1.25rem 0.25rem;
+    }
+    .admin-nav-link {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.6rem 1.25rem; color: var(--sidebar-text);
+      text-decoration: none; font-size: 0.875rem; font-weight: 500;
+      border-left: 3px solid transparent;
+      transition: color .15s, background .15s;
+    }
+    .admin-nav-link:hover { color: #fff; background: rgba(255,255,255,0.05); }
+    .admin-nav-link.active { color: #fff; border-left-color: var(--accent); background: rgba(139,26,42,0.15); }
+    .admin-nav-link i { font-size: 1rem; opacity: .9; }
+    .admin-sidebar-footer {
+      padding: 1rem 1.25rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .admin-sidebar-footer a {
+      display: flex; align-items: center; gap: 0.5rem;
+      color: var(--sidebar-text); font-size: 0.8125rem; text-decoration: none;
+    }
+    .admin-sidebar-footer a:hover { color: #fff; }
+
+    /* MAIN */
+    .admin-main { margin-left: 240px; flex: 1; min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* TOP BAR */
+    .admin-topbar {
+      background: #fff; border-bottom: 1px solid var(--border);
+      padding: 0.875rem 1.75rem;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .admin-topbar-title { font-size: 1rem; font-weight: 700; }
+    .admin-topbar-actions { display: flex; align-items: center; gap: 0.75rem; }
+    .admin-btn-primary {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.5rem 1rem; background: var(--accent); color: #fff;
+      border: none; border-radius: 6px; font-size: 0.8125rem; font-weight: 600;
+      cursor: pointer; transition: background .15s;
+    }
+    .admin-btn-primary:hover { background: var(--accent-hover); }
+    .admin-btn-secondary {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.5rem 1rem; background: transparent; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 6px;
+      font-size: 0.8125rem; font-weight: 500; cursor: pointer; transition: all .15s;
+    }
+    .admin-btn-secondary:hover { border-color: #aaa; color: var(--text); }
+    .admin-btn-danger {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.375rem 0.75rem; background: transparent; color: var(--danger);
+      border: 1px solid transparent; border-radius: 6px;
+      font-size: 0.8125rem; font-weight: 500; cursor: pointer; transition: all .15s;
+    }
+    .admin-btn-danger:hover { background: #fef2f2; border-color: #fecaca; }
+
+    /* CONTENT */
+    .admin-content { padding: 1.75rem; flex: 1; }
+
+    /* STATS BAR */
+    .admin-stats { display: flex; gap: 1rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
+    .admin-stat-card {
+      flex: 1; min-width: 140px;
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.125rem 1.25rem;
+      box-shadow: var(--shadow);
+    }
+    .admin-stat-card__label { font-size: 0.75rem; font-weight: 600; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+    .admin-stat-card__value { font-size: 1.75rem; font-weight: 800; margin-top: 0.25rem; line-height: 1; }
+    .admin-stat-card__icon { font-size: 1.25rem; color: var(--accent); margin-bottom: 0.5rem; }
+
+    /* SECTION CARD */
+    .admin-section-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 1.5rem;
+    }
+    .admin-section-card__header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .admin-section-card__title { font-size: 0.9375rem; font-weight: 700; }
+    .admin-section-card__body { padding: 1.25rem; }
+
+    /* ADD FORM */
+    .admin-form-grid { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 0.75rem; align-items: end; }
+    @media(max-width:900px){ .admin-form-grid { grid-template-columns: 1fr 1fr; } }
+    @media(max-width:600px){ .admin-form-grid { grid-template-columns: 1fr; } }
+    .admin-form-group label {
+      display: block; font-size: 0.75rem; font-weight: 600;
+      color: var(--muted); margin-bottom: 0.375rem; letter-spacing: 0.03em;
+    }
+    .admin-form-group input, .admin-form-group select {
+      width: 100%; padding: 0.55rem 0.75rem;
+      border: 1px solid var(--border); border-radius: 6px;
+      font-size: 0.875rem; color: var(--text); outline: none;
+      transition: border-color .15s;
+    }
+    .admin-form-group input:focus, .admin-form-group select:focus { border-color: var(--accent); }
+    .admin-img-preview {
+      width: 52px; height: 52px; border-radius: 6px;
+      object-fit: cover; border: 1px solid var(--border);
+      display: none; margin-top: 0.5rem;
+    }
+
+    /* CATEGORIES TABLE */
+    .admin-table { width: 100%; border-collapse: collapse; }
+    .admin-table th {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; color: var(--muted);
+      padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+    .admin-table td {
+      padding: 0.75rem; border-bottom: 1px solid var(--border);
+      vertical-align: middle; font-size: 0.875rem;
+    }
+    .admin-table tr:last-child td { border-bottom: none; }
+    .admin-table tr:hover td { background: #fafafa; }
+    .cat-thumb {
+      width: 52px; height: 52px; border-radius: 6px;
+      object-fit: cover; border: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .cat-thumb-placeholder {
+      width: 52px; height: 52px; border-radius: 6px;
+      background: var(--bg); border: 1px dashed var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); font-size: 1.25rem;
+    }
+    .cat-name { font-weight: 600; }
+    .cat-slug { font-size: 0.75rem; color: var(--muted); margin-top: 0.1rem; }
+    .badge-active {
+      display: inline-block; padding: 0.2rem 0.6rem;
+      background: #dcfce7; color: #15803d; border-radius: 100px;
+      font-size: 0.7rem; font-weight: 700;
+    }
+    .badge-hidden {
+      display: inline-block; padding: 0.2rem 0.6rem;
+      background: #f3f4f6; color: var(--muted); border-radius: 100px;
+      font-size: 0.7rem; font-weight: 700;
+    }
+    .empty-state {
+      text-align: center; padding: 3rem 1rem; color: var(--muted);
+    }
+    .empty-state i { font-size: 3rem; display: block; margin-bottom: 0.75rem; opacity:.35; }
+
+    /* MODAL */
+    .admin-modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 200; opacity: 0; pointer-events: none; transition: opacity .2s;
+    }
+    .admin-modal-overlay.open { opacity: 1; pointer-events: all; }
+    .admin-modal {
+      background: #fff; border-radius: 12px; width: 460px; max-width: calc(100vw - 2rem);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      transform: scale(.95); transition: transform .2s;
+    }
+    .admin-modal-overlay.open .admin-modal { transform: scale(1); }
+    .admin-modal-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .admin-modal-header h5 { font-size: 1rem; font-weight: 700; margin: 0; }
+    .admin-modal-close {
+      background: none; border: none; font-size: 1.25rem; color: var(--muted);
+      cursor: pointer; padding: 0.25rem; line-height: 1;
+    }
+    .admin-modal-body { padding: 1.5rem; }
+    .admin-modal-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: flex-end; gap: 0.5rem;
+    }
+
+    /* TOAST */
+    .admin-toast {
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 300;
+      background: #1a1a2e; color: #fff; border-radius: 8px;
+      padding: 0.75rem 1.25rem; font-size: 0.875rem; font-weight: 500;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      transform: translateY(100px); opacity: 0; transition: all .3s;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .admin-toast.show { transform: translateY(0); opacity: 1; }
+    .admin-toast.success { background: #15803d; }
+    .admin-toast.error { background: var(--danger); }
+
+    /* TOGGLE */
+    .toggle-switch { position: relative; display: inline-block; width: 36px; height: 20px; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider {
+      position: absolute; inset: 0; background: #d1d5db; border-radius: 20px;
+      cursor: pointer; transition: .2s;
+    }
+    .toggle-slider::before {
+      content:''; position: absolute;
+      width: 14px; height: 14px; left: 3px; bottom: 3px;
+      background: #fff; border-radius: 50%; transition: .2s;
+    }
+    .toggle-switch input:checked + .toggle-slider { background: var(--success); }
+    .toggle-switch input:checked + .toggle-slider::before { transform: translateX(16px); }
+
+    /* HAMBURGER for mobile */
+    .admin-mobile-topbar {
+      display: none; background: var(--sidebar-bg);
+      padding: 0.75rem 1rem; align-items: center; justify-content: space-between;
+    }
+    .admin-mobile-topbar .brand { font-size: 1.1rem; font-weight: 800; color: #fff; }
+    .admin-mobile-topbar .brand span { color: var(--accent); }
+    .admin-hamburger { background:none; border:none; color:#fff; font-size:1.4rem; cursor:pointer; }
+    @media(max-width:767px){
+      .admin-sidebar { transform: translateX(-100%); }
+      .admin-sidebar.open { transform: translateX(0); }
+      .admin-main { margin-left: 0; }
+      .admin-mobile-topbar { display: flex; }
+    }
+    .admin-overlay-bg {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 99;
+    }
+    .admin-overlay-bg.show { display: block; }
+  </style>
+</head>
+<body>
+
+<!-- Mobile overlay for sidebar -->
+<div class="admin-overlay-bg" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside class="admin-sidebar" id="adminSidebar">
+  <div class="admin-sidebar-logo">
+    <div class="brand">SKINZ<span>.</span></div>
+    <div class="sub">Адміністрування</div>
+  </div>
+  <nav class="admin-nav">
+    <div class="admin-nav-label">Керування</div>
+    <a href="#" class="admin-nav-link active" onclick="showSection('categories', this)">
+      <i class="bi bi-grid-3x3-gap"></i> Категорії
+    </a>
+    <a href="#" class="admin-nav-link" onclick="showSection('products', this)">
+      <i class="bi bi-bag"></i> Товари
+    </a>
+    <a href="#" class="admin-nav-link" onclick="showSection('orders', this)">
+      <i class="bi bi-receipt"></i> Замовлення
+    </a>
+    <div class="admin-nav-label" style="margin-top:.75rem">Сайт</div>
+    <a href="#" class="admin-nav-link" onclick="showSection('banners', this)">
+      <i class="bi bi-image"></i> Банери
+    </a>
+    <a href="#" class="admin-nav-link" onclick="showSection('settings', this)">
+      <i class="bi bi-gear"></i> Налаштування
+    </a>
+  </nav>
+  <div class="admin-sidebar-footer">
+    <a href="../index.html" target="_blank">
+      <i class="bi bi-box-arrow-up-right"></i> Перейти на сайт
+    </a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="admin-main">
+
+  <!-- Mobile topbar -->
+  <div class="admin-mobile-topbar">
+    <span class="brand">SKINZ<span>.</span></span>
+    <button class="admin-hamburger" onclick="toggleSidebar()"><i class="bi bi-list"></i></button>
+  </div>
+
+  <!-- TOP BAR -->
+  <div class="admin-topbar">
+    <div class="admin-topbar-title" id="topbarTitle">Категорії</div>
+    <div class="admin-topbar-actions">
+      <button class="admin-btn-primary" onclick="openAddModal()">
+        <i class="bi bi-plus-lg"></i> Додати категорію
+      </button>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="admin-content">
+
+    <!-- STATS -->
+    <div class="admin-stats" id="catStats">
+      <div class="admin-stat-card">
+        <div class="admin-stat-card__icon"><i class="bi bi-grid-3x3-gap"></i></div>
+        <div class="admin-stat-card__label">Всього категорій</div>
+        <div class="admin-stat-card__value" id="statTotal">0</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-card__icon"><i class="bi bi-eye"></i></div>
+        <div class="admin-stat-card__label">Активних</div>
+        <div class="admin-stat-card__value" id="statActive">0</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-card__icon"><i class="bi bi-eye-slash"></i></div>
+        <div class="admin-stat-card__label">Прихованих</div>
+        <div class="admin-stat-card__value" id="statHidden">0</div>
+      </div>
+    </div>
+
+    <!-- CATEGORIES SECTION -->
+    <div id="sectionCategories">
+      <div class="admin-section-card">
+        <div class="admin-section-card__header">
+          <div class="admin-section-card__title">Список категорій</div>
+          <input type="search" id="catSearch" placeholder="Пошук..." style="padding:.4rem .75rem;border:1px solid var(--border);border-radius:6px;font-size:.8125rem;outline:none;width:200px;" oninput="renderTable()"/>
+        </div>
+        <div class="admin-section-card__body" style="padding:0;overflow-x:auto">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="width:70px">Фото</th>
+                <th>Назва</th>
+                <th>Слаг</th>
+                <th>Товарів</th>
+                <th>Статус</th>
+                <th style="width:120px">Дії</th>
+              </tr>
+            </thead>
+            <tbody id="catTableBody">
+            </tbody>
+          </table>
+          <div class="empty-state" id="catEmptyState" style="display:none">
+            <i class="bi bi-inbox"></i>
+            Категорій ще немає. Додайте першу!
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLACEHOLDER SECTIONS -->
+    <div id="sectionProducts" style="display:none">
+      <div class="admin-section-card">
+        <div class="admin-section-card__header"><div class="admin-section-card__title">Товари</div></div>
+        <div class="admin-section-card__body">
+          <div class="empty-state"><i class="bi bi-bag"></i>Розділ товарів у розробці</div>
+        </div>
+      </div>
+    </div>
+    <div id="sectionOrders" style="display:none">
+      <div class="admin-section-card">
+        <div class="admin-section-card__header"><div class="admin-section-card__title">Замовлення</div></div>
+        <div class="admin-section-card__body">
+          <div class="empty-state"><i class="bi bi-receipt"></i>Розділ замовлень у розробці</div>
+        </div>
+      </div>
+    </div>
+    <div id="sectionBanners" style="display:none">
+      <div class="admin-section-card">
+        <div class="admin-section-card__header"><div class="admin-section-card__title">Банери</div></div>
+        <div class="admin-section-card__body">
+          <div class="empty-state"><i class="bi bi-image"></i>Розділ банерів у розробці</div>
+        </div>
+      </div>
+    </div>
+    <div id="sectionSettings" style="display:none">
+      <div class="admin-section-card">
+        <div class="admin-section-card__header"><div class="admin-section-card__title">Налаштування</div></div>
+        <div class="admin-section-card__body">
+          <div class="empty-state"><i class="bi bi-gear"></i>Налаштування у розробці</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ADD / EDIT MODAL -->
+<div class="admin-modal-overlay" id="catModal">
+  <div class="admin-modal">
+    <div class="admin-modal-header">
+      <h5 id="modalTitle">Додати категорію</h5>
+      <button class="admin-modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="admin-modal-body">
+      <input type="hidden" id="editId"/>
+      <div style="display:grid;gap:.875rem">
+
+        <div class="admin-form-group">
+          <label>Назва категорії *</label>
+          <input type="text" id="fName" placeholder="Наприклад: Сукні"/>
+        </div>
+
+        <div class="admin-form-group">
+          <label>Слаг (URL) *</label>
+          <input type="text" id="fSlug" placeholder="sukni"/>
+        </div>
+
+        <div class="admin-form-group">
+          <label>URL фотографії</label>
+          <input type="url" id="fPhoto" placeholder="https://..." oninput="previewPhoto()"/>
+          <img id="photoPreview" class="admin-img-preview" alt="preview"/>
+        </div>
+
+        <div class="admin-form-group">
+          <label>Кількість товарів</label>
+          <input type="number" id="fCount" placeholder="0" min="0"/>
+        </div>
+
+        <div class="admin-form-group">
+          <label style="display:flex;align-items:center;gap:.6rem;cursor:pointer">
+            <label class="toggle-switch">
+              <input type="checkbox" id="fActive" checked/>
+              <span class="toggle-slider"></span>
+            </label>
+            Активна (відображається на сайті)
+          </label>
+        </div>
+
+      </div>
+    </div>
+    <div class="admin-modal-footer">
+      <button class="admin-btn-secondary" onclick="closeModal()">Скасувати</button>
+      <button class="admin-btn-primary" onclick="saveCategory()">
+        <i class="bi bi-check2"></i> Зберегти
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM MODAL -->
+<div class="admin-modal-overlay" id="deleteModal">
+  <div class="admin-modal">
+    <div class="admin-modal-header">
+      <h5>Видалити категорію?</h5>
+      <button class="admin-modal-close" onclick="closeDeleteModal()">&times;</button>
+    </div>
+    <div class="admin-modal-body">
+      <p style="margin:0;color:var(--muted)">
+        Ви впевнені, що хочете видалити категорію <strong id="deleteName"></strong>?
+        Цю дію не можна скасувати.
+      </p>
+    </div>
+    <div class="admin-modal-footer">
+      <button class="admin-btn-secondary" onclick="closeDeleteModal()">Скасувати</button>
+      <button class="admin-btn-primary" style="background:var(--danger)" onclick="confirmDelete()">
+        <i class="bi bi-trash3"></i> Видалити
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="admin-toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   DATA — localStorage key: skinz_admin_categories
+   ============================================================ */
+const STORAGE_KEY = 'skinz_admin_categories';
+
+const DEFAULT_CATEGORIES = [
+  { id: 1, name: 'Боді', slug: 'body', photo: 'https://images.pexels.com/photos/5935748/pexels-photo-5935748.jpeg?auto=compress&cs=tinysrgb&w=200', count: 12, active: true },
+  { id: 2, name: 'Сукні', slug: 'sukni', photo: 'https://images.pexels.com/photos/1187719/pexels-photo-1187719.jpeg?auto=compress&cs=tinysrgb&w=200', count: 18, active: true },
+  { id: 3, name: 'Нижня білизна', slug: 'bilyznа', photo: 'https://images.pexels.com/photos/4792086/pexels-photo-4792086.jpeg?auto=compress&cs=tinysrgb&w=200', count: 9, active: true },
+  { id: 4, name: 'Топи', slug: 'topy', photo: 'https://images.pexels.com/photos/2249528/pexels-photo-2249528.jpeg?auto=compress&cs=tinysrgb&w=200', count: 15, active: true },
+  { id: 5, name: 'Комбінезони', slug: 'kombinezony', photo: 'https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinysrgb&w=200', count: 7, active: true },
+  { id: 6, name: 'Шорти', slug: 'shorty', photo: 'https://images.pexels.com/photos/1485781/pexels-photo-1485781.jpeg?auto=compress&cs=tinysrgb&w=200', count: 6, active: true },
+  { id: 7, name: 'Піжами', slug: 'pyzhamы', photo: 'https://images.pexels.com/photos/3807332/pexels-photo-3807332.jpeg?auto=compress&cs=tinysrgb&w=200', count: 4, active: true },
+  { id: 8, name: 'Спідниці', slug: 'spidnytsi', photo: 'https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinysrgb&w=200', count: 8, active: true },
+  { id: 9, name: 'Джинси', slug: 'dzhinsy', photo: 'https://images.pexels.com/photos/1082529/pexels-photo-1082529.jpeg?auto=compress&cs=tinysrgb&w=200', count: 5, active: false },
+  { id: 10, name: 'Пальта', slug: 'palta', photo: 'https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=200', count: 6, active: true },
+];
+
+let categories = [];
+let deleteTargetId = null;
+
+function loadCategories() {
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (stored) {
+    categories = JSON.parse(stored);
+  } else {
+    categories = DEFAULT_CATEGORIES;
+    saveToStorage();
+  }
+}
+
+function saveToStorage() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(categories));
+}
+
+function nextId() {
+  return categories.length ? Math.max(...categories.map(c => c.id)) + 1 : 1;
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function renderTable() {
+  const query = (document.getElementById('catSearch')?.value || '').toLowerCase();
+  const filtered = categories.filter(c => c.name.toLowerCase().includes(query) || c.slug.toLowerCase().includes(query));
+
+  const tbody = document.getElementById('catTableBody');
+  const empty = document.getElementById('catEmptyState');
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+  } else {
+    empty.style.display = 'none';
+    tbody.innerHTML = filtered.map(cat => `
+      <tr>
+        <td>
+          ${cat.photo
+            ? `<img src="${escHtml(cat.photo)}" class="cat-thumb" alt="${escHtml(cat.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+            : ''
+          }
+          <div class="cat-thumb-placeholder" ${cat.photo ? 'style="display:none"' : ''}><i class="bi bi-image"></i></div>
+        </td>
+        <td>
+          <div class="cat-name">${escHtml(cat.name)}</div>
+        </td>
+        <td><code style="font-size:.8rem;color:var(--muted)">${escHtml(cat.slug)}</code></td>
+        <td>${cat.count ?? 0}</td>
+        <td>
+          <span class="${cat.active ? 'badge-active' : 'badge-hidden'}">${cat.active ? 'Активна' : 'Прихована'}</span>
+        </td>
+        <td>
+          <div style="display:flex;align-items:center;gap:.25rem">
+            <button class="admin-btn-secondary" style="padding:.3rem .6rem;font-size:.75rem" onclick="openEditModal(${cat.id})" title="Редагувати">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button class="admin-btn-danger" style="padding:.3rem .6rem" onclick="openDeleteModal(${cat.id})" title="Видалити">
+              <i class="bi bi-trash3"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  updateStats();
+}
+
+function updateStats() {
+  document.getElementById('statTotal').textContent = categories.length;
+  document.getElementById('statActive').textContent = categories.filter(c => c.active).length;
+  document.getElementById('statHidden').textContent = categories.filter(c => !c.active).length;
+}
+
+/* ============================================================
+   MODALS
+   ============================================================ */
+function openAddModal() {
+  document.getElementById('modalTitle').textContent = 'Додати категорію';
+  document.getElementById('editId').value = '';
+  document.getElementById('fName').value = '';
+  document.getElementById('fSlug').value = '';
+  document.getElementById('fPhoto').value = '';
+  document.getElementById('fCount').value = '';
+  document.getElementById('fActive').checked = true;
+  document.getElementById('photoPreview').style.display = 'none';
+  document.getElementById('catModal').classList.add('open');
+}
+
+function openEditModal(id) {
+  const cat = categories.find(c => c.id === id);
+  if (!cat) return;
+  document.getElementById('modalTitle').textContent = 'Редагувати категорію';
+  document.getElementById('editId').value = id;
+  document.getElementById('fName').value = cat.name;
+  document.getElementById('fSlug').value = cat.slug;
+  document.getElementById('fPhoto').value = cat.photo || '';
+  document.getElementById('fCount').value = cat.count ?? '';
+  document.getElementById('fActive').checked = cat.active;
+  const prev = document.getElementById('photoPreview');
+  if (cat.photo) { prev.src = cat.photo; prev.style.display = 'block'; } else { prev.style.display = 'none'; }
+  document.getElementById('catModal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('catModal').classList.remove('open');
+}
+
+function previewPhoto() {
+  const url = document.getElementById('fPhoto').value.trim();
+  const prev = document.getElementById('photoPreview');
+  if (url) { prev.src = url; prev.style.display = 'block'; } else { prev.style.display = 'none'; }
+}
+
+function saveCategory() {
+  const name = document.getElementById('fName').value.trim();
+  const slug = document.getElementById('fSlug').value.trim();
+  const photo = document.getElementById('fPhoto').value.trim();
+  const count = parseInt(document.getElementById('fCount').value) || 0;
+  const active = document.getElementById('fActive').checked;
+
+  if (!name) { showToast('Введіть назву категорії', 'error'); return; }
+  if (!slug) { showToast('Введіть слаг', 'error'); return; }
+
+  const editId = document.getElementById('editId').value;
+  if (editId) {
+    const idx = categories.findIndex(c => c.id === parseInt(editId));
+    if (idx !== -1) {
+      categories[idx] = { ...categories[idx], name, slug, photo, count, active };
+      showToast('Категорію оновлено ✓', 'success');
+    }
+  } else {
+    categories.push({ id: nextId(), name, slug, photo, count, active });
+    showToast('Категорію додано ✓', 'success');
+  }
+
+  saveToStorage();
+  closeModal();
+  renderTable();
+}
+
+/* ============================================================
+   DELETE
+   ============================================================ */
+function openDeleteModal(id) {
+  const cat = categories.find(c => c.id === id);
+  if (!cat) return;
+  deleteTargetId = id;
+  document.getElementById('deleteName').textContent = cat.name;
+  document.getElementById('deleteModal').classList.add('open');
+}
+
+function closeDeleteModal() {
+  deleteTargetId = null;
+  document.getElementById('deleteModal').classList.remove('open');
+}
+
+function confirmDelete() {
+  if (deleteTargetId === null) return;
+  categories = categories.filter(c => c.id !== deleteTargetId);
+  saveToStorage();
+  closeDeleteModal();
+  renderTable();
+  showToast('Категорію видалено', 'success');
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+const sectionMap = {
+  categories: { el: 'sectionCategories', title: 'Категорії' },
+  products:   { el: 'sectionProducts',   title: 'Товари' },
+  orders:     { el: 'sectionOrders',     title: 'Замовлення' },
+  banners:    { el: 'sectionBanners',    title: 'Банери' },
+  settings:   { el: 'sectionSettings',  title: 'Налаштування' },
+};
+
+function showSection(key, linkEl) {
+  Object.values(sectionMap).forEach(s => {
+    const el = document.getElementById(s.el);
+    if (el) el.style.display = 'none';
+  });
+  const section = sectionMap[key];
+  if (section) {
+    document.getElementById(section.el).style.display = 'block';
+    document.getElementById('topbarTitle').textContent = section.title;
+  }
+  document.querySelectorAll('.admin-nav-link').forEach(l => l.classList.remove('active'));
+  if (linkEl) linkEl.classList.add('active');
+
+  const addBtn = document.querySelector('.admin-topbar-actions button');
+  if (addBtn) addBtn.style.display = (key === 'categories') ? 'inline-flex' : 'none';
+
+  const catStats = document.getElementById('catStats');
+  if (catStats) catStats.style.display = (key === 'categories') ? 'flex' : 'none';
+
+  if (window.innerWidth < 768) closeSidebar();
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'admin-toast ' + type + ' show';
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+/* ============================================================
+   AUTO-SLUG
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('fName')?.addEventListener('input', function () {
+    if (!document.getElementById('editId').value) {
+      document.getElementById('fSlug').value = slugify(this.value);
+    }
+  });
+});
+
+function slugify(str) {
+  const map = { 'а':'a','б':'b','в':'v','г':'h','ґ':'g','д':'d','е':'e','є':'ye','ж':'zh','з':'z','и':'y','і':'i','ї':'yi','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'kh','ц':'ts','ч':'ch','ш':'sh','щ':'shch','ь':'','ю':'yu','я':'ya',' ':'-' };
+  return str.toLowerCase().split('').map(c => map[c] ?? c).join('').replace(/[^a-z0-9-]/g,'').replace(/-+/g,'-').replace(/^-|-$/g,'');
+}
+
+/* ============================================================
+   MOBILE SIDEBAR
+   ============================================================ */
+function toggleSidebar() {
+  document.getElementById('adminSidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('show');
+}
+function closeSidebar() {
+  document.getElementById('adminSidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('show');
+}
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+loadCategories();
+renderTable();
+</script>
+</body>
+</html>

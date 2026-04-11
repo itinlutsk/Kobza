@@ -22,6 +22,7 @@ export default defineConfig({
         product: path.resolve(import.meta.dirname, "pages/product.html"),
         categories: path.resolve(import.meta.dirname, "pages/categories.html"),
         contacts: path.resolve(import.meta.dirname, "pages/contacts.html"),
+        admin: path.resolve(import.meta.dirname, "pages/admin.html"),
       },
     },
   },
