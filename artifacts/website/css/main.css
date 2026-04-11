@@ -192,8 +192,8 @@ h1, h2, h3, h4, h5, h6 {
 .navbar-toggler:focus { box-shadow: none; }
 /* Hamburger ↔ X icon swap */
 .navbar-toggler .nav-close-icon { display: none; }
-.navbar-toggler:not(.collapsed) .nav-close-icon { display: inline; }
-.navbar-toggler:not(.collapsed) .nav-hamburger-icon { display: none; }
+.navbar-toggler[aria-expanded="true"] .nav-close-icon { display: inline; }
+.navbar-toggler[aria-expanded="true"] .nav-hamburger-icon { display: none; }
 
 .navbar-nav .nav-link {
   color: var(--color-text-muted);
