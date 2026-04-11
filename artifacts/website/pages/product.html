@@ -117,25 +117,25 @@
           <!-- Color selector -->
           <div class="product-option-group">
             <div class="product-option-label">
-              Колір: <strong id="selectedColor">Чорний</strong>
+              Колір: <strong id="selectedColor" style="color:var(--color-text-muted);">— оберіть колір</strong>
             </div>
             <div class="color-selector">
-              <button class="color-swatch active" style="background:#1a1a1a" title="Чорний" aria-label="Чорний"></button>
-              <button class="color-swatch" style="background:#f5f0eb" title="Бежевий" aria-label="Бежевий"></button>
-              <button class="color-swatch" style="background:#ffffff;border:1px solid #555" title="Білий" aria-label="Білий"></button>
-              <button class="color-swatch" style="background:#c2506a" title="Рожевий" aria-label="Рожевий"></button>
+              <button class="color-swatch" style="background:#1a1a1a" title="Чорний" aria-label="Чорний" data-color="Чорний"></button>
+              <button class="color-swatch" style="background:#f5f0eb" title="Бежевий" aria-label="Бежевий" data-color="Бежевий"></button>
+              <button class="color-swatch" style="background:#ffffff;border:1px solid #aaa" title="Білий" aria-label="Білий" data-color="Білий"></button>
+              <button class="color-swatch" style="background:#c2506a" title="Рожевий" aria-label="Рожевий" data-color="Рожевий"></button>
             </div>
           </div>
 
           <!-- Size selector -->
           <div class="product-option-group">
             <div class="product-option-label d-flex justify-content-between">
-              <span>Розмір: <strong id="selectedSize">S</strong></span>
+              <span>Розмір: <strong id="selectedSize" style="color:var(--color-text-muted);">— оберіть розмір</strong></span>
               <a href="#" class="product-size-guide"><i class="bi bi-rulers"></i> Таблиця розмірів</a>
             </div>
             <div class="size-selector">
               <button class="size-btn">XS</button>
-              <button class="size-btn active">S</button>
+              <button class="size-btn">S</button>
               <button class="size-btn">M</button>
               <button class="size-btn">L</button>
               <button class="size-btn out-of-stock" disabled>XL</button>
@@ -150,13 +150,18 @@
               <span class="qty-value">1</span>
               <button class="qty-btn qty-plus" aria-label="Збільшити">+</button>
             </div>
-            <button class="btn-add-cart btn-accent">
+            <button class="btn-add-cart btn-accent" id="addToCartBtn" disabled style="opacity:0.45;cursor:not-allowed;">
               <i class="bi bi-bag-plus"></i> Додати до кошика
             </button>
             <button class="btn-wishlist-lg" aria-label="В обране">
               <i class="bi bi-heart"></i>
             </button>
           </div>
+
+          <!-- Selection hint -->
+          <p id="selectionHint" style="font-size:0.8rem;color:var(--color-text-muted);margin:0.5rem 0 0;display:none;">
+            <i class="bi bi-exclamation-circle"></i> Будь ласка, оберіть колір та розмір
+          </p>
 
           <!-- Cart success feedback -->
           <div class="cart-feedback" id="cartFeedback">
@@ -321,7 +326,7 @@
               <img src="https://images.pexels.com/photos/2065195/pexels-photo-2065195.jpeg?auto=compress&cs=tinysrgb&w=400&h=500&fit=crop" alt="Боді Lace White"/>
               <button class="product-card-wishlist"><i class="bi bi-heart"></i></button>
               <div class="product-card-footer">
-                <button class="btn-card btn-add-cart" onclick="addToCart(this)"><i class="bi bi-bag-plus"></i> До кошика</button>
+                
                 <a href="product.html" class="btn-card btn-card-detail">Детальніше</a>
               </div>
             </div>
@@ -338,7 +343,7 @@
               <img src="https://images.pexels.com/photos/2065195/pexels-photo-2065195.jpeg?auto=compress&cs=tinysrgb&w=400&h=500&fit=crop" alt="Боді Mesh Black"/>
               <button class="product-card-wishlist"><i class="bi bi-heart"></i></button>
               <div class="product-card-footer">
-                <button class="btn-card btn-add-cart" onclick="addToCart(this)"><i class="bi bi-bag-plus"></i> До кошика</button>
+                
                 <a href="product.html" class="btn-card btn-card-detail">Детальніше</a>
               </div>
             </div>
@@ -355,7 +360,7 @@
               <img src="https://images.pexels.com/photos/2065195/pexels-photo-2065195.jpeg?auto=compress&cs=tinysrgb&w=400&h=500&fit=crop" alt="Боді Satin Beige"/>
               <button class="product-card-wishlist"><i class="bi bi-heart"></i></button>
               <div class="product-card-footer">
-                <button class="btn-card btn-add-cart" onclick="addToCart(this)"><i class="bi bi-bag-plus"></i> До кошика</button>
+                
                 <a href="product.html" class="btn-card btn-card-detail">Детальніше</a>
               </div>
             </div>
@@ -372,7 +377,7 @@
               <img src="https://images.pexels.com/photos/2065195/pexels-photo-2065195.jpeg?auto=compress&cs=tinysrgb&w=400&h=500&fit=crop" alt="Боді Deep V Beige"/>
               <button class="product-card-wishlist"><i class="bi bi-heart"></i></button>
               <div class="product-card-footer">
-                <button class="btn-card btn-add-cart" onclick="addToCart(this)"><i class="bi bi-bag-plus"></i> До кошика</button>
+                
                 <a href="product.html" class="btn-card btn-card-detail">Детальніше</a>
               </div>
             </div>
@@ -456,6 +461,65 @@
     navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
     thumbs: { swiper: thumbs },
   });
+
+  // Color + Size selection with cart enable logic
+  (function(){
+    let selectedColor = null;
+    let selectedSize  = null;
+
+    const colorLabel  = document.getElementById('selectedColor');
+    const sizeLabel   = document.getElementById('selectedSize');
+    const cartBtn     = document.getElementById('addToCartBtn');
+    const hint        = document.getElementById('selectionHint');
+    const feedback    = document.getElementById('cartFeedback');
+
+    function updateCartBtn(){
+      const ready = selectedColor && selectedSize;
+      cartBtn.disabled = !ready;
+      cartBtn.style.opacity  = ready ? '1'   : '0.45';
+      cartBtn.style.cursor   = ready ? 'pointer' : 'not-allowed';
+      if(ready) hint.style.display = 'none';
+    }
+
+    // Color swatches
+    document.querySelectorAll('.color-swatch').forEach(btn => {
+      btn.addEventListener('click', function(){
+        document.querySelectorAll('.color-swatch').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        selectedColor = this.dataset.color || this.getAttribute('title');
+        colorLabel.textContent = selectedColor;
+        colorLabel.style.color = '';
+        updateCartBtn();
+      });
+    });
+
+    // Size buttons
+    document.querySelectorAll('.size-btn:not(.out-of-stock)').forEach(btn => {
+      btn.addEventListener('click', function(){
+        document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        selectedSize = this.textContent.trim();
+        sizeLabel.textContent = selectedSize;
+        sizeLabel.style.color = '';
+        updateCartBtn();
+      });
+    });
+
+    // Add to cart
+    cartBtn.addEventListener('click', function(){
+      if(!selectedColor || !selectedSize){
+        hint.style.display = 'block';
+        return;
+      }
+      feedback.style.display = 'flex';
+      setTimeout(() => feedback.style.display = 'none', 3000);
+      // Update cart badge
+      const badge = document.querySelector('.cart-badge');
+      if(badge) badge.textContent = parseInt(badge.textContent||0) + 1;
+    });
+
+    updateCartBtn();
+  })();
 </script>
 </body>
 </html>
