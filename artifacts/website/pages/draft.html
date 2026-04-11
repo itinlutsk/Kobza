@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <script>!function(){var t=localStorage.getItem("skinz-theme");t&&document.documentElement.setAttribute("data-theme",t)}();</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Елементи — SKINZ</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="../css/main.css" rel="stylesheet"/>
+  <link href="../css/components.css" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg sticky-top" id="mainNav">
+  <div class="container-xl">
+    <a class="navbar-brand d-flex align-items-center gap-1" href="../index.html">
+      <span class="logo-text">SKINZ</span><span class="logo-accent">.</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="../index.html">Головна</a></li>
+        <li class="nav-item"><a class="nav-link" href="categories.html">Категорії</a></li>
+        <li class="nav-item"><a class="nav-link" href="catalog.html">Каталог</a></li>
+        <li class="nav-item"><a class="nav-link" href="contacts.html">Контакти</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+        <button id="themeToggle" class="nav-icon-btn theme-toggle-btn" title="Змінити тему" aria-label="Змінити тему"><i class="bi bi-sun"></i></button>
+        <a href="auth.html" class="nav-icon-btn" title="Вхід"><i class="bi bi-person"></i></a>
+        <a href="#" class="nav-icon-btn"><i class="bi bi-search"></i></a>
+        <a href="wishlist.html" class="nav-icon-btn"><i class="bi bi-heart"></i></a>
+        <a href="cart.html" class="nav-icon-btn position-relative">
+          <i class="bi bi-bag"></i><span class="cart-badge">0</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="page-header">
+  <div class="container-xl">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="../index.html">Головна</a></li>
+        <li class="breadcrumb-item active">Елементи (чернетка)</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<!-- =============================================
+     БЛОК 1: Статистика + контакти (hero-stats-bar)
+     ============================================= -->
+<div style="border:2px dashed var(--color-border);border-radius:var(--radius-sm);margin:2rem 0;">
+  <div class="container-xl py-2">
+    <p class="text-xs text-muted-custom mb-2" style="letter-spacing:0.08em;text-transform:uppercase;">Блок: Статистика + контакти</p>
+  </div>
+  <div class="hero-stats-bar" style="position:static;background:var(--color-surface);">
+    <div class="container-xl">
+      <div class="hero-stats-row">
+        <div class="hero-stats">
+          <div class="stat-item"><div class="stat-number">200+</div><div class="stat-label">Моделей</div></div>
+          <div class="stat-item"><div class="stat-number">15к+</div><div class="stat-label">Клієнток</div></div>
+          <div class="stat-item"><div class="stat-number">XS–XL</div><div class="stat-label">Розміри</div></div>
+        </div>
+        <div class="hero-contacts-card">
+          <div class="hero-contacts-card__item">
+            <i class="bi bi-telephone"></i>
+            <a href="tel:+380501002030">+380 50 100 20 30</a>
+          </div>
+          <div class="hero-contacts-card__divider"></div>
+          <div class="hero-contacts-card__item">
+            <i class="bi bi-envelope"></i>
+            <a href="mailto:hello@skinz.com.ua">hello@skinz.com.ua</a>
+          </div>
+          <div class="hero-contacts-card__divider"></div>
+          <div class="hero-contacts-card__item">
+            <i class="bi bi-clock"></i>
+            <span>Пн–Сб 10:00–20:00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =============================================
+     БЛОК 2: Benefits bar
+     ============================================= -->
+<div style="border:2px dashed var(--color-border);border-radius:var(--radius-sm);margin:2rem 0;">
+  <div class="container-xl py-2">
+    <p class="text-xs text-muted-custom mb-2" style="letter-spacing:0.08em;text-transform:uppercase;">Блок: Переваги (benefits bar)</p>
+  </div>
+  <div class="benefits-bar">
+    <div class="container-xl">
+      <div class="row g-4">
+        <div class="col-sm-6 col-lg-3">
+          <div class="benefit-item">
+            <div class="benefit-icon"><i class="bi bi-truck"></i></div>
+            <div>
+              <div class="benefit-title">Безкоштовна доставка</div>
+              <div class="benefit-desc">При замовленні від ₴1 500</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="benefit-item">
+            <div class="benefit-icon"><i class="bi bi-arrow-repeat"></i></div>
+            <div>
+              <div class="benefit-title">Легке повернення</div>
+              <div class="benefit-desc">14 днів без запитань</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="benefit-item">
+            <div class="benefit-icon"><i class="bi bi-patch-check"></i></div>
+            <div>
+              <div class="benefit-title">Якісні матеріали</div>
+              <div class="benefit-desc">Тільки сертифіковані тканини</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="benefit-item">
+            <div class="benefit-icon"><i class="bi bi-heart"></i></div>
+            <div>
+              <div class="benefit-title">Обрано для тебе</div>
+              <div class="benefit-desc">Персональні рекомендації</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container-xl">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="footer-logo"><span class="logo-text">SKINZ</span><span class="logo-accent">.</span></div>
+        <p class="footer-tagline">Сучасний жіночий одяг від українського бренду.</p>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-link"><i class="bi bi-tiktok"></i></a>
+          <a href="#" class="social-link"><i class="bi bi-telegram"></i></a>
+          <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-2 offset-lg-1">
+        <h6 class="footer-heading">Каталог</h6>
+        <ul class="footer-links">
+          <li><a href="catalog.html">Боді</a></li>
+          <li><a href="catalog.html">Сукні</a></li>
+          <li><a href="catalog.html">Нижня білизна</a></li>
+          <li><a href="catalog.html">Топи</a></li>
+          <li><a href="catalog.html">Комбінезони</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <h6 class="footer-heading">Інформація</h6>
+        <ul class="footer-links">
+          <li><a href="#">Про бренд</a></li>
+          <li><a href="#">Доставка та оплата</a></li>
+          <li><a href="#">Повернення</a></li>
+          <li><a href="#">Таблиця розмірів</a></li>
+          <li><a href="contacts.html">Контакти</a></li>
+          <li><a href="auth.html" onclick="event.preventDefault();window.location.href=location.origin+location.pathname.split('/').slice(0,location.pathname.split('/').indexOf('pages')+1).join('/')+'/auth.html'">Вхід</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3">
+        <h6 class="footer-heading">Контакти</h6>
+        <div class="footer-contact-item"><i class="bi bi-geo-alt"></i><span>м. Київ, вул. Хрещатик, 1</span></div>
+        <div class="footer-contact-item"><i class="bi bi-telephone"></i><span>+380 50 100 20 30</span></div>
+        <div class="footer-contact-item"><i class="bi bi-envelope"></i><span>hello@skinz.com.ua</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 SKINZ. Всі права захищені.</span>
+      <div class="d-flex gap-3">
+        <a href="#">Публічна оферта</a>
+        <a href="#">Конфіденційність</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button id="backToTop" aria-label="Вгору"><i class="bi bi-arrow-up"></i></button>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/main.js"></script>
+</body>
+</html>
