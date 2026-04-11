@@ -61,25 +61,306 @@
       <div class="topbar-page-icon"><i class="bi bi-bag"></i></div>
       <div class="admin-topbar-title">Товари</div>
     </div>
+    <div class="admin-topbar-actions">
+      <a href="admin-product.html" class="admin-btn-primary" style="text-decoration:none">
+        <i class="bi bi-plus-lg"></i> Додати товар
+      </a>
+    </div>
   </div>
 
   <div class="admin-content">
+
+    <div class="admin-stats">
+      <div class="admin-stat-card">
+        <div class="admin-stat-card__top">
+          <div class="admin-stat-card__label">Всього товарів</div>
+          <div class="admin-stat-card__icon"><i class="bi bi-bag"></i></div>
+        </div>
+        <div class="admin-stat-card__value" id="statTotal">0</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-card__top">
+          <div class="admin-stat-card__label">Активних</div>
+          <div class="admin-stat-card__icon"><i class="bi bi-eye"></i></div>
+        </div>
+        <div class="admin-stat-card__value" id="statActive">0</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-card__top">
+          <div class="admin-stat-card__label">Прихованих</div>
+          <div class="admin-stat-card__icon"><i class="bi bi-eye-slash"></i></div>
+        </div>
+        <div class="admin-stat-card__value" id="statHidden">0</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-card__top">
+          <div class="admin-stat-card__label">Кольорів всього</div>
+          <div class="admin-stat-card__icon"><i class="bi bi-palette"></i></div>
+        </div>
+        <div class="admin-stat-card__value" id="statColors">0</div>
+      </div>
+    </div>
+
     <div class="admin-section-card">
-      <div class="admin-section-card__body">
-        <div class="empty-state">
-          <i class="bi bi-bag"></i>
-          <p>Управління товарами у розробці</p>
+      <div class="admin-section-card__header">
+        <div class="admin-section-card__title">Всі товари</div>
+        <div class="admin-search">
+          <i class="bi bi-search"></i>
+          <input type="text" id="prodSearch" placeholder="Пошук товару…" oninput="renderGrid()"/>
         </div>
       </div>
+      <div class="filter-chips" id="filterChips"></div>
+      <div style="padding:1.25rem">
+        <div class="cat-grid" id="prodGrid" style="grid-template-columns:repeat(auto-fill,minmax(190px,1fr))"></div>
+        <div id="prodEmptyState" class="empty-state" style="display:none">
+          <i class="bi bi-bag"></i>
+          <p>Товарів не знайдено</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DELETE MODAL -->
+<div class="admin-modal-overlay" id="deleteModal">
+  <div class="admin-modal">
+    <div class="admin-modal-header">
+      <div>
+        <h5>Видалити товар?</h5>
+        <p>Цю дію не можна скасувати.</p>
+      </div>
+      <button class="admin-modal-close" onclick="closeDeleteModal()"><i class="bi bi-x"></i></button>
+    </div>
+    <div class="admin-modal-divider"></div>
+    <div class="admin-modal-body">
+      <p style="color:var(--muted);font-size:.9rem">
+        Ви впевнені, що хочете видалити товар <strong id="deleteName" style="color:var(--text)"></strong>?
+      </p>
+    </div>
+    <div class="admin-modal-footer">
+      <button class="admin-btn-secondary" onclick="closeDeleteModal()">Скасувати</button>
+      <button class="admin-btn-primary" style="background:var(--danger)" onclick="confirmDelete()">
+        <i class="bi bi-trash3"></i> Видалити
+      </button>
     </div>
   </div>
 </div>
 
+<div class="admin-toast" id="toast"><i class="bi bi-check-circle-fill"></i><span id="toastMsg"></span></div>
+
 <script>
+const LS_PRODUCTS   = 'skinz_admin_products';
+const LS_CATEGORIES = 'skinz_admin_categories';
+
+const DEFAULT_PRODUCTS = [
+  {
+    id:1, name:'Боді класичне', price:1200, oldPrice:1500,
+    description:'Класичне боді з еластичного трикотажу. Ідеально для повсякденного образу.',
+    categoryId:1, active:true,
+    photo:'https://images.pexels.com/photos/5935748/pexels-photo-5935748.jpeg?auto=compress&cs=tinysrgb&w=400',
+    colors:[
+      {id:'c1a',name:'Чорний',hex:'#1A1A1A',sizes:[{size:'XS',stock:3},{size:'S',stock:5},{size:'M',stock:7},{size:'L',stock:4},{size:'XL',stock:2},{size:'XXL',stock:1}]},
+      {id:'c1b',name:'Бежевий',hex:'#C8B49A',sizes:[{size:'XS',stock:2},{size:'S',stock:4},{size:'M',stock:5},{size:'L',stock:3},{size:'XL',stock:1},{size:'XXL',stock:0}]},
+    ]
+  },
+  {
+    id:2, name:'Сукня вечірня', price:2800, oldPrice:null,
+    description:'Елегантна вечірня сукня для особливих подій.',
+    categoryId:2, active:true,
+    photo:'https://images.pexels.com/photos/1187719/pexels-photo-1187719.jpeg?auto=compress&cs=tinysrgb&w=400',
+    colors:[
+      {id:'c2a',name:'Бордовий',hex:'#8B1A2A',sizes:[{size:'XS',stock:1},{size:'S',stock:3},{size:'M',stock:4},{size:'L',stock:2},{size:'XL',stock:1},{size:'XXL',stock:0}]},
+      {id:'c2b',name:'Чорний',hex:'#1A1A1A',sizes:[{size:'XS',stock:2},{size:'S',stock:3},{size:'M',stock:5},{size:'L',stock:2},{size:'XL',stock:0},{size:'XXL',stock:0}]},
+    ]
+  },
+  {
+    id:3, name:'Топ базовий', price:650, oldPrice:null,
+    description:'Базовий топ на кожен день.',
+    categoryId:4, active:true,
+    photo:'https://images.pexels.com/photos/2249528/pexels-photo-2249528.jpeg?auto=compress&cs=tinysrgb&w=400',
+    colors:[
+      {id:'c3a',name:'Білий',hex:'#F0EDE8',sizes:[{size:'XS',stock:5},{size:'S',stock:8},{size:'M',stock:10},{size:'L',stock:6},{size:'XL',stock:3},{size:'XXL',stock:2}]},
+      {id:'c3b',name:'Чорний',hex:'#1A1A1A',sizes:[{size:'XS',stock:4},{size:'S',stock:6},{size:'M',stock:8},{size:'L',stock:5},{size:'XL',stock:2},{size:'XXL',stock:1}]},
+      {id:'c3c',name:'Рожевий',hex:'#E8B4C0',sizes:[{size:'XS',stock:3},{size:'S',stock:5},{size:'M',stock:6},{size:'L',stock:4},{size:'XL',stock:2},{size:'XXL',stock:0}]},
+    ]
+  },
+  {
+    id:4, name:'Комбінезон літній', price:1800, oldPrice:2200,
+    description:'Легкий літній комбінезон з натуральних тканин.',
+    categoryId:5, active:true,
+    photo:'https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinysrgb&w=400',
+    colors:[
+      {id:'c4a',name:'Оливковий',hex:'#6B7645',sizes:[{size:'XS',stock:2},{size:'S',stock:4},{size:'M',stock:5},{size:'L',stock:3},{size:'XL',stock:1},{size:'XXL',stock:0}]},
+    ]
+  },
+  {
+    id:5, name:'Спідниця міді', price:950, oldPrice:null,
+    description:'Класична спідниця міді-довжини.',
+    categoryId:8, active:false,
+    photo:'https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinysrgb&w=400',
+    colors:[
+      {id:'c5a',name:'Чорний',hex:'#1A1A1A',sizes:[{size:'XS',stock:0},{size:'S',stock:2},{size:'M',stock:3},{size:'L',stock:1},{size:'XL',stock:0},{size:'XXL',stock:0}]},
+      {id:'c5b',name:'Темно-зелений',hex:'#2D4A3E',sizes:[{size:'XS',stock:1},{size:'S',stock:3},{size:'M',stock:4},{size:'L',stock:2},{size:'XL',stock:1},{size:'XXL',stock:0}]},
+    ]
+  },
+];
+
+let products   = [];
+let categories = [];
+let activeFilter = null;
+let deleteTargetId = null;
+
+function loadData() {
+  const storedP = localStorage.getItem(LS_PRODUCTS);
+  products = storedP ? JSON.parse(storedP) : DEFAULT_PRODUCTS;
+  if (!storedP) localStorage.setItem(LS_PRODUCTS, JSON.stringify(products));
+
+  const storedC = localStorage.getItem(LS_CATEGORIES);
+  categories = storedC ? JSON.parse(storedC) : [];
+}
+
+function getCatName(id) {
+  const c = categories.find(c => c.id === id);
+  return c ? c.name : '—';
+}
+
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function fmtPrice(p) {
+  return p ? p.toLocaleString('uk-UA') + '\u00a0₴' : '';
+}
+
+/* ─── Filters ─── */
+function buildFilterChips() {
+  const usedCatIds = [...new Set(products.map(p => p.categoryId))];
+  const chips = [{ id: null, name: 'Всі' }, ...categories.filter(c => usedCatIds.includes(c.id))];
+  document.getElementById('filterChips').innerHTML = chips.map(c => `
+    <button class="filter-chip${c.id === activeFilter ? ' active' : ''}" onclick="setFilter(${c.id === null ? 'null' : c.id})">
+      ${escHtml(c.name)}
+    </button>
+  `).join('');
+}
+
+function setFilter(catId) {
+  activeFilter = catId;
+  buildFilterChips();
+  renderGrid();
+}
+
+/* ─── Render grid ─── */
+function renderGrid() {
+  const query = (document.getElementById('prodSearch')?.value || '').toLowerCase();
+  const filtered = products.filter(p => {
+    const matchQ = p.name.toLowerCase().includes(query);
+    const matchC = activeFilter === null || p.categoryId === activeFilter;
+    return matchQ && matchC;
+  });
+
+  const grid  = document.getElementById('prodGrid');
+  const empty = document.getElementById('prodEmptyState');
+
+  if (filtered.length === 0) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+
+  grid.innerHTML = filtered.map(prod => {
+    const colorDots = (prod.colors || []).map(c =>
+      `<span class="color-dot" style="background:${escHtml(c.hex)}" title="${escHtml(c.name)}"></span>`
+    ).join('');
+
+    const priceHtml = prod.oldPrice
+      ? `<span class="prod-price">${fmtPrice(prod.price)}</span> <span class="prod-old-price">${fmtPrice(prod.oldPrice)}</span>`
+      : `<span class="prod-price">${fmtPrice(prod.price)}</span>`;
+
+    return `
+    <div class="cat-card">
+      <div class="cat-card-img">
+        ${prod.photo
+          ? `<img src="${escHtml(prod.photo)}" alt="${escHtml(prod.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+          : ''}
+        <div class="cat-card-img-placeholder" ${prod.photo ? 'style="display:none"' : ''}>
+          <i class="bi bi-image"></i>
+        </div>
+        <div class="cat-card-status">
+          <span class="${prod.active ? 'badge-active' : 'badge-hidden'}" style="font-size:.6rem;padding:.15rem .45rem">
+            ${prod.active ? 'Активний' : 'Прихований'}
+          </span>
+        </div>
+        <div class="cat-card-actions">
+          <a href="admin-product.html?id=${prod.id}" class="cat-card-btn" title="Редагувати">
+            <i class="bi bi-pencil"></i>
+          </a>
+          <button class="cat-card-btn danger" onclick="openDeleteModal(${prod.id})" title="Видалити">
+            <i class="bi bi-trash3"></i>
+          </button>
+        </div>
+      </div>
+      <div class="cat-card-body">
+        <a href="admin-product.html?id=${prod.id}" class="cat-card-name">${escHtml(prod.name)}</a>
+        <div style="display:flex;align-items:center;gap:.3rem;flex-wrap:wrap">${priceHtml}</div>
+        ${(prod.colors||[]).length ? `<div class="prod-colors-row">${colorDots}</div>` : ''}
+        <div class="cat-card-meta">
+          <span class="cat-card-id">${escHtml(getCatName(prod.categoryId))}</span>
+        </div>
+      </div>
+    </div>
+    `;
+  }).join('');
+}
+
+/* ─── Stats ─── */
+function updateStats() {
+  document.getElementById('statTotal').textContent  = products.length;
+  document.getElementById('statActive').textContent = products.filter(p => p.active).length;
+  document.getElementById('statHidden').textContent = products.filter(p => !p.active).length;
+  document.getElementById('statColors').textContent = products.reduce((s,p) => s + (p.colors||[]).length, 0);
+}
+
+/* ─── Delete ─── */
+function openDeleteModal(id) {
+  const p = products.find(p => p.id === id);
+  if (!p) return;
+  deleteTargetId = id;
+  document.getElementById('deleteName').textContent = p.name;
+  document.getElementById('deleteModal').classList.add('open');
+}
+function closeDeleteModal() {
+  document.getElementById('deleteModal').classList.remove('open');
+  deleteTargetId = null;
+}
+function confirmDelete() {
+  if (!deleteTargetId) return;
+  products = products.filter(p => p.id !== deleteTargetId);
+  localStorage.setItem(LS_PRODUCTS, JSON.stringify(products));
+  closeDeleteModal();
+  updateStats();
+  buildFilterChips();
+  renderGrid();
+  showToast('Товар видалено');
+}
+
+/* ─── Toast ─── */
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  const m = document.getElementById('toastMsg');
+  const i = t.querySelector('i');
+  if (m) m.textContent = msg;
+  if (i) i.className = type === 'error' ? 'bi bi-x-circle-fill' : 'bi bi-check-circle-fill';
+  t.className = 'admin-toast ' + type + ' show';
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
 function toggleSidebar() {
   document.getElementById('adminSidebar').classList.toggle('open');
   document.getElementById('sidebarOverlay').classList.toggle('show');
 }
+
+/* ─── Init ─── */
+loadData();
+updateStats();
+buildFilterChips();
+renderGrid();
 </script>
 </body>
 </html>

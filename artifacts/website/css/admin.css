@@ -289,6 +289,58 @@ body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color
 .banner-card { border-radius: 10px; overflow: hidden; background: var(--bg); box-shadow: var(--sh); transition: box-shadow .15s, transform .15s; }
 .banner-card:hover { box-shadow: var(--sh-md); transform: translateY(-2px); }
 
+/* ─── PAGE HEADER ────────────────────────── */
+.page-header-row { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.75rem; flex-wrap:wrap; }
+.page-header-row h1 { font-size:1.375rem; font-weight:800; letter-spacing:-.03em; }
+.topbar-breadcrumb { display:flex; align-items:center; gap:.5rem; font-size:.875rem; }
+.topbar-breadcrumb a { color:var(--muted); text-decoration:none; transition:color .15s; }
+.topbar-breadcrumb a:hover { color:var(--text); }
+.topbar-breadcrumb .sep { color:var(--border); }
+.topbar-breadcrumb .current { font-weight:600; color:var(--text); }
+
+/* ─── ACARD ──────────────────────────────── */
+.acard { background:var(--card); border-radius:12px; box-shadow:var(--sh); overflow:hidden; margin-bottom:1.25rem; border:1px solid var(--border); }
+.acard-header { padding:1rem 1.375rem; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:.625rem; }
+.acard-header-icon { width:30px; height:30px; border-radius:7px; background:var(--accent-soft); color:var(--accent); display:flex; align-items:center; justify-content:center; font-size:.9rem; flex-shrink:0; }
+.acard-header-title { font-size:.9375rem; font-weight:700; letter-spacing:-.01em; flex:1; }
+.acard-body { padding:1.375rem; }
+
+/* ─── SHARED FORM CONTROLS ───────────────── */
+.form-group { display:flex; flex-direction:column; gap:.375rem; }
+.form-group label { font-size:.8125rem; font-weight:600; color:var(--text); }
+.form-group .hint { font-size:.75rem; color:var(--muted); margin-top:.125rem; }
+.form-control-admin {
+  width:100%; padding:.5625rem .875rem;
+  border:1px solid var(--border); border-radius:8px;
+  font-size:.875rem; color:var(--text); outline:none;
+  font-family:inherit; background:#fff;
+  transition:border-color .15s, box-shadow .15s;
+}
+.form-control-admin:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(139,26,42,.1); }
+textarea.form-control-admin { resize:vertical; min-height:90px; line-height:1.5; }
+.form-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+@media(max-width:640px){ .form-grid-2 { grid-template-columns:1fr; } }
+
+/* ─── FILTER CHIPS ──────────────────────── */
+.filter-chips { display: flex; gap: .4rem; flex-wrap: wrap; padding: .75rem 1.25rem; border-bottom: 1px solid var(--border); }
+.filter-chip {
+  display: inline-flex; padding: .3rem .75rem; border-radius: 100px;
+  border: 1px solid var(--border); background: var(--card); cursor: pointer;
+  font-size: .75rem; font-weight: 600; color: var(--muted); transition: all .15s;
+  white-space: nowrap; font-family: inherit;
+}
+.filter-chip:hover { border-color: #bbb; color: var(--text); }
+.filter-chip.active { background: var(--text); color: #fff; border-color: var(--text); }
+
+/* ─── PRODUCT CARDS ──────────────────────── */
+.prod-price { font-size: .875rem; font-weight: 700; color: var(--accent); }
+.prod-old-price { font-size: .75rem; color: var(--muted); text-decoration: line-through; }
+.color-dot {
+  width: 14px; height: 14px; border-radius: 50%; display: inline-block;
+  border: 1.5px solid rgba(0,0,0,.12); flex-shrink: 0;
+}
+.prod-colors-row { display: flex; align-items: center; gap: .3rem; flex-wrap: wrap; }
+
 /* ─── INFO BOX ───────────────────────────── */
 .admin-info-box {
   display: flex; align-items: flex-start; gap: .75rem;

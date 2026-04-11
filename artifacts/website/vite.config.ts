@@ -26,6 +26,7 @@ export default defineConfig({
         adminCategory: path.resolve(import.meta.dirname, "pages/admin-category.html"),
         adminCategories: path.resolve(import.meta.dirname, "pages/admin-categories.html"),
         adminProducts: path.resolve(import.meta.dirname, "pages/admin-products.html"),
+        adminProduct: path.resolve(import.meta.dirname, "pages/admin-product.html"),
         adminOrders: path.resolve(import.meta.dirname, "pages/admin-orders.html"),
         adminBanners: path.resolve(import.meta.dirname, "pages/admin-banners.html"),
         adminSettings: path.resolve(import.meta.dirname, "pages/admin-settings.html"),
