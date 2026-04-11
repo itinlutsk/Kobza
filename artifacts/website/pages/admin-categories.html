@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Категорії — SKINZ Адмін</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/admin.css"/>
+</head>
+<body>
+
+<div class="admin-overlay-bg" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<aside class="admin-sidebar" id="adminSidebar">
+  <div class="admin-sidebar-logo">
+    <div class="logo-mark">S</div>
+    <div class="logo-text">
+      <div class="brand">SKINZ</div>
+      <div class="sub">Адміністрування</div>
+    </div>
+  </div>
+  <nav class="admin-nav">
+    <a href="admin.html" class="admin-nav-link">
+      <span class="nav-icon-wrap"><i class="bi bi-house"></i></span> Головна
+    </a>
+    <div class="admin-nav-label">Керування</div>
+    <a href="admin-categories.html" class="admin-nav-link active">
+      <span class="nav-icon-wrap"><i class="bi bi-grid-3x3-gap"></i></span> Категорії
+    </a>
+    <a href="admin-products.html" class="admin-nav-link">
+      <span class="nav-icon-wrap"><i class="bi bi-bag"></i></span> Товари
+    </a>
+    <a href="admin-orders.html" class="admin-nav-link">
+      <span class="nav-icon-wrap"><i class="bi bi-receipt"></i></span> Замовлення
+    </a>
+    <div class="admin-nav-label">Сайт</div>
+    <a href="admin-banners.html" class="admin-nav-link">
+      <span class="nav-icon-wrap"><i class="bi bi-image"></i></span> Банери
+    </a>
+    <a href="admin-settings.html" class="admin-nav-link">
+      <span class="nav-icon-wrap"><i class="bi bi-gear"></i></span> Налаштування
+    </a>
+  </nav>
+  <div class="admin-sidebar-footer">
+    <a href="../index.html" target="_blank">
+      <i class="bi bi-arrow-up-right-square"></i> Перейти на сайт
+    </a>
+  </div>
+</aside>
+
+<div class="admin-main">
+  <div class="admin-mobile-topbar">
+    <span class="brand">SKINZ<span>.</span></span>
+    <button class="admin-hamburger" onclick="toggleSidebar()"><i class="bi bi-list"></i></button>
+  </div>
+
+  <div class="admin-topbar">
+    <div class="admin-topbar-left">
+      <div class="topbar-page-icon"><i class="bi bi-grid-3x3-gap"></i></div>
+      <div class="admin-topbar-title">Категорії</div>
+    </div>
+    <div class="admin-topbar-actions">
+      <button class="admin-btn-primary" onclick="openAddModal()">
+        <i class="bi bi-plus-lg"></i> Додати категорію
+      </button>
+    </div>
+  </div>
+
+  <div class="admin-content">
+
+    <!-- STATS -->
+    <div class="admin-stats">
+      <div class="admin-stat-card">
+        <div class="admin-stat-card__top">
+          <div class="admin-stat-card__label">Всього категорій</div>
+          <div class="admin-stat-card__icon"><i class="bi bi-grid-3x3-gap"></i></div>
+        </div>
+        <div class="admin-stat-card__value" id="statTotal">0</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-card__top">
+          <div class="admin-stat-card__label">Активних</div>
+          <div class="admin-stat-card__icon"><i class="bi bi-eye"></i></div>
+        </div>
+        <div class="admin-stat-card__value" id="statActive">0</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-card__top">
+          <div class="admin-stat-card__label">Прихованих</div>
+          <div class="admin-stat-card__icon"><i class="bi bi-eye-slash"></i></div>
+        </div>
+        <div class="admin-stat-card__value" id="statHidden">0</div>
+      </div>
+    </div>
+
+    <!-- TABLE CARD -->
+    <div class="admin-section-card">
+      <div class="admin-section-card__header">
+        <div class="admin-section-card__title">Всі категорії</div>
+        <div class="admin-search">
+          <i class="bi bi-search"></i>
+          <input type="text" id="catSearch" placeholder="Пошук категорії…" oninput="renderTable()"/>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th style="width:56px">Фото</th>
+              <th>Назва</th>
+              <th>Слаг</th>
+              <th>Товарів</th>
+              <th>Статус</th>
+              <th style="width:80px"></th>
+            </tr>
+          </thead>
+          <tbody id="catTableBody"></tbody>
+        </table>
+        <div id="catEmptyState" class="empty-state" style="display:none">
+          <i class="bi bi-grid-3x3-gap"></i>
+          <p>Категорій не знайдено</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ADD / EDIT MODAL -->
+<div class="admin-modal-overlay" id="catModal">
+  <div class="admin-modal">
+    <div class="admin-modal-header">
+      <div>
+        <h5 id="modalTitle">Додати категорію</h5>
+        <p id="modalSubtitle">Заповніть дані нової категорії</p>
+      </div>
+      <button class="admin-modal-close" onclick="closeModal()"><i class="bi bi-x"></i></button>
+    </div>
+    <div class="admin-modal-divider"></div>
+    <div class="admin-modal-body">
+      <input type="hidden" id="editId"/>
+      <div style="display:grid;gap:.875rem">
+        <div class="admin-form-group">
+          <label>Назва категорії *</label>
+          <input type="text" id="fName" placeholder="Наприклад: Сукні"/>
+        </div>
+        <div class="admin-form-group">
+          <label>Слаг (URL) *</label>
+          <input type="text" id="fSlug" placeholder="sukni"/>
+        </div>
+        <div class="admin-form-group">
+          <label>URL фотографії</label>
+          <input type="url" id="fPhoto" placeholder="https://..." oninput="previewPhoto()"/>
+          <img id="photoPreview" class="admin-img-preview" alt="preview"/>
+        </div>
+        <div class="admin-form-group">
+          <label>Кількість товарів</label>
+          <input type="number" id="fCount" placeholder="0" min="0"/>
+        </div>
+        <div class="admin-form-group">
+          <label style="display:flex;align-items:center;gap:.6rem;cursor:pointer">
+            <label class="toggle-switch">
+              <input type="checkbox" id="fActive" checked/>
+              <span class="toggle-slider"></span>
+            </label>
+            Активна (відображається на сайті)
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="admin-modal-footer">
+      <button class="admin-btn-secondary" onclick="closeModal()">Скасувати</button>
+      <button class="admin-btn-primary" onclick="saveCategory()">
+        <i class="bi bi-check2"></i> Зберегти
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM MODAL -->
+<div class="admin-modal-overlay" id="deleteModal">
+  <div class="admin-modal">
+    <div class="admin-modal-header">
+      <div>
+        <h5>Видалити категорію?</h5>
+        <p>Цю дію не можна скасувати.</p>
+      </div>
+      <button class="admin-modal-close" onclick="closeDeleteModal()"><i class="bi bi-x"></i></button>
+    </div>
+    <div class="admin-modal-divider"></div>
+    <div class="admin-modal-body">
+      <p style="color:var(--muted);font-size:.9rem">
+        Ви впевнені, що хочете видалити категорію <strong id="deleteName" style="color:var(--text)"></strong>?
+      </p>
+    </div>
+    <div class="admin-modal-footer">
+      <button class="admin-btn-secondary" onclick="closeDeleteModal()">Скасувати</button>
+      <button class="admin-btn-primary" style="background:var(--danger)" onclick="confirmDelete()">
+        <i class="bi bi-trash3"></i> Видалити
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="admin-toast" id="toast"><i class="bi bi-check-circle-fill"></i><span id="toastMsg"></span></div>
+
+<script>
+const STORAGE_KEY = 'skinz_admin_categories';
+const DEFAULT_CATEGORIES = [
+  { id: 1, name: 'Боді', slug: 'body', photo: 'https://images.pexels.com/photos/5935748/pexels-photo-5935748.jpeg?auto=compress&cs=tinysrgb&w=200', count: 12, active: true },
+  { id: 2, name: 'Сукні', slug: 'sukni', photo: 'https://images.pexels.com/photos/1187719/pexels-photo-1187719.jpeg?auto=compress&cs=tinysrgb&w=200', count: 18, active: true },
+  { id: 3, name: 'Нижня білизна', slug: 'bilyznа', photo: 'https://images.pexels.com/photos/4792086/pexels-photo-4792086.jpeg?auto=compress&cs=tinysrgb&w=200', count: 9, active: true },
+  { id: 4, name: 'Топи', slug: 'topy', photo: 'https://images.pexels.com/photos/2249528/pexels-photo-2249528.jpeg?auto=compress&cs=tinysrgb&w=200', count: 15, active: true },
+  { id: 5, name: 'Комбінезони', slug: 'kombinezony', photo: 'https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinysrgb&w=200', count: 7, active: true },
+  { id: 6, name: 'Шорти', slug: 'shorty', photo: 'https://images.pexels.com/photos/1485781/pexels-photo-1485781.jpeg?auto=compress&cs=tinysrgb&w=200', count: 6, active: true },
+  { id: 7, name: 'Піжами', slug: 'pyzhamы', photo: 'https://images.pexels.com/photos/3807332/pexels-photo-3807332.jpeg?auto=compress&cs=tinysrgb&w=200', count: 4, active: true },
+  { id: 8, name: 'Спідниці', slug: 'spidnytsi', photo: 'https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinysrgb&w=200', count: 8, active: true },
+  { id: 9, name: 'Джинси', slug: 'dzhinsy', photo: 'https://images.pexels.com/photos/1082529/pexels-photo-1082529.jpeg?auto=compress&cs=tinysrgb&w=200', count: 5, active: false },
+  { id: 10, name: 'Пальта', slug: 'palta', photo: 'https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=200', count: 6, active: true },
+];
+
+let categories = [];
+let deleteTargetId = null;
+
+function loadCategories() {
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (stored) { categories = JSON.parse(stored); }
+  else { categories = DEFAULT_CATEGORIES; saveToStorage(); }
+}
+function saveToStorage() { localStorage.setItem(STORAGE_KEY, JSON.stringify(categories)); }
+function nextId() { return categories.length ? Math.max(...categories.map(c => c.id)) + 1 : 1; }
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function slugify(str) {
+  const map = { 'а':'a','б':'b','в':'v','г':'h','ґ':'g','д':'d','е':'e','є':'ye','ж':'zh','з':'z','и':'y','і':'i','ї':'yi','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'kh','ц':'ts','ч':'ch','ш':'sh','щ':'shch','ь':'','ю':'yu','я':'ya',' ':'-' };
+  return str.toLowerCase().split('').map(c => map[c] ?? c).join('').replace(/[^a-z0-9-]/g,'').replace(/-+/g,'-').replace(/^-|-$/g,'');
+}
+
+function renderTable() {
+  const query = (document.getElementById('catSearch')?.value || '').toLowerCase();
+  const filtered = categories.filter(c => c.name.toLowerCase().includes(query) || c.slug.toLowerCase().includes(query));
+  const tbody = document.getElementById('catTableBody');
+  const empty = document.getElementById('catEmptyState');
+  if (filtered.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; }
+  else {
+    empty.style.display = 'none';
+    tbody.innerHTML = filtered.map(cat => `
+      <tr>
+        <td>
+          ${cat.photo ? `<img src="${escHtml(cat.photo)}" class="cat-thumb" alt="${escHtml(cat.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">` : ''}
+          <div class="cat-thumb-placeholder" ${cat.photo ? 'style="display:none"' : ''}><i class="bi bi-image"></i></div>
+        </td>
+        <td>
+          <a href="admin-category.html?id=${cat.id}" class="cat-name" style="color:var(--text);text-decoration:none;transition:color .15s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text)'">${escHtml(cat.name)}</a>
+        </td>
+        <td><code style="font-size:.8rem;color:var(--muted)">${escHtml(cat.slug)}</code></td>
+        <td>${cat.count ?? 0}</td>
+        <td><span class="${cat.active ? 'badge-active' : 'badge-hidden'}">${cat.active ? 'Активна' : 'Прихована'}</span></td>
+        <td>
+          <div style="display:flex;align-items:center;gap:.375rem">
+            <a href="admin-category.html?id=${cat.id}" class="admin-btn-icon" title="Редагувати" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none">
+              <i class="bi bi-pencil"></i>
+            </a>
+            <button class="admin-btn-icon danger" onclick="openDeleteModal(${cat.id})" title="Видалити">
+              <i class="bi bi-trash3"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+  updateStats();
+}
+
+function updateStats() {
+  document.getElementById('statTotal').textContent = categories.length;
+  document.getElementById('statActive').textContent = categories.filter(c => c.active).length;
+  document.getElementById('statHidden').textContent = categories.filter(c => !c.active).length;
+}
+
+function openAddModal() {
+  document.getElementById('modalTitle').textContent = 'Додати категорію';
+  document.getElementById('modalSubtitle').textContent = 'Заповніть дані нової категорії';
+  document.getElementById('editId').value = '';
+  document.getElementById('fName').value = '';
+  document.getElementById('fSlug').value = '';
+  document.getElementById('fPhoto').value = '';
+  document.getElementById('fCount').value = '';
+  document.getElementById('fActive').checked = true;
+  document.getElementById('photoPreview').style.display = 'none';
+  document.getElementById('catModal').classList.add('open');
+}
+
+function openEditModal(id) {
+  const cat = categories.find(c => c.id === id);
+  if (!cat) return;
+  document.getElementById('modalTitle').textContent = 'Редагувати категорію';
+  document.getElementById('modalSubtitle').textContent = cat.name;
+  document.getElementById('editId').value = id;
+  document.getElementById('fName').value = cat.name;
+  document.getElementById('fSlug').value = cat.slug;
+  document.getElementById('fPhoto').value = cat.photo || '';
+  document.getElementById('fCount').value = cat.count ?? 0;
+  document.getElementById('fActive').checked = cat.active;
+  const prev = document.getElementById('photoPreview');
+  if (cat.photo) { prev.src = cat.photo; prev.style.display = 'block'; }
+  else { prev.style.display = 'none'; }
+  document.getElementById('catModal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('catModal').classList.remove('open'); }
+
+function previewPhoto() {
+  const url = document.getElementById('fPhoto').value;
+  const prev = document.getElementById('photoPreview');
+  if (url) { prev.src = url; prev.style.display = 'block'; }
+  else { prev.style.display = 'none'; }
+}
+
+function saveCategory() {
+  const name = document.getElementById('fName').value.trim();
+  const slug = document.getElementById('fSlug').value.trim();
+  if (!name || !slug) { showToast('Заповніть назву та слаг', 'error'); return; }
+  const id = parseInt(document.getElementById('editId').value);
+  const data = {
+    name, slug,
+    photo: document.getElementById('fPhoto').value.trim() || '',
+    count: parseInt(document.getElementById('fCount').value) || 0,
+    active: document.getElementById('fActive').checked,
+  };
+  if (id) {
+    const idx = categories.findIndex(c => c.id === id);
+    if (idx >= 0) { categories[idx] = { ...categories[idx], ...data }; }
+  } else {
+    categories.push({ id: nextId(), ...data });
+  }
+  saveToStorage();
+  renderTable();
+  closeModal();
+  showToast(id ? 'Категорію оновлено' : 'Категорію додано');
+}
+
+function openDeleteModal(id) {
+  const cat = categories.find(c => c.id === id);
+  if (!cat) return;
+  deleteTargetId = id;
+  document.getElementById('deleteName').textContent = cat.name;
+  document.getElementById('deleteModal').classList.add('open');
+}
+function closeDeleteModal() { document.getElementById('deleteModal').classList.remove('open'); deleteTargetId = null; }
+function confirmDelete() {
+  if (!deleteTargetId) return;
+  categories = categories.filter(c => c.id !== deleteTargetId);
+  saveToStorage(); renderTable(); closeDeleteModal();
+  showToast('Категорію видалено');
+}
+
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.querySelector('i').className = type === 'error' ? 'bi bi-x-circle-fill' : 'bi bi-check-circle-fill';
+  document.getElementById('toastMsg').textContent = msg;
+  t.className = 'admin-toast ' + type + ' show';
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function toggleSidebar() {
+  document.getElementById('adminSidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('show');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('fName')?.addEventListener('input', function () {
+    if (!document.getElementById('editId').value) {
+      document.getElementById('fSlug').value = slugify(this.value);
+    }
+  });
+});
+
+loadCategories();
+renderTable();
+</script>
+</body>
+</html>

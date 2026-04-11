@@ -3,402 +3,16 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Адмін — SKINZ</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <title>Головна — SKINZ Адмін</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --accent:       #8B1A2A;
-      --accent-h:     #6d1421;
-      --accent-soft:  rgba(139,26,42,0.08);
-      --bg:           #F3F4F8;
-      --sidebar-w:    256px;
-      --sidebar-bg:   #0A0A0A;
-      --card:         #ffffff;
-      --border:       #E8EAEF;
-      --text:         #111318;
-      --muted:        #717585;
-      --danger:       #D92D20;
-      --success:      #079455;
-      --r:            12px;
-      --sh:           0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-      --sh-md:        0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
-    }
-    html, body { height: 100%; }
-    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
-
-    /* ─── LAYOUT ─────────────────────────────── */
-    .admin-layout { display: flex; min-height: 100vh; }
-
-    /* ─── SIDEBAR ────────────────────────────── */
-    .admin-sidebar {
-      width: var(--sidebar-w); flex-shrink: 0;
-      background: var(--sidebar-bg);
-      display: flex; flex-direction: column;
-      position: fixed; inset: 0 auto 0 0;
-      z-index: 100; transition: transform .28s cubic-bezier(.4,0,.2,1);
-    }
-    .admin-sidebar-logo {
-      padding: 1.75rem 1.375rem 1.25rem;
-      display: flex; align-items: center; gap: 0.625rem;
-    }
-    .admin-sidebar-logo .logo-mark {
-      width: 32px; height: 32px; border-radius: 8px;
-      background: var(--accent); display: flex; align-items: center; justify-content: center;
-      font-size: 0.75rem; font-weight: 800; color: #fff; letter-spacing: -0.04em; flex-shrink: 0;
-    }
-    .admin-sidebar-logo .logo-text .brand {
-      font-size: 0.9375rem; font-weight: 700; color: #fff; letter-spacing: -0.02em; line-height: 1.1;
-    }
-    .admin-sidebar-logo .logo-text .sub {
-      font-size: 0.6875rem; color: rgba(255,255,255,0.35);
-      letter-spacing: 0.04em; margin-top: 0.1rem;
-    }
-
-    .admin-nav { padding: 0.5rem 0.875rem; flex: 1; overflow-y: auto; }
-    .admin-nav-label {
-      font-size: 0.625rem; font-weight: 700; letter-spacing: 0.1em;
-      text-transform: uppercase; color: rgba(255,255,255,0.25);
-      padding: 1rem 0.5rem 0.375rem;
-    }
-    .admin-nav-link {
-      display: flex; align-items: center; gap: 0.75rem;
-      padding: 0.5625rem 0.75rem; color: rgba(255,255,255,0.55);
-      text-decoration: none; font-size: 0.875rem; font-weight: 500;
-      border-radius: 8px; margin-bottom: 1px;
-      transition: color .15s, background .15s;
-    }
-    .admin-nav-link:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.06); }
-    .admin-nav-link.active { color: #fff; background: rgba(255,255,255,0.1); }
-    .admin-nav-link.active .nav-icon-wrap { background: var(--accent); color: #fff; }
-    .nav-icon-wrap {
-      width: 28px; height: 28px; border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(255,255,255,0.07); flex-shrink: 0;
-      font-size: 0.875rem; transition: background .15s, color .15s;
-    }
-    .admin-nav-link:hover .nav-icon-wrap { background: rgba(255,255,255,0.12); color: #fff; }
-
-    .admin-sidebar-footer {
-      padding: 1rem 1.375rem;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-    .admin-sidebar-footer a {
-      display: flex; align-items: center; gap: 0.625rem;
-      color: rgba(255,255,255,0.4); font-size: 0.8125rem; text-decoration: none;
-      padding: 0.5rem 0.75rem; border-radius: 8px;
-      transition: color .15s, background .15s;
-    }
-    .admin-sidebar-footer a:hover { color: #fff; background: rgba(255,255,255,0.06); }
-
-    /* ─── MAIN ───────────────────────────────── */
-    .admin-main {
-      margin-left: var(--sidebar-w); flex: 1;
-      min-height: 100vh; display: flex; flex-direction: column;
-    }
-
-    /* ─── TOPBAR ─────────────────────────────── */
-    .admin-topbar {
-      background: var(--card); border-bottom: 1px solid var(--border);
-      padding: 0 1.75rem; height: 60px;
-      display: flex; align-items: center; justify-content: space-between;
-      position: sticky; top: 0; z-index: 50;
-    }
-    .admin-topbar-left { display: flex; align-items: center; gap: 0.5rem; }
-    .topbar-page-icon {
-      width: 32px; height: 32px; border-radius: 8px;
-      background: var(--accent-soft); color: var(--accent);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
-    }
-    .admin-topbar-title { font-size: 0.9375rem; font-weight: 700; letter-spacing: -0.01em; }
-    .admin-topbar-actions { display: flex; align-items: center; gap: 0.625rem; }
-
-    /* ─── BUTTONS ────────────────────────────── */
-    .admin-btn-primary {
-      display: inline-flex; align-items: center; gap: 0.375rem;
-      padding: 0.5rem 1.125rem; background: var(--accent); color: #fff;
-      border: none; border-radius: 8px; font-size: 0.8125rem; font-weight: 600;
-      cursor: pointer; transition: background .15s, box-shadow .15s;
-      font-family: inherit; letter-spacing: 0.01em;
-    }
-    .admin-btn-primary:hover { background: var(--accent-h); box-shadow: 0 0 0 3px rgba(139,26,42,0.18); }
-    .admin-btn-secondary {
-      display: inline-flex; align-items: center; gap: 0.375rem;
-      padding: 0.5rem 1rem; background: var(--card); color: var(--muted);
-      border: 1px solid var(--border); border-radius: 8px;
-      font-size: 0.8125rem; font-weight: 500; cursor: pointer;
-      transition: border-color .15s, color .15s; font-family: inherit;
-    }
-    .admin-btn-secondary:hover { border-color: #bbb; color: var(--text); }
-    .admin-btn-icon {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 30px; height: 30px; border-radius: 6px;
-      background: transparent; border: 1px solid var(--border);
-      color: var(--muted); cursor: pointer; transition: all .15s; font-size: 0.875rem;
-    }
-    .admin-btn-icon:hover { background: var(--bg); color: var(--text); }
-    .admin-btn-icon.danger:hover { background: #FEF3F2; border-color: #FDA29B; color: var(--danger); }
-
-    /* ─── CONTENT ────────────────────────────── */
-    .admin-content { padding: 1.75rem; flex: 1; }
-
-    /* ─── STATS ──────────────────────────────── */
-    .admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 1.75rem; }
-    .admin-stat-card {
-      background: var(--card); border-radius: var(--r);
-      padding: 1.25rem 1.375rem;
-      box-shadow: var(--sh);
-      display: flex; flex-direction: column; gap: 0.75rem;
-    }
-    .admin-stat-card__top { display: flex; align-items: center; justify-content: space-between; }
-    .admin-stat-card__label { font-size: 0.75rem; font-weight: 600; color: var(--muted); letter-spacing: 0.02em; text-transform: uppercase; }
-    .admin-stat-card__icon {
-      width: 36px; height: 36px; border-radius: 8px;
-      background: var(--accent-soft); color: var(--accent);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
-    }
-    .admin-stat-card__value { font-size: 2rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
-
-    /* ─── SECTION CARD ───────────────────────── */
-    .admin-section-card {
-      background: var(--card); border-radius: var(--r);
-      box-shadow: var(--sh); margin-bottom: 1.25rem; overflow: hidden;
-    }
-    .admin-section-card__header {
-      padding: 1rem 1.375rem;
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-    }
-    .admin-section-card__title { font-size: 0.9375rem; font-weight: 700; letter-spacing: -0.01em; }
-    .admin-section-card__body { padding: 1.375rem; }
-
-    /* ─── SEARCH ─────────────────────────────── */
-    .admin-search {
-      position: relative; display: flex; align-items: center;
-    }
-    .admin-search i {
-      position: absolute; left: 0.625rem; color: var(--muted); font-size: 0.875rem; pointer-events: none;
-    }
-    .admin-search input {
-      padding: 0.4375rem 0.75rem 0.4375rem 2rem;
-      border: 1px solid var(--border); border-radius: 8px;
-      font-size: 0.8125rem; color: var(--text); outline: none; width: 210px;
-      background: var(--bg); font-family: inherit; transition: border-color .15s, background .15s;
-    }
-    .admin-search input:focus { border-color: var(--accent); background: #fff; }
-
-    /* ─── TABLE ──────────────────────────────── */
-    .admin-table { width: 100%; border-collapse: collapse; }
-    .admin-table th {
-      font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.07em;
-      text-transform: uppercase; color: var(--muted);
-      padding: 0.625rem 1rem; border-bottom: 1px solid var(--border);
-      text-align: left; white-space: nowrap; background: #FAFBFC;
-    }
-    .admin-table td {
-      padding: 0.875rem 1rem; border-bottom: 1px solid var(--border);
-      vertical-align: middle;
-    }
-    .admin-table tbody tr:last-child td { border-bottom: none; }
-    .admin-table tbody tr { transition: background .1s; }
-    .admin-table tbody tr:hover td { background: #FAFBFD; }
-    .cat-thumb {
-      width: 44px; height: 44px; border-radius: 8px;
-      object-fit: cover; border: 1px solid var(--border);
-      background: var(--bg); display: block;
-    }
-    .cat-thumb-placeholder {
-      width: 44px; height: 44px; border-radius: 8px;
-      background: var(--bg); border: 1px dashed var(--border);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--muted); font-size: 1.125rem;
-    }
-    .cat-name { font-weight: 600; font-size: 0.875rem; color: var(--text); }
-    .cat-slug { font-size: 0.75rem; color: var(--muted); margin-top: 0.1rem; font-family: 'SF Mono', monospace; }
-    .badge-active {
-      display: inline-flex; align-items: center; gap: 0.3rem;
-      padding: 0.2rem 0.625rem; background: #ECFDF3;
-      color: #067647; border-radius: 100px;
-      font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.02em;
-    }
-    .badge-active::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #17B26A; }
-    .badge-hidden {
-      display: inline-flex; align-items: center; gap: 0.3rem;
-      padding: 0.2rem 0.625rem; background: var(--bg);
-      color: var(--muted); border-radius: 100px;
-      font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.02em;
-    }
-    .badge-hidden::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #D0D5DD; }
-    .empty-state {
-      text-align: center; padding: 4rem 1rem; color: var(--muted);
-    }
-    .empty-state i { font-size: 2.5rem; display: block; margin-bottom: 0.875rem; opacity:.2; }
-    .empty-state p { font-size: 0.9375rem; font-weight: 500; }
-
-    /* ─── FORM ───────────────────────────────── */
-    .admin-form-group { display: flex; flex-direction: column; gap: 0.375rem; }
-    .admin-form-group label {
-      font-size: 0.75rem; font-weight: 600; color: var(--text);
-      letter-spacing: 0.01em;
-    }
-    .admin-form-group input, .admin-form-group select {
-      width: 100%; padding: 0.5625rem 0.875rem;
-      border: 1px solid var(--border); border-radius: 8px;
-      font-size: 0.875rem; color: var(--text); outline: none;
-      font-family: inherit; transition: border-color .15s, box-shadow .15s;
-      background: #fff;
-    }
-    .admin-form-group input:focus, .admin-form-group select:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(139,26,42,0.1);
-    }
-    .admin-img-preview {
-      width: 56px; height: 56px; border-radius: 8px;
-      object-fit: cover; border: 1px solid var(--border);
-      display: none; margin-top: 0.5rem;
-    }
-
-    /* ─── MODAL ──────────────────────────────── */
-    .admin-modal-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(2px);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 200; opacity: 0; pointer-events: none; transition: opacity .2s;
-    }
-    .admin-modal-overlay.open { opacity: 1; pointer-events: all; }
-    .admin-modal {
-      background: #fff; border-radius: 16px;
-      width: 480px; max-width: calc(100vw - 2rem);
-      box-shadow: 0 24px 64px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.08);
-      transform: translateY(12px) scale(.98); transition: transform .22s cubic-bezier(.4,0,.2,1);
-    }
-    .admin-modal-overlay.open .admin-modal { transform: translateY(0) scale(1); }
-    .admin-modal-header {
-      padding: 1.375rem 1.5rem 1rem;
-      display: flex; align-items: flex-start; justify-content: space-between;
-    }
-    .admin-modal-header h5 { font-size: 1.0625rem; font-weight: 700; margin: 0; letter-spacing: -0.02em; }
-    .admin-modal-header p { font-size: 0.8125rem; color: var(--muted); margin: 0.25rem 0 0; }
-    .admin-modal-close {
-      background: var(--bg); border: none; border-radius: 6px;
-      width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; color: var(--muted); cursor: pointer; flex-shrink: 0;
-      transition: background .15s;
-    }
-    .admin-modal-close:hover { background: var(--border); }
-    .admin-modal-divider { height: 1px; background: var(--border); margin: 0; }
-    .admin-modal-body { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
-    .admin-modal-footer {
-      padding: 1rem 1.5rem;
-      border-top: 1px solid var(--border);
-      display: flex; justify-content: flex-end; gap: 0.5rem;
-    }
-
-    /* ─── TOAST ──────────────────────────────── */
-    .admin-toast {
-      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 300;
-      background: #18181B; color: #fff; border-radius: 10px;
-      padding: 0.75rem 1.125rem; font-size: 0.8125rem; font-weight: 500;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-      transform: translateY(80px); opacity: 0; transition: all .3s cubic-bezier(.4,0,.2,1);
-      display: flex; align-items: center; gap: 0.625rem;
-      min-width: 220px;
-    }
-    .admin-toast.show { transform: translateY(0); opacity: 1; }
-    .admin-toast.success { background: #052E16; }
-    .admin-toast.error { background: #7F1D1D; }
-    .admin-toast i { font-size: 1rem; }
-
-    /* ─── TOGGLE ─────────────────────────────── */
-    .toggle-switch { position: relative; display: inline-block; width: 40px; height: 22px; }
-    .toggle-switch input { opacity: 0; width: 0; height: 0; }
-    .toggle-slider {
-      position: absolute; inset: 0; background: #D0D5DD; border-radius: 22px;
-      cursor: pointer; transition: .2s;
-    }
-    .toggle-slider::before {
-      content:''; position: absolute;
-      width: 16px; height: 16px; left: 3px; top: 3px;
-      background: #fff; border-radius: 50%; transition: .2s;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    }
-    .toggle-switch input:checked + .toggle-slider { background: var(--success); }
-    .toggle-switch input:checked + .toggle-slider::before { transform: translateX(18px); }
-
-    /* ─── DASHBOARD ─────────────────────────── */
-    .dash-quick-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
-    .dash-quick-card {
-      display: flex; align-items: center; gap: 0.875rem;
-      padding: 1rem 1.125rem; border-radius: 10px;
-      border: 1px solid var(--border); text-decoration: none;
-      color: var(--text); transition: all .15s; background: #fff;
-      cursor: pointer;
-    }
-    .dash-quick-card:hover { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 0 3px rgba(139,26,42,0.08); }
-    .dash-quick-icon {
-      width: 40px; height: 40px; border-radius: 8px; background: var(--bg);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.125rem; color: var(--muted); flex-shrink: 0; transition: all .15s;
-    }
-    .dash-quick-card:hover .dash-quick-icon { background: rgba(139,26,42,0.08); color: var(--accent); }
-    .dash-quick-label { font-size: .875rem; font-weight: 600; }
-    .dash-quick-sub { font-size: .75rem; color: var(--muted); margin-top: .125rem; }
-
-    /* ─── BANNER GRID ────────────────────────── */
-    .banner-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 0.875rem;
-    }
-    @media(max-width:1100px){ .banner-grid { grid-template-columns: repeat(4,1fr); } }
-    @media(max-width:800px){ .banner-grid { grid-template-columns: repeat(3,1fr); } }
-    @media(max-width:500px){ .banner-grid { grid-template-columns: repeat(2,1fr); } }
-    .banner-card {
-      border-radius: 10px; overflow: hidden;
-      background: var(--bg); box-shadow: var(--sh);
-      transition: box-shadow .15s, transform .15s;
-    }
-    .banner-card:hover { box-shadow: var(--sh-md); transform: translateY(-2px); }
-    .banner-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
-    .banner-card__name {
-      padding: .4375rem .625rem;
-      font-size: .6875rem; color: var(--muted);
-      font-weight: 500; white-space: nowrap;
-      overflow: hidden; text-overflow: ellipsis;
-    }
-
-    /* ─── MOBILE ─────────────────────────────── */
-    .admin-mobile-topbar {
-      display: none; background: var(--sidebar-bg);
-      padding: 0 1rem; height: 54px;
-      align-items: center; justify-content: space-between;
-    }
-    .admin-mobile-topbar .brand { font-size: 1rem; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
-    .admin-mobile-topbar .brand span { color: var(--accent); }
-    .admin-hamburger { background:none; border:none; color:rgba(255,255,255,0.7); font-size:1.375rem; cursor:pointer; display:flex; }
-    @media(max-width:767px){
-      .admin-sidebar { transform: translateX(-100%); }
-      .admin-sidebar.open { transform: translateX(0); }
-      .admin-main { margin-left: 0; }
-      .admin-mobile-topbar { display: flex; }
-    }
-    .admin-overlay-bg {
-      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 99;
-    }
-    .admin-overlay-bg.show { display: block; }
-  </style>
+  <link rel="stylesheet" href="../css/admin.css"/>
 </head>
 <body>
 
-<!-- Mobile overlay for sidebar -->
 <div class="admin-overlay-bg" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
-<!-- SIDEBAR -->
 <aside class="admin-sidebar" id="adminSidebar">
   <div class="admin-sidebar-logo">
     <div class="logo-mark">S</div>
@@ -408,24 +22,24 @@
     </div>
   </div>
   <nav class="admin-nav">
-    <a href="#" class="admin-nav-link active" id="navDashboard" onclick="showSection('dashboard', this)">
+    <a href="admin.html" class="admin-nav-link active">
       <span class="nav-icon-wrap"><i class="bi bi-house"></i></span> Головна
     </a>
     <div class="admin-nav-label">Керування</div>
-    <a href="#" class="admin-nav-link" id="navCategories" onclick="showSection('categories', this)">
+    <a href="admin-categories.html" class="admin-nav-link">
       <span class="nav-icon-wrap"><i class="bi bi-grid-3x3-gap"></i></span> Категорії
     </a>
-    <a href="#" class="admin-nav-link" id="navProducts" onclick="showSection('products', this)">
+    <a href="admin-products.html" class="admin-nav-link">
       <span class="nav-icon-wrap"><i class="bi bi-bag"></i></span> Товари
     </a>
-    <a href="#" class="admin-nav-link" id="navOrders" onclick="showSection('orders', this)">
+    <a href="admin-orders.html" class="admin-nav-link">
       <span class="nav-icon-wrap"><i class="bi bi-receipt"></i></span> Замовлення
     </a>
     <div class="admin-nav-label">Сайт</div>
-    <a href="#" class="admin-nav-link" id="navBanners" onclick="showSection('banners', this)">
+    <a href="admin-banners.html" class="admin-nav-link">
       <span class="nav-icon-wrap"><i class="bi bi-image"></i></span> Банери
     </a>
-    <a href="#" class="admin-nav-link" id="navSettings" onclick="showSection('settings', this)">
+    <a href="admin-settings.html" class="admin-nav-link">
       <span class="nav-icon-wrap"><i class="bi bi-gear"></i></span> Налаштування
     </a>
   </nav>
@@ -436,655 +50,103 @@
   </div>
 </aside>
 
-<!-- MAIN -->
 <div class="admin-main">
-
-  <!-- Mobile topbar -->
   <div class="admin-mobile-topbar">
     <span class="brand">SKINZ<span>.</span></span>
     <button class="admin-hamburger" onclick="toggleSidebar()"><i class="bi bi-list"></i></button>
   </div>
 
-  <!-- TOP BAR -->
   <div class="admin-topbar">
     <div class="admin-topbar-left">
-      <div class="topbar-page-icon" id="topbarIcon"><i class="bi bi-grid-3x3-gap"></i></div>
-      <div class="admin-topbar-title" id="topbarTitle">Категорії</div>
-    </div>
-    <div class="admin-topbar-actions">
-      <button class="admin-btn-primary" id="topbarAddBtn" onclick="openAddModal()">
-        <i class="bi bi-plus-lg"></i> Додати категорію
-      </button>
+      <div class="topbar-page-icon"><i class="bi bi-house"></i></div>
+      <div class="admin-topbar-title">Головна</div>
     </div>
   </div>
 
-  <!-- CONTENT -->
   <div class="admin-content">
-
-    <!-- ═══ DASHBOARD SECTION ═══════════════════════════════ -->
-    <div id="sectionDashboard">
-      <div style="margin-bottom:1.5rem">
-        <h2 style="font-size:1.375rem;font-weight:800;letter-spacing:-0.03em;margin:0 0 .25rem">Панель управління</h2>
-        <p style="color:var(--muted);font-size:.875rem;margin:0">Огляд активності сайту SKINZ</p>
-      </div>
-
-      <div class="admin-stats" style="grid-template-columns:repeat(4,minmax(140px,1fr));margin-bottom:1.75rem">
-        <div class="admin-stat-card">
-          <div class="admin-stat-card__top">
-            <div class="admin-stat-card__label">Переглядів сьогодні</div>
-            <div class="admin-stat-card__icon"><i class="bi bi-eye"></i></div>
-          </div>
-          <div class="admin-stat-card__value" id="dashViews">—</div>
-        </div>
-        <div class="admin-stat-card">
-          <div class="admin-stat-card__top">
-            <div class="admin-stat-card__label">Товарів у каталозі</div>
-            <div class="admin-stat-card__icon"><i class="bi bi-bag"></i></div>
-          </div>
-          <div class="admin-stat-card__value" id="dashProducts">—</div>
-        </div>
-        <div class="admin-stat-card">
-          <div class="admin-stat-card__top">
-            <div class="admin-stat-card__label">Категорій</div>
-            <div class="admin-stat-card__icon"><i class="bi bi-grid-3x3-gap"></i></div>
-          </div>
-          <div class="admin-stat-card__value" id="dashCategories">—</div>
-        </div>
-        <div class="admin-stat-card">
-          <div class="admin-stat-card__top">
-            <div class="admin-stat-card__label">Замовлень</div>
-            <div class="admin-stat-card__icon"><i class="bi bi-receipt"></i></div>
-          </div>
-          <div class="admin-stat-card__value" id="dashOrders">0</div>
-        </div>
-      </div>
-
-      <div class="admin-section-card">
-        <div class="admin-section-card__header">
-          <div class="admin-section-card__title">Швидкий доступ</div>
-        </div>
-        <div class="admin-section-card__body">
-          <div class="dash-quick-grid">
-            <a href="#" class="dash-quick-card" onclick="showSection('categories', document.getElementById('navCategories'));return false">
-              <div class="dash-quick-icon"><i class="bi bi-grid-3x3-gap"></i></div>
-              <div><div class="dash-quick-label">Категорії</div><div class="dash-quick-sub">Управління категоріями</div></div>
-            </a>
-            <a href="#" class="dash-quick-card" onclick="showSection('products', document.getElementById('navProducts'));return false">
-              <div class="dash-quick-icon"><i class="bi bi-bag"></i></div>
-              <div><div class="dash-quick-label">Товари</div><div class="dash-quick-sub">Каталог товарів</div></div>
-            </a>
-            <a href="#" class="dash-quick-card" onclick="showSection('banners', document.getElementById('navBanners'));return false">
-              <div class="dash-quick-icon"><i class="bi bi-image"></i></div>
-              <div><div class="dash-quick-label">Банери</div><div class="dash-quick-sub">Слайдер на головній</div></div>
-            </a>
-            <a href="../index.html" target="_blank" class="dash-quick-card">
-              <div class="dash-quick-icon"><i class="bi bi-arrow-up-right-square"></i></div>
-              <div><div class="dash-quick-label">Відкрити сайт</div><div class="dash-quick-sub">Переглянути у новій вкладці</div></div>
-            </a>
-          </div>
-        </div>
-      </div>
+    <div style="margin-bottom:1.5rem">
+      <h2 style="font-size:1.375rem;font-weight:800;letter-spacing:-0.03em;margin:0 0 .25rem">Панель управління</h2>
+      <p style="color:var(--muted);font-size:.875rem;margin:0">Огляд активності сайту SKINZ</p>
     </div>
 
-    <!-- STATS -->
-    <div class="admin-stats" id="catStats">
+    <div class="admin-stats" style="grid-template-columns:repeat(4,minmax(140px,1fr));margin-bottom:1.75rem">
       <div class="admin-stat-card">
         <div class="admin-stat-card__top">
-          <div class="admin-stat-card__label">Всього категорій</div>
-          <div class="admin-stat-card__icon"><i class="bi bi-grid-3x3-gap"></i></div>
-        </div>
-        <div class="admin-stat-card__value" id="statTotal">0</div>
-      </div>
-      <div class="admin-stat-card">
-        <div class="admin-stat-card__top">
-          <div class="admin-stat-card__label">Активних</div>
+          <div class="admin-stat-card__label">Переглядів сьогодні</div>
           <div class="admin-stat-card__icon"><i class="bi bi-eye"></i></div>
         </div>
-        <div class="admin-stat-card__value" id="statActive">0</div>
+        <div class="admin-stat-card__value" id="dashViews">—</div>
       </div>
       <div class="admin-stat-card">
         <div class="admin-stat-card__top">
-          <div class="admin-stat-card__label">Прихованих</div>
-          <div class="admin-stat-card__icon"><i class="bi bi-eye-slash"></i></div>
+          <div class="admin-stat-card__label">Товарів у каталозі</div>
+          <div class="admin-stat-card__icon"><i class="bi bi-bag"></i></div>
         </div>
-        <div class="admin-stat-card__value" id="statHidden">0</div>
+        <div class="admin-stat-card__value" id="dashProducts">—</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-card__top">
+          <div class="admin-stat-card__label">Категорій</div>
+          <div class="admin-stat-card__icon"><i class="bi bi-grid-3x3-gap"></i></div>
+        </div>
+        <div class="admin-stat-card__value" id="dashCategories">—</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-card__top">
+          <div class="admin-stat-card__label">Замовлень</div>
+          <div class="admin-stat-card__icon"><i class="bi bi-receipt"></i></div>
+        </div>
+        <div class="admin-stat-card__value">0</div>
       </div>
     </div>
 
-    <!-- CATEGORIES SECTION -->
-    <div id="sectionCategories">
-      <div class="admin-section-card">
-        <div class="admin-section-card__header">
-          <div class="admin-section-card__title">Список категорій</div>
-          <div class="admin-search">
-            <i class="bi bi-search"></i>
-            <input type="search" id="catSearch" placeholder="Пошук категорій..." oninput="renderTable()"/>
-          </div>
-        </div>
-        <div class="admin-section-card__body" style="padding:0;overflow-x:auto">
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th style="width:70px">Фото</th>
-                <th>Назва</th>
-                <th>Слаг</th>
-                <th>Товарів</th>
-                <th>Статус</th>
-                <th style="width:120px">Дії</th>
-              </tr>
-            </thead>
-            <tbody id="catTableBody">
-            </tbody>
-          </table>
-          <div class="empty-state" id="catEmptyState" style="display:none">
-            <i class="bi bi-inbox"></i>
-            Категорій ще немає. Додайте першу!
-          </div>
+    <div class="admin-section-card">
+      <div class="admin-section-card__header">
+        <div class="admin-section-card__title">Швидкий доступ</div>
+      </div>
+      <div class="admin-section-card__body">
+        <div class="dash-quick-grid">
+          <a href="admin-categories.html" class="dash-quick-card">
+            <div class="dash-quick-icon"><i class="bi bi-grid-3x3-gap"></i></div>
+            <div><div class="dash-quick-label">Категорії</div><div class="dash-quick-sub">Управління категоріями</div></div>
+          </a>
+          <a href="admin-products.html" class="dash-quick-card">
+            <div class="dash-quick-icon"><i class="bi bi-bag"></i></div>
+            <div><div class="dash-quick-label">Товари</div><div class="dash-quick-sub">Каталог товарів</div></div>
+          </a>
+          <a href="admin-banners.html" class="dash-quick-card">
+            <div class="dash-quick-icon"><i class="bi bi-image"></i></div>
+            <div><div class="dash-quick-label">Банери</div><div class="dash-quick-sub">Слайдер на головній</div></div>
+          </a>
+          <a href="../index.html" target="_blank" class="dash-quick-card">
+            <div class="dash-quick-icon"><i class="bi bi-arrow-up-right-square"></i></div>
+            <div><div class="dash-quick-label">Відкрити сайт</div><div class="dash-quick-sub">Переглянути у новій вкладці</div></div>
+          </a>
         </div>
       </div>
-    </div>
-
-    <!-- PLACEHOLDER SECTIONS -->
-    <div id="sectionProducts" style="display:none">
-      <div class="admin-section-card">
-        <div class="admin-section-card__header"><div class="admin-section-card__title">Товари</div></div>
-        <div class="admin-section-card__body">
-          <div class="empty-state"><i class="bi bi-bag"></i><p>Розділ товарів у розробці</p></div>
-        </div>
-      </div>
-    </div>
-    <div id="sectionOrders" style="display:none">
-      <div class="admin-section-card">
-        <div class="admin-section-card__header"><div class="admin-section-card__title">Замовлення</div></div>
-        <div class="admin-section-card__body">
-          <div class="empty-state"><i class="bi bi-receipt"></i><p>Розділ замовлень у розробці</p></div>
-        </div>
-      </div>
-    </div>
-    <div id="sectionBanners" style="display:none">
-
-      <!-- Banner stats -->
-      <div class="admin-stats" style="margin-bottom:1.5rem">
-        <div class="admin-stat-card">
-          <div class="admin-stat-card__top">
-            <div class="admin-stat-card__label">Всього фото</div>
-            <div class="admin-stat-card__icon"><i class="bi bi-images"></i></div>
-          </div>
-          <div class="admin-stat-card__value">20</div>
-        </div>
-        <div class="admin-stat-card">
-          <div class="admin-stat-card__top">
-            <div class="admin-stat-card__label">Весна / Літо</div>
-            <div class="admin-stat-card__icon"><i class="bi bi-flower1"></i></div>
-          </div>
-          <div class="admin-stat-card__value">10</div>
-        </div>
-        <div class="admin-stat-card">
-          <div class="admin-stat-card__top">
-            <div class="admin-stat-card__label">Осінь / Зима</div>
-            <div class="admin-stat-card__icon"><i class="bi bi-cloud-snow"></i></div>
-          </div>
-          <div class="admin-stat-card__value">10</div>
-        </div>
-      </div>
-
-      <!-- SPRING -->
-      <div class="admin-section-card" style="margin-bottom:1.25rem">
-        <div class="admin-section-card__header">
-          <div class="admin-section-card__title">🌸 Весна — 5 фото</div>
-        </div>
-        <div class="admin-section-card__body">
-          <div class="banner-grid">
-            <div class="banner-card"><img src="../rootImages/slider/spring-01.png" alt="spring-01"/><div class="banner-card__name">spring-01.png</div></div>
-            <div class="banner-card"><img src="../rootImages/slider/spring-02.png" alt="spring-02"/><div class="banner-card__name">spring-02.png</div></div>
-            <div class="banner-card"><img src="../rootImages/slider/spring-03.png" alt="spring-03"/><div class="banner-card__name">spring-03.png</div></div>
-            <div class="banner-card"><img src="../rootImages/slider/spring-04.png" alt="spring-04"/><div class="banner-card__name">spring-04.png</div></div>
-            <div class="banner-card"><img src="../rootImages/slider/spring-05.png" alt="spring-05"/><div class="banner-card__name">spring-05.png</div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- SUMMER -->
-      <div class="admin-section-card" style="margin-bottom:1.25rem">
-        <div class="admin-section-card__header">
-          <div class="admin-section-card__title">☀️ Літо — 5 фото</div>
-        </div>
-        <div class="admin-section-card__body">
-          <div class="banner-grid">
-            <div class="banner-card"><img src="../rootImages/slider/summer-01.png" alt="summer-01"/><div class="banner-card__name">summer-01.png</div></div>
-            <div class="banner-card"><img src="../rootImages/slider/summer-02.png" alt="summer-02"/><div class="banner-card__name">summer-02.png</div></div>
-            <div class="banner-card"><img src="../rootImages/slider/summer-03.png" alt="summer-03"/><div class="banner-card__name">summer-03.png</div></div>
-            <div class="banner-card"><img src="../rootImages/slider/summer-04.png" alt="summer-04"/><div class="banner-card__name">summer-04.png</div></div>
-            <div class="banner-card"><img src="../rootImages/slider/summer-05.png" alt="summer-05"/><div class="banner-card__name">summer-05.png</div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- AUTUMN -->
-      <div class="admin-section-card" style="margin-bottom:1.25rem">
-        <div class="admin-section-card__header">
-          <div class="admin-section-card__title">🍂 Осінь — 5 фото</div>
-        </div>
-        <div class="admin-section-card__body">
-          <div class="banner-grid">
-            <div class="banner-card"><img src="../rootImages/slider/autumn-01.png" alt="autumn-01"/><div class="banner-card__name">autumn-01.png</div></div>
-            <div class="banner-card"><img src="../rootImages/slider/autumn-02.png" alt="autumn-02"/><div class="banner-card__name">autumn-02.png</div></div>
-            <div class="banner-card"><img src="../rootImages/slider/autumn-03.png" alt="autumn-03"/><div class="banner-card__name">autumn-03.png</div></div>
-            <div class="banner-card"><img src="../rootImages/slider/autumn-04.png" alt="autumn-04"/><div class="banner-card__name">autumn-04.png</div></div>
-            <div class="banner-card"><img src="../rootImages/slider/autumn-05.png" alt="autumn-05"/><div class="banner-card__name">autumn-05.png</div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- WINTER -->
-      <div class="admin-section-card">
-        <div class="admin-section-card__header">
-          <div class="admin-section-card__title">❄️ Зима — 5 фото</div>
-        </div>
-        <div class="admin-section-card__body">
-          <div class="banner-grid">
-            <div class="banner-card"><img src="../rootImages/slider/winter-01.png" alt="winter-01"/><div class="banner-card__name">winter-01.png</div></div>
-            <div class="banner-card"><img src="../rootImages/slider/winter-02.png" alt="winter-02"/><div class="banner-card__name">winter-02.png</div></div>
-            <div class="banner-card"><img src="../rootImages/slider/winter-03.png" alt="winter-03"/><div class="banner-card__name">winter-03.png</div></div>
-            <div class="banner-card"><img src="../rootImages/slider/winter-04.png" alt="winter-04"/><div class="banner-card__name">winter-04.png</div></div>
-            <div class="banner-card"><img src="../rootImages/slider/winter-05.png" alt="winter-05"/><div class="banner-card__name">winter-05.png</div></div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <div id="sectionSettings" style="display:none">
-      <div class="admin-section-card">
-        <div class="admin-section-card__header"><div class="admin-section-card__title">Налаштування</div></div>
-        <div class="admin-section-card__body">
-          <div class="empty-state"><i class="bi bi-gear"></i><p>Налаштування у розробці</p></div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ADD / EDIT MODAL -->
-<div class="admin-modal-overlay" id="catModal">
-  <div class="admin-modal">
-    <div class="admin-modal-header">
-      <div>
-        <h5 id="modalTitle">Додати категорію</h5>
-        <p id="modalSubtitle">Заповніть дані нової категорії</p>
-      </div>
-      <button class="admin-modal-close" onclick="closeModal()"><i class="bi bi-x"></i></button>
-    </div>
-    <div class="admin-modal-divider"></div>
-    <div class="admin-modal-body">
-      <input type="hidden" id="editId"/>
-      <div style="display:grid;gap:.875rem">
-
-        <div class="admin-form-group">
-          <label>Назва категорії *</label>
-          <input type="text" id="fName" placeholder="Наприклад: Сукні"/>
-        </div>
-
-        <div class="admin-form-group">
-          <label>Слаг (URL) *</label>
-          <input type="text" id="fSlug" placeholder="sukni"/>
-        </div>
-
-        <div class="admin-form-group">
-          <label>URL фотографії</label>
-          <input type="url" id="fPhoto" placeholder="https://..." oninput="previewPhoto()"/>
-          <img id="photoPreview" class="admin-img-preview" alt="preview"/>
-        </div>
-
-        <div class="admin-form-group">
-          <label>Кількість товарів</label>
-          <input type="number" id="fCount" placeholder="0" min="0"/>
-        </div>
-
-        <div class="admin-form-group">
-          <label style="display:flex;align-items:center;gap:.6rem;cursor:pointer">
-            <label class="toggle-switch">
-              <input type="checkbox" id="fActive" checked/>
-              <span class="toggle-slider"></span>
-            </label>
-            Активна (відображається на сайті)
-          </label>
-        </div>
-
-      </div>
-    </div>
-    <div class="admin-modal-footer">
-      <button class="admin-btn-secondary" onclick="closeModal()">Скасувати</button>
-      <button class="admin-btn-primary" onclick="saveCategory()">
-        <i class="bi bi-check2"></i> Зберегти
-      </button>
     </div>
   </div>
 </div>
-
-<!-- DELETE CONFIRM MODAL -->
-<div class="admin-modal-overlay" id="deleteModal">
-  <div class="admin-modal">
-    <div class="admin-modal-header">
-      <div>
-        <h5>Видалити категорію?</h5>
-        <p>Цю дію не можна скасувати.</p>
-      </div>
-      <button class="admin-modal-close" onclick="closeDeleteModal()"><i class="bi bi-x"></i></button>
-    </div>
-    <div class="admin-modal-divider"></div>
-    <div class="admin-modal-body">
-      <p style="color:var(--muted);font-size:.9rem">
-        Ви впевнені, що хочете видалити категорію <strong id="deleteName" style="color:var(--text)"></strong>?
-      </p>
-    </div>
-    <div class="admin-modal-footer">
-      <button class="admin-btn-secondary" onclick="closeDeleteModal()">Скасувати</button>
-      <button class="admin-btn-primary" style="background:var(--danger)" onclick="confirmDelete()">
-        <i class="bi bi-trash3"></i> Видалити
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- TOAST -->
-<div class="admin-toast" id="toast"><i class="bi bi-check-circle-fill"></i><span id="toastMsg"></span></div>
 
 <script>
-/* ============================================================
-   DATA — localStorage key: skinz_admin_categories
-   ============================================================ */
-const STORAGE_KEY = 'skinz_admin_categories';
-
-const DEFAULT_CATEGORIES = [
-  { id: 1, name: 'Боді', slug: 'body', photo: 'https://images.pexels.com/photos/5935748/pexels-photo-5935748.jpeg?auto=compress&cs=tinysrgb&w=200', count: 12, active: true },
-  { id: 2, name: 'Сукні', slug: 'sukni', photo: 'https://images.pexels.com/photos/1187719/pexels-photo-1187719.jpeg?auto=compress&cs=tinysrgb&w=200', count: 18, active: true },
-  { id: 3, name: 'Нижня білизна', slug: 'bilyznа', photo: 'https://images.pexels.com/photos/4792086/pexels-photo-4792086.jpeg?auto=compress&cs=tinysrgb&w=200', count: 9, active: true },
-  { id: 4, name: 'Топи', slug: 'topy', photo: 'https://images.pexels.com/photos/2249528/pexels-photo-2249528.jpeg?auto=compress&cs=tinysrgb&w=200', count: 15, active: true },
-  { id: 5, name: 'Комбінезони', slug: 'kombinezony', photo: 'https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinysrgb&w=200', count: 7, active: true },
-  { id: 6, name: 'Шорти', slug: 'shorty', photo: 'https://images.pexels.com/photos/1485781/pexels-photo-1485781.jpeg?auto=compress&cs=tinysrgb&w=200', count: 6, active: true },
-  { id: 7, name: 'Піжами', slug: 'pyzhamы', photo: 'https://images.pexels.com/photos/3807332/pexels-photo-3807332.jpeg?auto=compress&cs=tinysrgb&w=200', count: 4, active: true },
-  { id: 8, name: 'Спідниці', slug: 'spidnytsi', photo: 'https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinysrgb&w=200', count: 8, active: true },
-  { id: 9, name: 'Джинси', slug: 'dzhinsy', photo: 'https://images.pexels.com/photos/1082529/pexels-photo-1082529.jpeg?auto=compress&cs=tinysrgb&w=200', count: 5, active: false },
-  { id: 10, name: 'Пальта', slug: 'palta', photo: 'https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=200', count: 6, active: true },
-];
-
-let categories = [];
-let deleteTargetId = null;
-
-function loadCategories() {
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored) {
-    categories = JSON.parse(stored);
-  } else {
-    categories = DEFAULT_CATEGORIES;
-    saveToStorage();
-  }
-}
-
-function saveToStorage() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(categories));
-}
-
-function nextId() {
-  return categories.length ? Math.max(...categories.map(c => c.id)) + 1 : 1;
-}
-
-/* ============================================================
-   RENDER
-   ============================================================ */
-function renderTable() {
-  const query = (document.getElementById('catSearch')?.value || '').toLowerCase();
-  const filtered = categories.filter(c => c.name.toLowerCase().includes(query) || c.slug.toLowerCase().includes(query));
-
-  const tbody = document.getElementById('catTableBody');
-  const empty = document.getElementById('catEmptyState');
-
-  if (filtered.length === 0) {
-    tbody.innerHTML = '';
-    empty.style.display = 'block';
-  } else {
-    empty.style.display = 'none';
-    tbody.innerHTML = filtered.map(cat => `
-      <tr>
-        <td>
-          ${cat.photo
-            ? `<img src="${escHtml(cat.photo)}" class="cat-thumb" alt="${escHtml(cat.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
-            : ''
-          }
-          <div class="cat-thumb-placeholder" ${cat.photo ? 'style="display:none"' : ''}><i class="bi bi-image"></i></div>
-        </td>
-        <td>
-          <a href="admin-category.html?id=${cat.id}" class="cat-name" style="color:var(--text);text-decoration:none;transition:color .15s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text)'">${escHtml(cat.name)}</a>
-        </td>
-        <td><code style="font-size:.8rem;color:var(--muted)">${escHtml(cat.slug)}</code></td>
-        <td>${cat.count ?? 0}</td>
-        <td>
-          <span class="${cat.active ? 'badge-active' : 'badge-hidden'}">${cat.active ? 'Активна' : 'Прихована'}</span>
-        </td>
-        <td>
-          <div style="display:flex;align-items:center;gap:.375rem">
-            <a href="admin-category.html?id=${cat.id}" class="admin-btn-icon" title="Редагувати" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none">
-              <i class="bi bi-pencil"></i>
-            </a>
-            <button class="admin-btn-icon danger" onclick="openDeleteModal(${cat.id})" title="Видалити">
-              <i class="bi bi-trash3"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
-    `).join('');
-  }
-
-  updateStats();
-}
-
-function updateStats() {
-  document.getElementById('statTotal').textContent = categories.length;
-  document.getElementById('statActive').textContent = categories.filter(c => c.active).length;
-  document.getElementById('statHidden').textContent = categories.filter(c => !c.active).length;
-}
-
-/* ============================================================
-   MODALS
-   ============================================================ */
-function openAddModal() {
-  document.getElementById('modalTitle').textContent = 'Додати категорію';
-  document.getElementById('editId').value = '';
-  document.getElementById('fName').value = '';
-  document.getElementById('fSlug').value = '';
-  document.getElementById('fPhoto').value = '';
-  document.getElementById('fCount').value = '';
-  document.getElementById('fActive').checked = true;
-  document.getElementById('photoPreview').style.display = 'none';
-  document.getElementById('catModal').classList.add('open');
-}
-
-function openEditModal(id) {
-  const cat = categories.find(c => c.id === id);
-  if (!cat) return;
-  document.getElementById('modalTitle').textContent = 'Редагувати категорію';
-  document.getElementById('editId').value = id;
-  document.getElementById('fName').value = cat.name;
-  document.getElementById('fSlug').value = cat.slug;
-  document.getElementById('fPhoto').value = cat.photo || '';
-  document.getElementById('fCount').value = cat.count ?? '';
-  document.getElementById('fActive').checked = cat.active;
-  const prev = document.getElementById('photoPreview');
-  if (cat.photo) { prev.src = cat.photo; prev.style.display = 'block'; } else { prev.style.display = 'none'; }
-  document.getElementById('catModal').classList.add('open');
-}
-
-function closeModal() {
-  document.getElementById('catModal').classList.remove('open');
-}
-
-function previewPhoto() {
-  const url = document.getElementById('fPhoto').value.trim();
-  const prev = document.getElementById('photoPreview');
-  if (url) { prev.src = url; prev.style.display = 'block'; } else { prev.style.display = 'none'; }
-}
-
-function saveCategory() {
-  const name = document.getElementById('fName').value.trim();
-  const slug = document.getElementById('fSlug').value.trim();
-  const photo = document.getElementById('fPhoto').value.trim();
-  const count = parseInt(document.getElementById('fCount').value) || 0;
-  const active = document.getElementById('fActive').checked;
-
-  if (!name) { showToast('Введіть назву категорії', 'error'); return; }
-  if (!slug) { showToast('Введіть слаг', 'error'); return; }
-
-  const editId = document.getElementById('editId').value;
-  if (editId) {
-    const idx = categories.findIndex(c => c.id === parseInt(editId));
-    if (idx !== -1) {
-      categories[idx] = { ...categories[idx], name, slug, photo, count, active };
-      showToast('Категорію оновлено ✓', 'success');
-    }
-  } else {
-    categories.push({ id: nextId(), name, slug, photo, count, active });
-    showToast('Категорію додано ✓', 'success');
-  }
-
-  saveToStorage();
-  closeModal();
-  renderTable();
-}
-
-/* ============================================================
-   DELETE
-   ============================================================ */
-function openDeleteModal(id) {
-  const cat = categories.find(c => c.id === id);
-  if (!cat) return;
-  deleteTargetId = id;
-  document.getElementById('deleteName').textContent = cat.name;
-  document.getElementById('deleteModal').classList.add('open');
-}
-
-function closeDeleteModal() {
-  deleteTargetId = null;
-  document.getElementById('deleteModal').classList.remove('open');
-}
-
-function confirmDelete() {
-  if (deleteTargetId === null) return;
-  categories = categories.filter(c => c.id !== deleteTargetId);
-  saveToStorage();
-  closeDeleteModal();
-  renderTable();
-  showToast('Категорію видалено', 'success');
-}
-
-/* ============================================================
-   NAVIGATION
-   ============================================================ */
-const sectionMap = {
-  categories: { el: 'sectionCategories', title: 'Категорії',   icon: 'bi-grid-3x3-gap' },
-  products:   { el: 'sectionProducts',   title: 'Товари',      icon: 'bi-bag' },
-  orders:     { el: 'sectionOrders',     title: 'Замовлення',  icon: 'bi-receipt' },
-  dashboard:  { el: 'sectionDashboard', title: 'Головна',     icon: 'bi-house' },
-  banners:    { el: 'sectionBanners',    title: 'Банери',      icon: 'bi-image' },
-  settings:   { el: 'sectionSettings',  title: 'Налаштування', icon: 'bi-gear' },
-};
-
-function showSection(key, linkEl) {
-  Object.values(sectionMap).forEach(s => {
-    const el = document.getElementById(s.el);
-    if (el) el.style.display = 'none';
-  });
-  const section = sectionMap[key];
-  if (section) {
-    document.getElementById(section.el).style.display = 'block';
-    document.getElementById('topbarTitle').textContent = section.title;
-    const iconEl = document.getElementById('topbarIcon');
-    if (iconEl) iconEl.innerHTML = `<i class="bi ${section.icon}"></i>`;
-  }
-  document.querySelectorAll('.admin-nav-link').forEach(l => l.classList.remove('active'));
-  if (linkEl) linkEl.classList.add('active');
-
-  const addBtn = document.getElementById('topbarAddBtn');
-  if (addBtn) addBtn.style.display = (key === 'categories') ? 'inline-flex' : 'none';
-
-  const catStats = document.getElementById('catStats');
-  if (catStats) catStats.style.display = (key === 'categories') ? 'grid' : 'none';
-
-  if (window.innerWidth < 768) closeSidebar();
-}
-
-/* ============================================================
-   TOAST
-   ============================================================ */
-function showToast(msg, type = 'success') {
-  const t = document.getElementById('toast');
-  const msgEl = document.getElementById('toastMsg');
-  const icon = t.querySelector('i');
-  if (msgEl) msgEl.textContent = msg;
-  if (icon) icon.className = type === 'error' ? 'bi bi-x-circle-fill' : 'bi bi-check-circle-fill';
-  t.className = 'admin-toast ' + type + ' show';
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-/* ============================================================
-   AUTO-SLUG
-   ============================================================ */
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('fName')?.addEventListener('input', function () {
-    if (!document.getElementById('editId').value) {
-      document.getElementById('fSlug').value = slugify(this.value);
-    }
-  });
-});
-
-function slugify(str) {
-  const map = { 'а':'a','б':'b','в':'v','г':'h','ґ':'g','д':'d','е':'e','є':'ye','ж':'zh','з':'z','и':'y','і':'i','ї':'yi','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'kh','ц':'ts','ч':'ch','ш':'sh','щ':'shch','ь':'','ю':'yu','я':'ya',' ':'-' };
-  return str.toLowerCase().split('').map(c => map[c] ?? c).join('').replace(/[^a-z0-9-]/g,'').replace(/-+/g,'-').replace(/^-|-$/g,'');
-}
-
-/* ============================================================
-   MOBILE SIDEBAR
-   ============================================================ */
 function toggleSidebar() {
   document.getElementById('adminSidebar').classList.toggle('open');
   document.getElementById('sidebarOverlay').classList.toggle('show');
 }
-function closeSidebar() {
-  document.getElementById('adminSidebar').classList.remove('open');
-  document.getElementById('sidebarOverlay').classList.remove('show');
-}
 
-/* ============================================================
-   HELPERS
-   ============================================================ */
-function escHtml(str) {
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-/* ============================================================
-   DASHBOARD
-   ============================================================ */
-function updateDashboard() {
+(function () {
+  const STORAGE_KEY = 'skinz_admin_categories';
   const today = new Date().toISOString().split('T')[0];
   const views = parseInt(localStorage.getItem('skinz_views_' + today) || '0');
-  const el = document.getElementById('dashViews');
-  if (el) el.textContent = views > 0 ? views : '—';
+  document.getElementById('dashViews').textContent = views > 0 ? views : '—';
 
-  const totalProducts = categories.reduce((sum, c) => sum + (c.count ?? 0), 0);
-  const pEl = document.getElementById('dashProducts');
-  if (pEl) pEl.textContent = totalProducts;
-
-  const cEl = document.getElementById('dashCategories');
-  if (cEl) cEl.textContent = categories.length;
-}
-
-/* ============================================================
-   INIT
-   ============================================================ */
-loadCategories();
-renderTable();
-updateDashboard();
-showSection('dashboard', document.getElementById('navDashboard'));
+  try {
+    const cats = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    document.getElementById('dashCategories').textContent = cats.length || '—';
+    const total = cats.reduce((s, c) => s + (c.count ?? 0), 0);
+    document.getElementById('dashProducts').textContent = total || '—';
+  } catch (e) {}
+})();
 </script>
 </body>
 </html>
