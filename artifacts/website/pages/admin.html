@@ -330,6 +330,25 @@
     .toggle-switch input:checked + .toggle-slider { background: var(--success); }
     .toggle-switch input:checked + .toggle-slider::before { transform: translateX(18px); }
 
+    /* ─── DASHBOARD ─────────────────────────── */
+    .dash-quick-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .dash-quick-card {
+      display: flex; align-items: center; gap: 0.875rem;
+      padding: 1rem 1.125rem; border-radius: 10px;
+      border: 1px solid var(--border); text-decoration: none;
+      color: var(--text); transition: all .15s; background: #fff;
+      cursor: pointer;
+    }
+    .dash-quick-card:hover { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 0 3px rgba(139,26,42,0.08); }
+    .dash-quick-icon {
+      width: 40px; height: 40px; border-radius: 8px; background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.125rem; color: var(--muted); flex-shrink: 0; transition: all .15s;
+    }
+    .dash-quick-card:hover .dash-quick-icon { background: rgba(139,26,42,0.08); color: var(--accent); }
+    .dash-quick-label { font-size: .875rem; font-weight: 600; }
+    .dash-quick-sub { font-size: .75rem; color: var(--muted); margin-top: .125rem; }
+
     /* ─── BANNER GRID ────────────────────────── */
     .banner-grid {
       display: grid;
@@ -389,21 +408,24 @@
     </div>
   </div>
   <nav class="admin-nav">
+    <a href="#" class="admin-nav-link active" id="navDashboard" onclick="showSection('dashboard', this)">
+      <span class="nav-icon-wrap"><i class="bi bi-house"></i></span> Головна
+    </a>
     <div class="admin-nav-label">Керування</div>
-    <a href="#" class="admin-nav-link active" onclick="showSection('categories', this)">
+    <a href="#" class="admin-nav-link" id="navCategories" onclick="showSection('categories', this)">
       <span class="nav-icon-wrap"><i class="bi bi-grid-3x3-gap"></i></span> Категорії
     </a>
-    <a href="#" class="admin-nav-link" onclick="showSection('products', this)">
+    <a href="#" class="admin-nav-link" id="navProducts" onclick="showSection('products', this)">
       <span class="nav-icon-wrap"><i class="bi bi-bag"></i></span> Товари
     </a>
-    <a href="#" class="admin-nav-link" onclick="showSection('orders', this)">
+    <a href="#" class="admin-nav-link" id="navOrders" onclick="showSection('orders', this)">
       <span class="nav-icon-wrap"><i class="bi bi-receipt"></i></span> Замовлення
     </a>
     <div class="admin-nav-label">Сайт</div>
-    <a href="#" class="admin-nav-link" onclick="showSection('banners', this)">
+    <a href="#" class="admin-nav-link" id="navBanners" onclick="showSection('banners', this)">
       <span class="nav-icon-wrap"><i class="bi bi-image"></i></span> Банери
     </a>
-    <a href="#" class="admin-nav-link" onclick="showSection('settings', this)">
+    <a href="#" class="admin-nav-link" id="navSettings" onclick="showSection('settings', this)">
       <span class="nav-icon-wrap"><i class="bi bi-gear"></i></span> Налаштування
     </a>
   </nav>
@@ -438,6 +460,71 @@
 
   <!-- CONTENT -->
   <div class="admin-content">
+
+    <!-- ═══ DASHBOARD SECTION ═══════════════════════════════ -->
+    <div id="sectionDashboard">
+      <div style="margin-bottom:1.5rem">
+        <h2 style="font-size:1.375rem;font-weight:800;letter-spacing:-0.03em;margin:0 0 .25rem">Панель управління</h2>
+        <p style="color:var(--muted);font-size:.875rem;margin:0">Огляд активності сайту SKINZ</p>
+      </div>
+
+      <div class="admin-stats" style="grid-template-columns:repeat(4,minmax(140px,1fr));margin-bottom:1.75rem">
+        <div class="admin-stat-card">
+          <div class="admin-stat-card__top">
+            <div class="admin-stat-card__label">Переглядів сьогодні</div>
+            <div class="admin-stat-card__icon"><i class="bi bi-eye"></i></div>
+          </div>
+          <div class="admin-stat-card__value" id="dashViews">—</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-card__top">
+            <div class="admin-stat-card__label">Товарів у каталозі</div>
+            <div class="admin-stat-card__icon"><i class="bi bi-bag"></i></div>
+          </div>
+          <div class="admin-stat-card__value" id="dashProducts">—</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-card__top">
+            <div class="admin-stat-card__label">Категорій</div>
+            <div class="admin-stat-card__icon"><i class="bi bi-grid-3x3-gap"></i></div>
+          </div>
+          <div class="admin-stat-card__value" id="dashCategories">—</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-card__top">
+            <div class="admin-stat-card__label">Замовлень</div>
+            <div class="admin-stat-card__icon"><i class="bi bi-receipt"></i></div>
+          </div>
+          <div class="admin-stat-card__value" id="dashOrders">0</div>
+        </div>
+      </div>
+
+      <div class="admin-section-card">
+        <div class="admin-section-card__header">
+          <div class="admin-section-card__title">Швидкий доступ</div>
+        </div>
+        <div class="admin-section-card__body">
+          <div class="dash-quick-grid">
+            <a href="#" class="dash-quick-card" onclick="showSection('categories', document.getElementById('navCategories'));return false">
+              <div class="dash-quick-icon"><i class="bi bi-grid-3x3-gap"></i></div>
+              <div><div class="dash-quick-label">Категорії</div><div class="dash-quick-sub">Управління категоріями</div></div>
+            </a>
+            <a href="#" class="dash-quick-card" onclick="showSection('products', document.getElementById('navProducts'));return false">
+              <div class="dash-quick-icon"><i class="bi bi-bag"></i></div>
+              <div><div class="dash-quick-label">Товари</div><div class="dash-quick-sub">Каталог товарів</div></div>
+            </a>
+            <a href="#" class="dash-quick-card" onclick="showSection('banners', document.getElementById('navBanners'));return false">
+              <div class="dash-quick-icon"><i class="bi bi-image"></i></div>
+              <div><div class="dash-quick-label">Банери</div><div class="dash-quick-sub">Слайдер на головній</div></div>
+            </a>
+            <a href="../index.html" target="_blank" class="dash-quick-card">
+              <div class="dash-quick-icon"><i class="bi bi-arrow-up-right-square"></i></div>
+              <div><div class="dash-quick-label">Відкрити сайт</div><div class="dash-quick-sub">Переглянути у новій вкладці</div></div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- STATS -->
     <div class="admin-stats" id="catStats">
@@ -777,9 +864,9 @@ function renderTable() {
         </td>
         <td>
           <div style="display:flex;align-items:center;gap:.375rem">
-            <button class="admin-btn-icon" onclick="openEditModal(${cat.id})" title="Редагувати">
+            <a href="admin-category.html?id=${cat.id}" class="admin-btn-icon" title="Редагувати" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none">
               <i class="bi bi-pencil"></i>
-            </button>
+            </a>
             <button class="admin-btn-icon danger" onclick="openDeleteModal(${cat.id})" title="Видалити">
               <i class="bi bi-trash3"></i>
             </button>
@@ -897,6 +984,7 @@ const sectionMap = {
   categories: { el: 'sectionCategories', title: 'Категорії',   icon: 'bi-grid-3x3-gap' },
   products:   { el: 'sectionProducts',   title: 'Товари',      icon: 'bi-bag' },
   orders:     { el: 'sectionOrders',     title: 'Замовлення',  icon: 'bi-receipt' },
+  dashboard:  { el: 'sectionDashboard', title: 'Головна',     icon: 'bi-house' },
   banners:    { el: 'sectionBanners',    title: 'Банери',      icon: 'bi-image' },
   settings:   { el: 'sectionSettings',  title: 'Налаштування', icon: 'bi-gear' },
 };
@@ -974,10 +1062,29 @@ function escHtml(str) {
 }
 
 /* ============================================================
+   DASHBOARD
+   ============================================================ */
+function updateDashboard() {
+  const today = new Date().toISOString().split('T')[0];
+  const views = parseInt(localStorage.getItem('skinz_views_' + today) || '0');
+  const el = document.getElementById('dashViews');
+  if (el) el.textContent = views > 0 ? views : '—';
+
+  const totalProducts = categories.reduce((sum, c) => sum + (c.count ?? 0), 0);
+  const pEl = document.getElementById('dashProducts');
+  if (pEl) pEl.textContent = totalProducts;
+
+  const cEl = document.getElementById('dashCategories');
+  if (cEl) cEl.textContent = categories.length;
+}
+
+/* ============================================================
    INIT
    ============================================================ */
 loadCategories();
 renderTable();
+updateDashboard();
+showSection('dashboard', document.getElementById('navDashboard'));
 </script>
 </body>
 </html>

@@ -10,6 +10,15 @@
   }
 })();
 
+/* ── Track daily page views for admin dashboard ── */
+(function () {
+  try {
+    const today = new Date().toISOString().split('T')[0];
+    const k = 'skinz_views_' + today;
+    localStorage.setItem(k, String((parseInt(localStorage.getItem(k) || '0') + 1)));
+  } catch (e) {}
+})();
+
 document.addEventListener('DOMContentLoaded', function () {
 
   /* ── Theme toggle (desktop + mobile) ── */
