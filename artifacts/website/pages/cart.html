@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <script>!function(){var t=localStorage.getItem("skinz-theme");t&&document.documentElement.setAttribute("data-theme",t)}();</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Кошик — SKINZ</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="../css/main.css" rel="stylesheet"/>
+  <link href="../css/components.css" rel="stylesheet"/>
+  <style>
+    /* ── Cart Items ── */
+    .cart-item {
+      display: flex; gap: 1.25rem; align-items: flex-start;
+      padding: 1.5rem 0; border-bottom: 1px solid var(--color-border);
+    }
+    .cart-item:last-child { border-bottom: none; }
+    .cart-item-img {
+      width: 110px; min-width: 110px; height: 140px;
+      border-radius: var(--radius-sm); overflow: hidden; background: var(--color-surface);
+    }
+    .cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
+    .cart-item-info { flex: 1; min-width: 0; }
+    .cart-item-brand { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-accent); margin-bottom: 0.25rem; }
+    .cart-item-name { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; line-height: 1.3; }
+    .cart-item-meta { font-size: 0.8125rem; color: var(--color-text-muted); margin-bottom: 0.875rem; }
+    .cart-item-meta span + span::before { content: " · "; }
+    .cart-item-price { font-size: 1.125rem; font-weight: 700; color: var(--color-accent); }
+    .cart-item-old-price { font-size: 0.875rem; color: var(--color-text-muted); text-decoration: line-through; margin-right: 0.5rem; }
+    .cart-item-actions { display: flex; align-items: center; gap: 1rem; margin-top: 0.875rem; }
+    .cart-item-remove { background: none; border: none; color: var(--color-text-muted); font-size: 0.8125rem; cursor: pointer; display: flex; align-items: center; gap: 0.3rem; padding: 0; transition: color var(--transition); }
+    .cart-item-remove:hover { color: #c0392b; }
+
+    /* ── Quantity Control ── */
+    .qty-control { display: flex; align-items: center; border: 1px solid var(--color-border); border-radius: var(--radius-sm); overflow: hidden; }
+    .qty-btn { width: 34px; height: 34px; border: none; background: var(--color-surface); color: var(--color-text); cursor: pointer; font-size: 1rem; transition: background var(--transition); display: flex; align-items: center; justify-content: center; }
+    .qty-btn:hover { background: var(--color-border); }
+    .qty-input { width: 40px; height: 34px; border: none; border-left: 1px solid var(--color-border); border-right: 1px solid var(--color-border); background: transparent; color: var(--color-text); text-align: center; font-size: 0.875rem; font-family: var(--font-base); }
+    .qty-input:focus { outline: none; }
+
+    /* ── Order Summary ── */
+    .order-summary {
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: var(--radius-md); padding: 1.75rem; position: sticky; top: 90px;
+    }
+    .order-summary-title { font-size: 1.125rem; font-weight: 700; margin-bottom: 1.5rem; }
+    .summary-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.875rem; font-size: 0.9375rem; }
+    .summary-row .label { color: var(--color-text-muted); }
+    .summary-row.total { border-top: 1px solid var(--color-border); padding-top: 1rem; margin-top: 0.5rem; font-weight: 700; font-size: 1.125rem; }
+    .summary-row.total .label { color: var(--color-text); }
+    .summary-discount { color: #27ae60; font-weight: 600; }
+    .promo-block { margin: 1.25rem 0; }
+    .promo-input-row { display: flex; gap: 0.5rem; }
+    .promo-input { flex: 1; padding: 0.6rem 1rem; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-sm); color: var(--color-text); font-size: 0.875rem; font-family: var(--font-base); transition: border-color var(--transition); }
+    .promo-input:focus { outline: none; border-color: var(--color-accent); }
+    .promo-apply-btn { padding: 0.6rem 1rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-sm); color: var(--color-text); font-size: 0.875rem; font-family: var(--font-base); cursor: pointer; white-space: nowrap; transition: all var(--transition); }
+    .promo-apply-btn:hover { border-color: var(--color-accent); color: var(--color-accent); }
+    .promo-hint { font-size: 0.75rem; color: var(--color-text-muted); margin-top: 0.4rem; }
+    .checkout-btn { width: 100%; padding: 1rem; background: var(--color-accent); color: #fff; border: none; border-radius: var(--radius-sm); font-family: var(--font-base); font-size: 1rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; cursor: pointer; transition: background var(--transition); margin-top: 1.25rem; }
+    .checkout-btn:hover { background: var(--color-accent-dk); }
+    .continue-btn { display: block; text-align: center; margin-top: 0.875rem; font-size: 0.875rem; color: var(--color-text-muted); text-decoration: none; transition: color var(--transition); }
+    .continue-btn:hover { color: var(--color-accent); }
+    .secure-badges { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--color-border); }
+    .secure-badge { display: flex; align-items: center; gap: 0.35rem; font-size: 0.75rem; color: var(--color-text-muted); }
+    .secure-badge i { font-size: 0.9rem; }
+
+    /* ── Empty Cart ── */
+    .empty-cart { text-align: center; padding: 4rem 1rem; }
+    .empty-cart-icon { font-size: 4rem; color: var(--color-border); margin-bottom: 1.5rem; }
+    .empty-cart-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem; }
+    .empty-cart-desc { color: var(--color-text-muted); margin-bottom: 2rem; }
+
+    /* ── Cart badge ── */
+    .cart-items-section { background: var(--color-bg); }
+    .cart-section-heading { font-size: 1rem; font-weight: 600; color: var(--color-text-muted); margin-bottom: 0; padding-bottom: 1rem; border-bottom: 1px solid var(--color-border); }
+
+    @media (max-width: 767.98px) {
+      .cart-item-img { width: 85px; min-width: 85px; height: 110px; }
+      .order-summary { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg sticky-top" id="mainNav">
+  <div class="container-xl">
+    <a class="navbar-brand d-flex align-items-center gap-1" href="../index.html">
+      <span class="logo-text">SKINZ</span><span class="logo-accent">.</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="../index.html">Головна</a></li>
+        <li class="nav-item"><a class="nav-link" href="categories.html">Категорії</a></li>
+        <li class="nav-item"><a class="nav-link" href="catalog.html">Каталог</a></li>
+        <li class="nav-item"><a class="nav-link" href="contacts.html">Контакти</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+        <button id="themeToggle" class="nav-icon-btn theme-toggle-btn" title="Змінити тему" aria-label="Змінити тему"><i class="bi bi-sun"></i></button>
+        <a href="#" class="nav-icon-btn"><i class="bi bi-search"></i></a>
+        <a href="#" class="nav-icon-btn"><i class="bi bi-heart"></i></a>
+        <a href="cart.html" class="nav-icon-btn position-relative active">
+          <i class="bi bi-bag"></i><span class="cart-badge" id="cartBadge">2</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="page-header">
+  <div class="container-xl">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="../index.html">Головна</a></li>
+        <li class="breadcrumb-item active">Кошик</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<!-- CART MAIN -->
+<section class="section-sm">
+  <div class="container-xl">
+
+    <!-- FILLED CART (shown when items exist) -->
+    <div id="cartFilled">
+      <div class="row g-4 align-items-start">
+
+        <!-- Items column -->
+        <div class="col-lg-8">
+          <div class="d-flex align-items-center justify-content-between mb-4">
+            <h1 class="h4 mb-0">Кошик <span style="color:var(--color-text-muted);font-weight:400;font-size:1rem">(2 товари)</span></h1>
+            <button class="cart-item-remove" onclick="clearCart()" style="font-size:0.875rem">
+              <i class="bi bi-trash"></i> Очистити кошик
+            </button>
+          </div>
+
+          <!-- Item 1 -->
+          <div class="cart-item" id="cartItem1">
+            <div class="cart-item-img">
+              <img src="https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinysrgb&w=220&h=280&fit=crop" alt="Боді Ribbed Black"/>
+            </div>
+            <div class="cart-item-info">
+              <div class="cart-item-brand">SKINZ</div>
+              <div class="cart-item-name">Боді Ribbed Black</div>
+              <div class="cart-item-meta">
+                <span>Розмір: S</span>
+                <span>Колір: Чорний</span>
+              </div>
+              <div class="cart-item-actions">
+                <div class="qty-control">
+                  <button class="qty-btn" onclick="changeQty('qty1', -1)">−</button>
+                  <input class="qty-input" id="qty1" type="number" value="1" min="1" max="99" onchange="updateCart()"/>
+                  <button class="qty-btn" onclick="changeQty('qty1', 1)">+</button>
+                </div>
+                <div>
+                  <span class="cart-item-old-price">₴990</span>
+                  <span class="cart-item-price" id="price1">₴890</span>
+                </div>
+                <button class="cart-item-remove" onclick="removeItem('cartItem1')">
+                  <i class="bi bi-x-lg"></i> Видалити
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="cart-item" id="cartItem2">
+            <div class="cart-item-img">
+              <img src="https://images.pexels.com/photos/2220316/pexels-photo-2220316.jpeg?auto=compress&cs=tinysrgb&w=220&h=280&fit=crop" alt="Сукня міні Velvet Red"/>
+            </div>
+            <div class="cart-item-info">
+              <div class="cart-item-brand">SKINZ</div>
+              <div class="cart-item-name">Сукня міні Velvet Red</div>
+              <div class="cart-item-meta">
+                <span>Розмір: M</span>
+                <span>Колір: Бордовий</span>
+              </div>
+              <div class="cart-item-actions">
+                <div class="qty-control">
+                  <button class="qty-btn" onclick="changeQty('qty2', -1)">−</button>
+                  <input class="qty-input" id="qty2" type="number" value="1" min="1" max="99" onchange="updateCart()"/>
+                  <button class="qty-btn" onclick="changeQty('qty2', 1)">+</button>
+                </div>
+                <div>
+                  <span class="cart-item-price" id="price2">₴1 290</span>
+                </div>
+                <button class="cart-item-remove" onclick="removeItem('cartItem2')">
+                  <i class="bi bi-x-lg"></i> Видалити
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Delivery info -->
+          <div class="d-flex align-items-center gap-2 mt-4 p-3" style="background:var(--color-surface);border-radius:var(--radius-sm);border:1px solid var(--color-border);">
+            <i class="bi bi-truck" style="color:var(--color-accent);font-size:1.25rem;"></i>
+            <div>
+              <div style="font-size:0.875rem;font-weight:600;">Безкоштовна доставка від ₴1 500</div>
+              <div style="font-size:0.8125rem;color:var(--color-text-muted);">Новою поштою по всій Україні · 1–3 дні</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Summary column -->
+        <div class="col-lg-4">
+          <div class="order-summary">
+            <div class="order-summary-title">Ваше замовлення</div>
+
+            <div class="summary-row">
+              <span class="label">Товари (2 шт.)</span>
+              <span id="subtotal">₴2 180</span>
+            </div>
+            <div class="summary-row">
+              <span class="label">Знижка</span>
+              <span class="summary-discount" id="discount">−₴100</span>
+            </div>
+            <div class="summary-row">
+              <span class="label">Доставка</span>
+              <span style="color:#27ae60;">Безкоштовно</span>
+            </div>
+            <div class="summary-row total">
+              <span class="label">До сплати</span>
+              <span id="total">₴2 080</span>
+            </div>
+
+            <!-- Promo -->
+            <div class="promo-block">
+              <div class="promo-input-row">
+                <input class="promo-input" type="text" id="promoCode" placeholder="Промокод" />
+                <button class="promo-apply-btn" onclick="applyPromo()">Застосувати</button>
+              </div>
+              <div class="promo-hint" id="promoHint">Введіть промокод для отримання знижки</div>
+            </div>
+
+            <button class="checkout-btn" onclick="window.location.href='#'">
+              Оформити замовлення <i class="bi bi-arrow-right ms-1"></i>
+            </button>
+            <a href="catalog.html" class="continue-btn">← Продовжити покупки</a>
+
+            <div class="secure-badges">
+              <div class="secure-badge"><i class="bi bi-shield-check"></i> Безпечна оплата</div>
+              <div class="secure-badge"><i class="bi bi-arrow-return-left"></i> Повернення 14 днів</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- EMPTY CART (shown when cart is empty) -->
+    <div id="cartEmpty" style="display:none;">
+      <div class="empty-cart">
+        <div class="empty-cart-icon"><i class="bi bi-bag"></i></div>
+        <div class="empty-cart-title">Ваш кошик порожній</div>
+        <div class="empty-cart-desc">Додайте товари з каталогу, щоб оформити замовлення</div>
+        <a href="catalog.html" class="btn-accent d-inline-flex align-items-center gap-2" style="padding:0.875rem 2.5rem;border-radius:6px;text-decoration:none;">
+          Перейти до каталогу <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- YOU MAY ALSO LIKE -->
+<section class="section bg-surface" id="cartFilled2">
+  <div class="container-xl">
+    <div class="text-center mb-4">
+      <p class="section-eyebrow">Рекомендуємо</p>
+      <h2 class="section-title">Вам також може сподобатись</h2>
+    </div>
+    <div class="row g-3">
+      <div class="col-6 col-lg-3">
+        <a href="product.html" class="product-card">
+          <div class="product-card-img">
+            <img src="https://images.pexels.com/photos/5935748/pexels-photo-5935748.jpeg?auto=compress&cs=tinysrgb&w=400&h=600&fit=crop" alt="Комплект нижньої білизни"/>
+            <div class="product-card-footer">
+              <button class="btn-add-cart" onclick="addToCart(this)">До кошика</button>
+              <a href="product.html" class="btn-card-detail">Детальніше</a>
+            </div>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-category">Нижня білизна</div>
+            <div class="product-card-name">Комплект Lace Nude</div>
+            <div class="product-card-rating">
+              <span class="stars">★★★★★</span><span class="rating-val">4.8</span>
+            </div>
+            <div class="product-card-price">₴650</div>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-lg-3">
+        <a href="product.html" class="product-card">
+          <div class="product-card-img">
+            <span class="product-badge badge-new">NEW</span>
+            <img src="https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinysrgb&w=400&h=600&fit=crop" alt="Комбінезон Linen Beige"/>
+            <div class="product-card-footer">
+              <button class="btn-add-cart" onclick="addToCart(this)">До кошика</button>
+              <a href="product.html" class="btn-card-detail">Детальніше</a>
+            </div>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-category">Комбінезони</div>
+            <div class="product-card-name">Комбінезон Linen Beige</div>
+            <div class="product-card-rating">
+              <span class="stars">★★★★☆</span><span class="rating-val">4.6</span>
+            </div>
+            <div class="product-card-price">₴1 490</div>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-lg-3">
+        <a href="product.html" class="product-card">
+          <div class="product-card-img">
+            <img src="https://images.pexels.com/photos/2249528/pexels-photo-2249528.jpeg?auto=compress&cs=tinysrgb&w=400&h=600&fit=crop" alt="Топ Basic White"/>
+            <div class="product-card-footer">
+              <button class="btn-add-cart" onclick="addToCart(this)">До кошика</button>
+              <a href="product.html" class="btn-card-detail">Детальніше</a>
+            </div>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-category">Топи</div>
+            <div class="product-card-name">Топ Basic White</div>
+            <div class="product-card-rating">
+              <span class="stars">★★★★★</span><span class="rating-val">4.9</span>
+            </div>
+            <div class="product-card-price">₴490</div>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-lg-3">
+        <a href="product.html" class="product-card">
+          <div class="product-card-img">
+            <span class="product-badge badge-sale">−20%</span>
+            <img src="https://images.pexels.com/photos/1758144/pexels-photo-1758144.jpeg?auto=compress&cs=tinysrgb&w=400&h=600&fit=crop" alt="Сукня Maxi Black"/>
+            <div class="product-card-footer">
+              <button class="btn-add-cart" onclick="addToCart(this)">До кошика</button>
+              <a href="product.html" class="btn-card-detail">Детальніше</a>
+            </div>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-category">Сукні</div>
+            <div class="product-card-name">Сукня Maxi Black</div>
+            <div class="product-card-rating">
+              <span class="stars">★★★★☆</span><span class="rating-val">4.7</span>
+            </div>
+            <div class="product-card-price"><span style="text-decoration:line-through;color:var(--color-text-muted);font-size:0.875rem;">₴1 890</span> ₴1 512</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container-xl">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="footer-logo"><span class="logo-text">SKINZ</span><span class="logo-accent">.</span></div>
+        <p class="footer-tagline">Сучасний жіночий одяг від українського бренду.</p>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-link"><i class="bi bi-tiktok"></i></a>
+          <a href="#" class="social-link"><i class="bi bi-telegram"></i></a>
+          <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-2 offset-lg-1">
+        <h6 class="footer-heading">Каталог</h6>
+        <ul class="footer-links">
+          <li><a href="catalog.html">Боді</a></li>
+          <li><a href="catalog.html">Сукні</a></li>
+          <li><a href="catalog.html">Нижня білизна</a></li>
+          <li><a href="catalog.html">Топи</a></li>
+          <li><a href="catalog.html">Комбінезони</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <h6 class="footer-heading">Інформація</h6>
+        <ul class="footer-links">
+          <li><a href="#">Про бренд</a></li>
+          <li><a href="#">Доставка та оплата</a></li>
+          <li><a href="#">Повернення</a></li>
+          <li><a href="#">Таблиця розмірів</a></li>
+          <li><a href="contacts.html">Контакти</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3">
+        <h6 class="footer-heading">Контакти</h6>
+        <div class="footer-contact-item"><i class="bi bi-geo-alt"></i><span>м. Київ, вул. Хрещатик, 1</span></div>
+        <div class="footer-contact-item"><i class="bi bi-telephone"></i><span>+380 50 100 20 30</span></div>
+        <div class="footer-contact-item"><i class="bi bi-envelope"></i><span>hello@skinz.com.ua</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 SKINZ. Всі права захищені.</span>
+      <div class="d-flex gap-3">
+        <a href="#">Публічна оферта</a>
+        <a href="#">Конфіденційність</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button id="backToTop" aria-label="Вгору"><i class="bi bi-arrow-up"></i></button>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/main.js"></script>
+<script>
+  const PRICES = { qty1: 890, qty2: 1290 };
+
+  function changeQty(id, delta) {
+    const input = document.getElementById(id);
+    const newVal = Math.max(1, parseInt(input.value) + delta);
+    input.value = newVal;
+    updateCart();
+  }
+
+  function updateCart() {
+    const q1 = parseInt(document.getElementById('qty1')?.value || 0);
+    const q2 = parseInt(document.getElementById('qty2')?.value || 0);
+    const item1Visible = document.getElementById('cartItem1')?.style.display !== 'none';
+    const item2Visible = document.getElementById('cartItem2')?.style.display !== 'none';
+
+    const sub = (item1Visible ? q1 * PRICES.qty1 : 0) + (item2Visible ? q2 * PRICES.qty2 : 0);
+    const disc = item1Visible ? 100 : 0;
+    const total = sub - disc;
+    const count = (item1Visible ? q1 : 0) + (item2Visible ? q2 : 0);
+
+    document.getElementById('subtotal').textContent = '₴' + sub.toLocaleString('uk-UA');
+    document.getElementById('discount').textContent = disc > 0 ? '−₴' + disc : '₴0';
+    document.getElementById('total').textContent = '₴' + total.toLocaleString('uk-UA');
+
+    const heading = document.querySelector('#cartFilled h1');
+    if (heading) heading.innerHTML = 'Кошик <span style="color:var(--color-text-muted);font-weight:400;font-size:1rem">(' + count + ' ' + noun(count, 'товар', 'товари', 'товарів') + ')</span>';
+
+    if (count === 0) showEmptyCart();
+  }
+
+  function noun(n, one, few, many) {
+    if (n % 10 === 1 && n % 100 !== 11) return one;
+    if ([2,3,4].includes(n % 10) && ![12,13,14].includes(n % 100)) return few;
+    return many;
+  }
+
+  function removeItem(id) {
+    const el = document.getElementById(id);
+    if (el) { el.style.transition = 'opacity 0.3s'; el.style.opacity = '0'; setTimeout(() => { el.style.display = 'none'; updateCart(); }, 300); }
+  }
+
+  function clearCart() {
+    ['cartItem1','cartItem2'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+    showEmptyCart();
+  }
+
+  function showEmptyCart() {
+    document.getElementById('cartFilled').style.display = 'none';
+    document.getElementById('cartFilled2').style.display = 'none';
+    document.getElementById('cartEmpty').style.display = 'block';
+    document.getElementById('cartBadge').textContent = '0';
+  }
+
+  function applyPromo() {
+    const code = document.getElementById('promoCode').value.trim().toUpperCase();
+    const hint = document.getElementById('promoHint');
+    if (code === 'SKINZ10') {
+      hint.textContent = '✓ Промокод застосовано — знижка 10%';
+      hint.style.color = '#27ae60';
+    } else if (code === '') {
+      hint.textContent = 'Введіть промокод для отримання знижки';
+      hint.style.color = '';
+    } else {
+      hint.textContent = '✗ Невірний промокод';
+      hint.style.color = '#c0392b';
+    }
+  }
+
+  function addToCart(btn) {
+    const badge = document.getElementById('cartBadge');
+    badge.textContent = parseInt(badge.textContent || 0) + 1;
+    btn.textContent = '✓ Додано';
+    btn.style.background = '#27ae60';
+    setTimeout(() => { btn.textContent = 'До кошика'; btn.style.background = ''; }, 1500);
+  }
+</script>
+</body>
+</html>
