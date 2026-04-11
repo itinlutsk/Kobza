@@ -941,7 +941,7 @@ select.form-input-custom { background-image: url("data:image/svg+xml,%3Csvg xmln
 .catalog-sort:focus { outline: none; border-color: var(--color-accent); }
 
 .pagination-custom,
-.catalog-pagination { display: flex; align-items: center; gap: 0.375rem; flex-wrap: wrap; }
+.catalog-pagination { display: flex; align-items: center; gap: 0.375rem; flex-wrap: wrap; margin-top: 2.5rem; }
 .page-btn {
   width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
   border: 1px solid var(--color-border); border-radius: var(--radius-sm);
