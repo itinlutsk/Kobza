@@ -244,6 +244,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  position: relative;
 }
 .product-card:hover { transform: translateY(-4px); }
 
@@ -347,7 +348,7 @@
 
 .product-card-body { padding: 1rem 0.25rem 0.5rem; flex: 1; }
 .card-color-dots {
-  display: flex; align-items: center; gap: 0.3rem; margin-top: 0.55rem; margin-bottom: 0.55rem;
+  display: flex; align-items: center; gap: 0.3rem; margin-top: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap;
 }
 .card-color-dot {
   width: 12px; height: 12px; border-radius: 50%;
@@ -364,8 +365,10 @@
 .product-card-name {
   font-size: 0.9rem; font-weight: 600; color: var(--color-text);
   margin-bottom: 0; line-height: 1.35;
-  display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+  display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  text-decoration: none;
 }
+.product-card-name:hover { color: var(--color-text); text-decoration: none; }
 
 .product-card .product-rating { display: flex; }
 .stars { color: var(--color-accent); font-size: 0.75rem; letter-spacing: -0.05em; }

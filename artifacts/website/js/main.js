@@ -12,25 +12,24 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
-  /* ── Theme toggle ── */
-  const themeBtn = document.getElementById('themeToggle');
+  /* ── Theme toggle (desktop + mobile) ── */
   const updateThemeIcon = () => {
     const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-    if (themeBtn) {
-      const icon = themeBtn.querySelector('i');
+    document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
+      const icon = btn.querySelector('i');
       if (icon) icon.className = isLight ? 'bi bi-moon' : 'bi bi-sun';
-      themeBtn.title = isLight ? 'Темна тема' : 'Світла тема';
-    }
+      btn.title = isLight ? 'Темна тема' : 'Світла тема';
+    });
   };
   updateThemeIcon();
-  if (themeBtn) {
-    themeBtn.addEventListener('click', function () {
+  document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
       const isLight = document.documentElement.getAttribute('data-theme') === 'light';
       document.documentElement.setAttribute('data-theme', isLight ? 'dark' : 'light');
       localStorage.setItem('skinz-theme', isLight ? 'dark' : 'light');
       updateThemeIcon();
     });
-  }
+  });
 
   /* ── Sticky nav ── */
   const nav = document.getElementById('mainNav');
