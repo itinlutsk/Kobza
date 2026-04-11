@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <script>!function(){var t=localStorage.getItem("skinz-theme");t&&document.documentElement.setAttribute("data-theme",t)}();</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вхід / Реєстрація — SKINZ</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="../css/main.css" rel="stylesheet"/>
+  <link href="../css/components.css" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg sticky-top" id="mainNav">
+  <div class="container-xl">
+    <a class="navbar-brand d-flex align-items-center gap-1" href="../index.html">
+      <span class="logo-text">SKINZ</span><span class="logo-accent">.</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="../index.html">Головна</a></li>
+        <li class="nav-item"><a class="nav-link" href="categories.html">Категорії</a></li>
+        <li class="nav-item"><a class="nav-link" href="catalog.html">Каталог</a></li>
+        <li class="nav-item"><a class="nav-link" href="contacts.html">Контакти</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+        <button id="themeToggle" class="nav-icon-btn theme-toggle-btn" title="Змінити тему" aria-label="Змінити тему"><i class="bi bi-sun"></i></button>
+        <a href="#" class="nav-icon-btn"><i class="bi bi-search"></i></a>
+        <a href="wishlist.html" class="nav-icon-btn"><i class="bi bi-heart"></i></a>
+        <a href="cart.html" class="nav-icon-btn position-relative">
+          <i class="bi bi-bag"></i><span class="cart-badge">0</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="page-header">
+  <div class="container-xl">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="../index.html">Головна</a></li>
+        <li class="breadcrumb-item active" id="breadcrumbCurrent">Вхід</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<!-- AUTH SECTION -->
+<section class="section-sm">
+  <div class="container-xl">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-4">
+
+        <!-- Tab switcher -->
+        <div class="d-flex mb-4" style="border-bottom:1px solid var(--color-border);">
+          <button id="tabLogin" onclick="switchTab('login')"
+            class="flex-fill text-center pb-3 fw-semibold text-small"
+            style="background:none;border:none;border-bottom:2px solid var(--color-accent);color:var(--color-text);cursor:pointer;transition:all var(--transition);letter-spacing:0.04em;text-transform:uppercase;">
+            Вхід
+          </button>
+          <button id="tabRegister" onclick="switchTab('register')"
+            class="flex-fill text-center pb-3 fw-semibold text-small"
+            style="background:none;border:none;border-bottom:2px solid transparent;color:var(--color-text-muted);cursor:pointer;transition:all var(--transition);letter-spacing:0.04em;text-transform:uppercase;">
+            Реєстрація
+          </button>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <div id="formLogin">
+          <h1 class="h4 mb-1">Увійдіть до акаунту</h1>
+          <p class="text-muted-custom text-small mb-4">Доступ до замовлень, вибраного та знижок</p>
+
+          <form onsubmit="handleLogin(event)">
+            <!-- Email -->
+            <div class="mb-3">
+              <label class="filter-title mb-2" style="display:block;">Email</label>
+              <div class="position-relative">
+                <i class="bi bi-envelope position-absolute" style="left:0.875rem;top:50%;transform:translateY(-50%);color:var(--color-text-muted);font-size:0.9rem;pointer-events:none;"></i>
+                <input type="email" class="filter-input w-100" id="loginEmail" placeholder="your@email.com" required
+                  style="padding-left:2.5rem;">
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label class="filter-title mb-0">Пароль</label>
+                <a href="#" class="text-xs text-muted-custom" style="transition:color var(--transition);" onmouseover="this.style.color='var(--color-accent)'" onmouseout="this.style.color=''">Забули пароль?</a>
+              </div>
+              <div class="position-relative">
+                <i class="bi bi-lock position-absolute" style="left:0.875rem;top:50%;transform:translateY(-50%);color:var(--color-text-muted);font-size:0.9rem;pointer-events:none;"></i>
+                <input type="password" class="filter-input w-100" id="loginPassword" placeholder="••••••••" required
+                  style="padding-left:2.5rem;padding-right:2.75rem;">
+                <button type="button" onclick="togglePass('loginPassword','eyeLogin')"
+                  style="position:absolute;right:0.875rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--color-text-muted);cursor:pointer;padding:0;font-size:0.95rem;">
+                  <i class="bi bi-eye" id="eyeLogin"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Remember -->
+            <div class="d-flex align-items-center gap-2 mb-4">
+              <input type="checkbox" id="rememberMe" style="width:16px;height:16px;accent-color:var(--color-accent);cursor:pointer;">
+              <label for="rememberMe" class="text-small text-muted-custom" style="cursor:pointer;">Запам'ятати мене</label>
+            </div>
+
+            <!-- Error msg -->
+            <div id="loginError" class="text-xs mb-3" style="color:var(--color-danger);display:none;">
+              <i class="bi bi-exclamation-circle me-1"></i><span id="loginErrorText"></span>
+            </div>
+
+            <button type="submit" class="btn-accent w-100 justify-content-center" style="display:flex;padding:0.875rem;">
+              Увійти <i class="bi bi-arrow-right ms-2"></i>
+            </button>
+          </form>
+
+          <!-- Divider -->
+          <div class="d-flex align-items-center gap-3 my-4">
+            <div style="flex:1;height:1px;background:var(--color-border);"></div>
+            <span class="text-xs text-muted-custom">або</span>
+            <div style="flex:1;height:1px;background:var(--color-border);"></div>
+          </div>
+
+          <!-- Social -->
+          <div class="d-flex flex-column gap-2">
+            <button class="d-flex align-items-center justify-content-center gap-2 text-small fw-semibold"
+              style="padding:0.75rem;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-sm);color:var(--color-text);cursor:pointer;transition:border-color var(--transition);"
+              onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+              <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+              Увійти через Google
+            </button>
+            <button class="d-flex align-items-center justify-content-center gap-2 text-small fw-semibold"
+              style="padding:0.75rem;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-sm);color:var(--color-text);cursor:pointer;transition:border-color var(--transition);"
+              onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+              <i class="bi bi-facebook" style="font-size:1.1rem;color:#1877F2;"></i>
+              Увійти через Facebook
+            </button>
+          </div>
+
+          <p class="text-center text-small text-muted-custom mt-4">
+            Немає акаунту? <a href="#" onclick="switchTab('register');return false;" style="color:var(--color-accent);transition:opacity var(--transition);" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Зареєструватися</a>
+          </p>
+        </div>
+
+        <!-- REGISTER FORM -->
+        <div id="formRegister" style="display:none;">
+          <h1 class="h4 mb-1">Створіть акаунт</h1>
+          <p class="text-muted-custom text-small mb-4">Отримайте доступ до персональних знижок та відстеження замовлень</p>
+
+          <form onsubmit="handleRegister(event)">
+            <!-- Name row -->
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="filter-title mb-2" style="display:block;">Ім'я</label>
+                <input type="text" class="filter-input w-100" id="regFirstName" placeholder="Олена" required>
+              </div>
+              <div class="col-6">
+                <label class="filter-title mb-2" style="display:block;">Прізвище</label>
+                <input type="text" class="filter-input w-100" id="regLastName" placeholder="Іваненко" required>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+              <label class="filter-title mb-2" style="display:block;">Email</label>
+              <div class="position-relative">
+                <i class="bi bi-envelope position-absolute" style="left:0.875rem;top:50%;transform:translateY(-50%);color:var(--color-text-muted);font-size:0.9rem;pointer-events:none;"></i>
+                <input type="email" class="filter-input w-100" id="regEmail" placeholder="your@email.com" required
+                  style="padding-left:2.5rem;">
+              </div>
+            </div>
+
+            <!-- Phone -->
+            <div class="mb-3">
+              <label class="filter-title mb-2" style="display:block;">Телефон</label>
+              <div class="position-relative">
+                <i class="bi bi-telephone position-absolute" style="left:0.875rem;top:50%;transform:translateY(-50%);color:var(--color-text-muted);font-size:0.9rem;pointer-events:none;"></i>
+                <input type="tel" class="filter-input w-100" id="regPhone" placeholder="+380 XX XXX XX XX"
+                  style="padding-left:2.5rem;">
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+              <label class="filter-title mb-2" style="display:block;">Пароль</label>
+              <div class="position-relative">
+                <i class="bi bi-lock position-absolute" style="left:0.875rem;top:50%;transform:translateY(-50%);color:var(--color-text-muted);font-size:0.9rem;pointer-events:none;"></i>
+                <input type="password" class="filter-input w-100" id="regPassword" placeholder="Мінімум 8 символів" required
+                  style="padding-left:2.5rem;padding-right:2.75rem;" oninput="checkPasswordStrength(this.value)">
+                <button type="button" onclick="togglePass('regPassword','eyeReg')"
+                  style="position:absolute;right:0.875rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--color-text-muted);cursor:pointer;padding:0;font-size:0.95rem;">
+                  <i class="bi bi-eye" id="eyeReg"></i>
+                </button>
+              </div>
+              <!-- Password strength -->
+              <div class="d-flex gap-1 mt-2" id="strengthBars">
+                <div id="bar1" style="flex:1;height:3px;border-radius:2px;background:var(--color-border);transition:background 0.3s;"></div>
+                <div id="bar2" style="flex:1;height:3px;border-radius:2px;background:var(--color-border);transition:background 0.3s;"></div>
+                <div id="bar3" style="flex:1;height:3px;border-radius:2px;background:var(--color-border);transition:background 0.3s;"></div>
+                <div id="bar4" style="flex:1;height:3px;border-radius:2px;background:var(--color-border);transition:background 0.3s;"></div>
+              </div>
+              <div class="text-xs text-muted-custom mt-1" id="strengthLabel"></div>
+            </div>
+
+            <!-- Confirm password -->
+            <div class="mb-3">
+              <label class="filter-title mb-2" style="display:block;">Підтвердіть пароль</label>
+              <div class="position-relative">
+                <i class="bi bi-lock-fill position-absolute" style="left:0.875rem;top:50%;transform:translateY(-50%);color:var(--color-text-muted);font-size:0.9rem;pointer-events:none;"></i>
+                <input type="password" class="filter-input w-100" id="regConfirm" placeholder="Повторіть пароль" required
+                  style="padding-left:2.5rem;">
+              </div>
+            </div>
+
+            <!-- Agreement -->
+            <div class="d-flex align-items-start gap-2 mb-4">
+              <input type="checkbox" id="agreeTerms" required style="width:16px;height:16px;accent-color:var(--color-accent);cursor:pointer;margin-top:2px;flex-shrink:0;">
+              <label for="agreeTerms" class="text-small text-muted-custom" style="cursor:pointer;line-height:1.5;">
+                Я погоджуюсь з <a href="#" style="color:var(--color-accent);">умовами використання</a> та <a href="#" style="color:var(--color-accent);">політикою конфіденційності</a>
+              </label>
+            </div>
+
+            <!-- Error -->
+            <div id="regError" class="text-xs mb-3" style="color:var(--color-danger);display:none;">
+              <i class="bi bi-exclamation-circle me-1"></i><span id="regErrorText"></span>
+            </div>
+
+            <button type="submit" class="btn-accent w-100 justify-content-center" style="display:flex;padding:0.875rem;">
+              Зареєструватися <i class="bi bi-arrow-right ms-2"></i>
+            </button>
+          </form>
+
+          <!-- Divider -->
+          <div class="d-flex align-items-center gap-3 my-4">
+            <div style="flex:1;height:1px;background:var(--color-border);"></div>
+            <span class="text-xs text-muted-custom">або</span>
+            <div style="flex:1;height:1px;background:var(--color-border);"></div>
+          </div>
+
+          <!-- Social -->
+          <div class="d-flex flex-column gap-2">
+            <button class="d-flex align-items-center justify-content-center gap-2 text-small fw-semibold"
+              style="padding:0.75rem;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-sm);color:var(--color-text);cursor:pointer;transition:border-color var(--transition);"
+              onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+              <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+              Зареєструватися через Google
+            </button>
+            <button class="d-flex align-items-center justify-content-center gap-2 text-small fw-semibold"
+              style="padding:0.75rem;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-sm);color:var(--color-text);cursor:pointer;transition:border-color var(--transition);"
+              onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+              <i class="bi bi-facebook" style="font-size:1.1rem;color:#1877F2;"></i>
+              Зареєструватися через Facebook
+            </button>
+          </div>
+
+          <p class="text-center text-small text-muted-custom mt-4">
+            Вже є акаунт? <a href="#" onclick="switchTab('login');return false;" style="color:var(--color-accent);transition:opacity var(--transition);" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Увійти</a>
+          </p>
+        </div>
+
+        <!-- SUCCESS STATE -->
+        <div id="formSuccess" class="text-center py-4" style="display:none;">
+          <div class="benefit-icon mx-auto mb-3" style="width:64px;height:64px;font-size:1.75rem;">
+            <i class="bi bi-check-lg" style="color:var(--color-success);"></i>
+          </div>
+          <h2 class="h4 mb-2" id="successTitle">Вітаємо!</h2>
+          <p class="text-muted-custom text-small mb-4" id="successDesc">Ви успішно увійшли до акаунту.</p>
+          <a href="../index.html" class="btn-accent d-inline-flex align-items-center gap-2" style="padding:0.875rem 2rem;">
+            На головну <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS BAR -->
+<div class="benefits-bar">
+  <div class="container-xl">
+    <div class="row g-4">
+      <div class="col-6 col-md-3">
+        <div class="benefit-item">
+          <div class="benefit-icon"><i class="bi bi-gift"></i></div>
+          <div>
+            <div class="benefit-title">Знижка на перше замовлення</div>
+            <div class="benefit-desc">−10% для нових покупців</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="benefit-item">
+          <div class="benefit-icon"><i class="bi bi-clock-history"></i></div>
+          <div>
+            <div class="benefit-title">Історія замовлень</div>
+            <div class="benefit-desc">Відстежуйте всі покупки</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="benefit-item">
+          <div class="benefit-icon"><i class="bi bi-heart"></i></div>
+          <div>
+            <div class="benefit-title">Список вибраного</div>
+            <div class="benefit-desc">Зберігайте улюблені товари</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="benefit-item">
+          <div class="benefit-icon"><i class="bi bi-star"></i></div>
+          <div>
+            <div class="benefit-title">Програма лояльності</div>
+            <div class="benefit-desc">Бонуси за кожну покупку</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container-xl">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="footer-logo"><span class="logo-text">SKINZ</span><span class="logo-accent">.</span></div>
+        <p class="footer-tagline">Сучасний жіночий одяг від українського бренду.</p>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-link"><i class="bi bi-tiktok"></i></a>
+          <a href="#" class="social-link"><i class="bi bi-telegram"></i></a>
+          <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-2 offset-lg-1">
+        <h6 class="footer-heading">Каталог</h6>
+        <ul class="footer-links">
+          <li><a href="catalog.html">Боді</a></li>
+          <li><a href="catalog.html">Сукні</a></li>
+          <li><a href="catalog.html">Нижня білизна</a></li>
+          <li><a href="catalog.html">Топи</a></li>
+          <li><a href="catalog.html">Комбінезони</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <h6 class="footer-heading">Інформація</h6>
+        <ul class="footer-links">
+          <li><a href="#">Про бренд</a></li>
+          <li><a href="#">Доставка та оплата</a></li>
+          <li><a href="#">Повернення</a></li>
+          <li><a href="#">Таблиця розмірів</a></li>
+          <li><a href="contacts.html">Контакти</a></li>
+          <li><a href="auth.html">Вхід / Реєстрація</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3">
+        <h6 class="footer-heading">Контакти</h6>
+        <div class="footer-contact-item"><i class="bi bi-geo-alt"></i><span>м. Київ, вул. Хрещатик, 1</span></div>
+        <div class="footer-contact-item"><i class="bi bi-telephone"></i><span>+380 50 100 20 30</span></div>
+        <div class="footer-contact-item"><i class="bi bi-envelope"></i><span>hello@skinz.com.ua</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 SKINZ. Всі права захищені.</span>
+      <div class="d-flex gap-3">
+        <a href="#">Публічна оферта</a>
+        <a href="#">Конфіденційність</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button id="backToTop" aria-label="Вгору"><i class="bi bi-arrow-up"></i></button>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/main.js"></script>
+<script>
+  function switchTab(tab) {
+    const isLogin = tab === 'login';
+    document.getElementById('formLogin').style.display    = isLogin ? 'block' : 'none';
+    document.getElementById('formRegister').style.display = isLogin ? 'none' : 'block';
+    document.getElementById('formSuccess').style.display  = 'none';
+
+    const tLogin    = document.getElementById('tabLogin');
+    const tRegister = document.getElementById('tabRegister');
+
+    tLogin.style.borderBottomColor = isLogin ? 'var(--color-accent)' : 'transparent';
+    tLogin.style.color             = isLogin ? 'var(--color-text)'   : 'var(--color-text-muted)';
+    tRegister.style.borderBottomColor = isLogin ? 'transparent' : 'var(--color-accent)';
+    tRegister.style.color             = isLogin ? 'var(--color-text-muted)' : 'var(--color-text)';
+
+    document.getElementById('breadcrumbCurrent').textContent = isLogin ? 'Вхід' : 'Реєстрація';
+  }
+
+  function togglePass(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon  = document.getElementById(iconId);
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.className = 'bi bi-eye-slash';
+    } else {
+      input.type = 'password';
+      icon.className = 'bi bi-eye';
+    }
+  }
+
+  function checkPasswordStrength(val) {
+    const bars  = ['bar1','bar2','bar3','bar4'];
+    const label = document.getElementById('strengthLabel');
+    let score = 0;
+    if (val.length >= 8)            score++;
+    if (/[A-Z]/.test(val))         score++;
+    if (/[0-9]/.test(val))         score++;
+    if (/[^A-Za-z0-9]/.test(val))  score++;
+
+    const colors = ['var(--color-danger)','#e67e22','#f1c40f','var(--color-success)'];
+    const labels = ['Дуже слабкий','Слабкий','Середній','Надійний'];
+
+    bars.forEach((id, i) => {
+      document.getElementById(id).style.background = i < score ? colors[score - 1] : 'var(--color-border)';
+    });
+    label.textContent = val.length ? labels[score - 1] || '' : '';
+    label.style.color = score ? colors[score - 1] : '';
+  }
+
+  function showError(formType, msg) {
+    const errDiv  = document.getElementById(formType + 'Error');
+    const errText = document.getElementById(formType + 'ErrorText');
+    errDiv.style.display = 'block';
+    errText.textContent  = msg;
+  }
+
+  function handleLogin(e) {
+    e.preventDefault();
+    document.getElementById('loginError').style.display = 'none';
+    const email = document.getElementById('loginEmail').value;
+    const pass  = document.getElementById('loginPassword').value;
+
+    if (!email.includes('@')) { showError('login', 'Введіть коректний email'); return; }
+    if (pass.length < 6)      { showError('login', 'Пароль має бути не менше 6 символів'); return; }
+
+    document.getElementById('formLogin').style.display   = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+    document.getElementById('successTitle').textContent  = 'Ласкаво просимо!';
+    document.getElementById('successDesc').textContent   = 'Ви успішно увійшли до акаунту SKINZ.';
+  }
+
+  function handleRegister(e) {
+    e.preventDefault();
+    document.getElementById('regError').style.display = 'none';
+    const pass    = document.getElementById('regPassword').value;
+    const confirm = document.getElementById('regConfirm').value;
+
+    if (pass.length < 8)      { showError('reg', 'Пароль має бути не менше 8 символів'); return; }
+    if (pass !== confirm)     { showError('reg', 'Паролі не збігаються'); return; }
+
+    document.getElementById('formRegister').style.display = 'none';
+    document.getElementById('formSuccess').style.display  = 'block';
+    document.getElementById('successTitle').textContent   = 'Акаунт створено!';
+    document.getElementById('successDesc').textContent    = 'Вітаємо у SKINZ! Перевірте пошту для підтвердження реєстрації.';
+  }
+
+  // Open register tab if URL has ?tab=register
+  if (new URLSearchParams(location.search).get('tab') === 'register') {
+    switchTab('register');
+  }
+</script>
+</body>
+</html>
