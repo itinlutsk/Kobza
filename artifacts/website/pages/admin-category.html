@@ -337,7 +337,6 @@
 
     <div class="page-header">
       <h1 id="pageTitle">Редагування категорії</h1>
-      <p id="pageSlug">slug: —</p>
     </div>
 
     <!-- Two-column layout -->
@@ -377,11 +376,6 @@
               <div class="img-meta-sub" id="imgFileSize">—</div>
             </div>
 
-            <!-- Also allow URL input -->
-            <div class="form-group" style="margin-top:1rem">
-              <label>або вставте URL зображення</label>
-              <input type="url" class="form-control-admin" id="fPhotoUrl" placeholder="https://..." oninput="handleUrlInput()"/>
-            </div>
 
           </div>
         </div>
@@ -401,13 +395,7 @@
 
               <div class="form-group">
                 <label>Назва категорії *</label>
-                <input type="text" class="form-control-admin" id="fName" placeholder="Наприклад: Сукні" oninput="onNameInput()"/>
-              </div>
-
-              <div class="form-group">
-                <label>Слаг (URL-адреса)</label>
-                <input type="text" class="form-control-admin" id="fSlug" placeholder="sukni"/>
-                <span class="hint">Автоматично генерується з назви. Можна змінити вручну.</span>
+                <input type="text" class="form-control-admin" id="fName" placeholder="Наприклад: Сукні"/>
               </div>
 
               <div class="form-group">
@@ -476,19 +464,14 @@ function loadData() {
 function populateForm() {
   if (!category) {
     document.getElementById('pageTitle').textContent = 'Категорію не знайдено';
-    document.getElementById('pageSlug').textContent = '';
     return;
   }
 
   document.getElementById('pageTitle').textContent    = category.name;
-  document.getElementById('pageSlug').textContent     = 'slug: ' + category.slug;
   document.getElementById('breadcrumbName').textContent = category.name;
   document.getElementById('fName').value   = category.name;
-  document.getElementById('fSlug').value   = category.slug;
   document.getElementById('fCount').value  = category.count ?? 0;
   document.getElementById('fActive').checked = category.active !== false;
-  document.getElementById('fPhotoUrl').value = '';
-
   if (category.photo) {
     photoData = category.photo;
     showPreview(category.photo, category.name, null);
@@ -516,17 +499,8 @@ function handleFileSelect(input) {
   reader.onload = e => {
     photoData = e.target.result;
     showPreview(e.target.result, file.name, file.size);
-    document.getElementById('fPhotoUrl').value = '';
   };
   reader.readAsDataURL(file);
-}
-
-/* ─── URL input handler ─── */
-function handleUrlInput() {
-  const url = document.getElementById('fPhotoUrl').value.trim();
-  if (!url) return;
-  photoData = url;
-  showPreview(url, url.split('/').pop(), null);
 }
 
 /* ─── Drag-and-drop ─── */
@@ -543,28 +517,13 @@ zone.addEventListener('drop', e => {
   }
 });
 
-/* ─── Auto-slug ─── */
-let slugManual = false;
-document.getElementById('fSlug').addEventListener('input', () => { slugManual = true; });
-function onNameInput() {
-  if (!slugManual) {
-    document.getElementById('fSlug').value = slugify(document.getElementById('fName').value);
-  }
-}
-function slugify(str) {
-  const map = { 'а':'a','б':'b','в':'v','г':'h','ґ':'g','д':'d','е':'e','є':'ye','ж':'zh','з':'z','и':'y','і':'i','ї':'yi','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'kh','ц':'ts','ч':'ch','ш':'sh','щ':'shch','ь':'','ю':'yu','я':'ya',' ':'-' };
-  return str.toLowerCase().split('').map(c => map[c] ?? c).join('').replace(/[^a-z0-9-]/g,'').replace(/-+/g,'-').replace(/^-|-$/g,'');
-}
-
 /* ─── Save ─── */
 function saveCategory() {
   const name  = document.getElementById('fName').value.trim();
-  const slug  = document.getElementById('fSlug').value.trim();
   const count = parseInt(document.getElementById('fCount').value, 10) || 0;
   const active = document.getElementById('fActive').checked;
 
   if (!name)  { showToast('Введіть назву категорії', 'error'); return; }
-  if (!slug)  { showToast('Введіть слаг', 'error'); return; }
 
   if (!category) { showToast('Категорію не знайдено', 'error'); return; }
 
@@ -573,13 +532,12 @@ function saveCategory() {
 
   categories[idx] = {
     ...categories[idx],
-    name, slug, count, active,
+    name, count, active,
     photo: photoData || category.photo || ''
   };
 
   localStorage.setItem(LS_KEY, JSON.stringify(categories));
   document.getElementById('pageTitle').textContent = name;
-  document.getElementById('pageSlug').textContent  = 'slug: ' + slug;
   document.getElementById('breadcrumbName').textContent = name;
   category = categories[idx];
   showToast('Зміни збережено ✓', 'success');

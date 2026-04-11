@@ -108,11 +108,9 @@
         <table class="admin-table">
           <thead>
             <tr>
-              <th style="width:56px">Фото</th>
-              <th>Назва</th>
-              <th>Слаг</th>
-              <th>Товарів</th>
-              <th>Статус</th>
+              <th>Категорія</th>
+              <th style="width:110px">Товарів</th>
+              <th style="width:130px">Статус</th>
               <th style="width:80px"></th>
             </tr>
           </thead>
@@ -145,10 +143,6 @@
         <div class="admin-form-group">
           <label>Назва категорії *</label>
           <input type="text" id="fName" placeholder="Наприклад: Сукні"/>
-        </div>
-        <div class="admin-form-group">
-          <label>Слаг (URL) *</label>
-          <input type="text" id="fSlug" placeholder="sukni"/>
         </div>
         <div class="admin-form-group">
           <label>URL фотографії</label>
@@ -241,23 +235,35 @@ function slugify(str) {
 
 function renderTable() {
   const query = (document.getElementById('catSearch')?.value || '').toLowerCase();
-  const filtered = categories.filter(c => c.name.toLowerCase().includes(query) || c.slug.toLowerCase().includes(query));
+  const filtered = categories.filter(c => c.name.toLowerCase().includes(query));
   const tbody = document.getElementById('catTableBody');
   const empty = document.getElementById('catEmptyState');
   if (filtered.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; }
   else {
     empty.style.display = 'none';
-    tbody.innerHTML = filtered.map(cat => `
+    tbody.innerHTML = filtered.map(cat => {
+      const cnt = cat.count ?? 0;
+      return `
       <tr>
         <td>
-          ${cat.photo ? `<img src="${escHtml(cat.photo)}" class="cat-thumb" alt="${escHtml(cat.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">` : ''}
-          <div class="cat-thumb-placeholder" ${cat.photo ? 'style="display:none"' : ''}><i class="bi bi-image"></i></div>
+          <div class="cat-row-cell">
+            <div style="flex-shrink:0">
+              ${cat.photo
+                ? `<img src="${escHtml(cat.photo)}" class="cat-thumb" alt="${escHtml(cat.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex">`
+                : ''}
+              <div class="cat-thumb-placeholder" ${cat.photo ? 'style="display:none"' : ''}><i class="bi bi-image"></i></div>
+            </div>
+            <div>
+              <a href="admin-category.html?id=${cat.id}" class="cat-row-name">${escHtml(cat.name)}</a>
+              <div class="cat-row-id">ID: ${cat.id}</div>
+            </div>
+          </div>
         </td>
         <td>
-          <a href="admin-category.html?id=${cat.id}" class="cat-name" style="color:var(--text);text-decoration:none;transition:color .15s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text)'">${escHtml(cat.name)}</a>
+          <span class="count-pill ${cnt === 0 ? 'empty' : ''}">
+            <i class="bi bi-box-seam" style="font-size:.7rem"></i> ${cnt}
+          </span>
         </td>
-        <td><code style="font-size:.8rem;color:var(--muted)">${escHtml(cat.slug)}</code></td>
-        <td>${cat.count ?? 0}</td>
         <td><span class="${cat.active ? 'badge-active' : 'badge-hidden'}">${cat.active ? 'Активна' : 'Прихована'}</span></td>
         <td>
           <div style="display:flex;align-items:center;gap:.375rem">
@@ -270,7 +276,7 @@ function renderTable() {
           </div>
         </td>
       </tr>
-    `).join('');
+    `}).join('');
   }
   updateStats();
 }
@@ -286,7 +292,6 @@ function openAddModal() {
   document.getElementById('modalSubtitle').textContent = 'Заповніть дані нової категорії';
   document.getElementById('editId').value = '';
   document.getElementById('fName').value = '';
-  document.getElementById('fSlug').value = '';
   document.getElementById('fPhoto').value = '';
   document.getElementById('fCount').value = '';
   document.getElementById('fActive').checked = true;
@@ -301,7 +306,6 @@ function openEditModal(id) {
   document.getElementById('modalSubtitle').textContent = cat.name;
   document.getElementById('editId').value = id;
   document.getElementById('fName').value = cat.name;
-  document.getElementById('fSlug').value = cat.slug;
   document.getElementById('fPhoto').value = cat.photo || '';
   document.getElementById('fCount').value = cat.count ?? 0;
   document.getElementById('fActive').checked = cat.active;
@@ -322,11 +326,10 @@ function previewPhoto() {
 
 function saveCategory() {
   const name = document.getElementById('fName').value.trim();
-  const slug = document.getElementById('fSlug').value.trim();
-  if (!name || !slug) { showToast('Заповніть назву та слаг', 'error'); return; }
+  if (!name) { showToast('Введіть назву категорії', 'error'); return; }
   const id = parseInt(document.getElementById('editId').value);
   const data = {
-    name, slug,
+    name,
     photo: document.getElementById('fPhoto').value.trim() || '',
     count: parseInt(document.getElementById('fCount').value) || 0,
     active: document.getElementById('fActive').checked,

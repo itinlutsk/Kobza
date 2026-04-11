@@ -291,6 +291,21 @@ body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color
 .banner-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
 .banner-card__name { padding: .4375rem .625rem; font-size: .6875rem; color: var(--muted); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
+/* ─── COUNT PILL ─────────────────────────── */
+.count-pill {
+  display: inline-flex; align-items: center; gap: .3rem;
+  padding: .25rem .625rem; border-radius: 100px;
+  background: #EEF4FF; color: #3E6AE1;
+  font-size: .75rem; font-weight: 700; white-space: nowrap;
+}
+.count-pill.empty { background: var(--bg); color: var(--muted); }
+
+/* ─── CAT ROW ────────────────────────────── */
+.cat-row-cell { display: flex; align-items: center; gap: .875rem; min-width: 200px; }
+.cat-row-name { font-weight: 700; font-size: .9375rem; color: var(--text); text-decoration: none; transition: color .15s; display: block; }
+.cat-row-name:hover { color: var(--accent); }
+.cat-row-id { font-size: .7rem; color: var(--muted); margin-top: .1rem; font-weight: 500; }
+
 /* ─── DASHBOARD QUICK LINKS ─────────────── */
 .dash-quick-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
 .dash-quick-card {
