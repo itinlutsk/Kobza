@@ -224,10 +224,12 @@
               <div class="form-group">
                 <label>Ціна (₴) *</label>
                 <input type="number" class="form-control-admin" id="fPrice" placeholder="0" min="0"/>
+                <span class="hint">Повна / звичайна ціна товару</span>
               </div>
               <div class="form-group">
-                <label>Стара ціна (₴)</label>
-                <input type="number" class="form-control-admin" id="fOldPrice" placeholder="Необов'язково" min="0"/>
+                <label>Акційна ціна (₴)</label>
+                <input type="number" class="form-control-admin" id="fSalePrice" placeholder="Якщо є знижка" min="0"/>
+                <span class="hint">Знижена ціна — відображається замість звичайної</span>
               </div>
             </div>
 
@@ -318,8 +320,8 @@ function init() {
 
   if (prodId) {
     const storedP = localStorage.getItem(LS_PRODUCTS);
-    const products = storedP ? JSON.parse(storedP) : [];
-    product = products.find(p => p.id === prodId) || null;
+    const allProds = storedP ? JSON.parse(storedP) : [];
+    product = allProds.find(p => p.id === prodId) || null;
   }
 
   if (product) {
@@ -328,7 +330,7 @@ function init() {
     document.title = product.name + ' — SKINZ Адмін';
     document.getElementById('fName').value        = product.name;
     document.getElementById('fPrice').value       = product.price || '';
-    document.getElementById('fOldPrice').value    = product.oldPrice || '';
+    document.getElementById('fSalePrice').value   = product.salePrice ?? 0;
     document.getElementById('fCategory').value    = product.categoryId || '';
     document.getElementById('fDescription').value = product.description || '';
     document.getElementById('fActive').checked    = product.active !== false;
@@ -514,7 +516,7 @@ function saveProduct() {
     id:          prodId || nextId,
     name,
     price,
-    oldPrice:    parseFloat(document.getElementById('fOldPrice').value) || null,
+    salePrice:   parseFloat(document.getElementById('fSalePrice').value) || null,
     description: document.getElementById('fDescription').value.trim(),
     categoryId:  parseInt(document.getElementById('fCategory').value) || null,
     active:      document.getElementById('fActive').checked,

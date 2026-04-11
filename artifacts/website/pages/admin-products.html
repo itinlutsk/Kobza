@@ -9,13 +9,22 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../css/admin.css"/>
   <style>
-    .price-col { white-space:nowrap; }
-    .price-main { font-size:.875rem; font-weight:700; color:var(--accent); }
-    .price-sale { font-size:.75rem; color:var(--muted); text-decoration:line-through; display:block; margin-top:.05rem; }
     .per-page-select { font-family:inherit; font-size:.8125rem; color:var(--text); border:1px solid var(--border); border-radius:7px; padding:.25rem .5rem; background:var(--card); cursor:pointer; outline:none; }
-    @media(max-width:768px){
-      .col-cat, .col-colors { display:none; }
+    /* ── Two-row price cell ── */
+    .price-cell { display:flex; flex-direction:column; gap:.25rem; }
+    .price-full { font-size:.875rem; font-weight:700; color:var(--text); white-space:nowrap; transition:all .15s; }
+    .price-full.has-sale { color:var(--muted); text-decoration:line-through; font-weight:400; font-size:.8rem; }
+    .price-sale-row { display:flex; align-items:center; gap:.25rem; }
+    .sale-label { font-size:.65rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
+    .sale-input {
+      width:68px; padding:.175rem .35rem; border:1px solid var(--border); border-radius:5px;
+      font-size:.8125rem; font-weight:600; color:var(--muted); text-align:right;
+      font-family:inherit; background:var(--bg); outline:none; transition:all .15s;
     }
+    .sale-input.active { color:var(--accent); border-color:rgba(139,26,42,.35); background:#fff; }
+    .sale-input:focus { border-color:var(--accent); box-shadow:0 0 0 2px rgba(139,26,42,.12); color:var(--accent); background:#fff; }
+    .sale-unit { font-size:.75rem; color:var(--muted); }
+    @media(max-width:768px){ .col-cat, .col-colors { display:none; } }
   </style>
 </head>
 <body>
@@ -140,7 +149,7 @@
             <tr>
               <th style="width:52px"></th>
               <th>Товар</th>
-              <th>Ціна</th>
+              <th>Ціна&nbsp;/ Акційна</th>
               <th class="col-colors">Кольори</th>
               <th class="col-cat">Категорія</th>
               <th style="width:80px;text-align:center">Активний</th>
@@ -192,22 +201,24 @@
 <script>
 const LS_PRODUCTS   = 'skinz_admin_products';
 const LS_CATEGORIES = 'skinz_admin_categories';
+const LS_VERSION    = 'skinz_admin_ver';
+const CURRENT_VER   = '2';
 const PAGE_SIZE_DEFAULT = 20;
 
 const DEFAULT_PRODUCTS = [
-  {id:1,name:'Боді класичне',price:1200,oldPrice:1500,description:'Класичне боді з еластичного трикотажу. Ідеально для повсякденного образу.',categoryId:1,active:true,
+  {id:1,name:'Боді класичне',price:1500,salePrice:1200,description:'Класичне боді з еластичного трикотажу. Ідеально для повсякденного образу.',categoryId:1,active:true,
    photo:'https://images.pexels.com/photos/5935748/pexels-photo-5935748.jpeg?auto=compress&cs=tinysrgb&w=400',
    colors:[{id:'c1a',name:'Чорний',hex:'#1A1A1A',sizes:[{size:'XS',stock:3},{size:'S',stock:5},{size:'M',stock:7},{size:'L',stock:4},{size:'XL',stock:2},{size:'XXL',stock:1}]},{id:'c1b',name:'Бежевий',hex:'#C8B49A',sizes:[{size:'XS',stock:2},{size:'S',stock:4},{size:'M',stock:5},{size:'L',stock:3},{size:'XL',stock:1},{size:'XXL',stock:0}]}]},
-  {id:2,name:'Сукня вечірня',price:2800,oldPrice:null,description:'Елегантна вечірня сукня для особливих подій.',categoryId:2,active:true,
+  {id:2,name:'Сукня вечірня',price:2800,salePrice:null,description:'Елегантна вечірня сукня для особливих подій.',categoryId:2,active:true,
    photo:'https://images.pexels.com/photos/1187719/pexels-photo-1187719.jpeg?auto=compress&cs=tinysrgb&w=400',
    colors:[{id:'c2a',name:'Бордовий',hex:'#8B1A2A',sizes:[{size:'XS',stock:1},{size:'S',stock:3},{size:'M',stock:4},{size:'L',stock:2},{size:'XL',stock:1},{size:'XXL',stock:0}]},{id:'c2b',name:'Чорний',hex:'#1A1A1A',sizes:[{size:'XS',stock:2},{size:'S',stock:3},{size:'M',stock:5},{size:'L',stock:2},{size:'XL',stock:0},{size:'XXL',stock:0}]}]},
-  {id:3,name:'Топ базовий',price:650,oldPrice:null,description:'Базовий топ на кожен день.',categoryId:4,active:true,
+  {id:3,name:'Топ базовий',price:650,salePrice:null,description:'Базовий топ на кожен день.',categoryId:4,active:true,
    photo:'https://images.pexels.com/photos/2249528/pexels-photo-2249528.jpeg?auto=compress&cs=tinysrgb&w=400',
    colors:[{id:'c3a',name:'Білий',hex:'#F0EDE8',sizes:[{size:'XS',stock:5},{size:'S',stock:8},{size:'M',stock:10},{size:'L',stock:6},{size:'XL',stock:3},{size:'XXL',stock:2}]},{id:'c3b',name:'Чорний',hex:'#1A1A1A',sizes:[{size:'XS',stock:4},{size:'S',stock:6},{size:'M',stock:8},{size:'L',stock:5},{size:'XL',stock:2},{size:'XXL',stock:1}]},{id:'c3c',name:'Рожевий',hex:'#E8B4C0',sizes:[{size:'XS',stock:3},{size:'S',stock:5},{size:'M',stock:6},{size:'L',stock:4},{size:'XL',stock:2},{size:'XXL',stock:0}]}]},
-  {id:4,name:'Комбінезон літній',price:1800,oldPrice:2200,description:'Легкий літній комбінезон з натуральних тканин.',categoryId:5,active:true,
+  {id:4,name:'Комбінезон літній',price:2200,salePrice:1800,description:'Легкий літній комбінезон з натуральних тканин.',categoryId:5,active:true,
    photo:'https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinysrgb&w=400',
    colors:[{id:'c4a',name:'Оливковий',hex:'#6B7645',sizes:[{size:'XS',stock:2},{size:'S',stock:4},{size:'M',stock:5},{size:'L',stock:3},{size:'XL',stock:1},{size:'XXL',stock:0}]}]},
-  {id:5,name:'Спідниця міді',price:950,oldPrice:null,description:'Класична спідниця міді-довжини.',categoryId:8,active:false,
+  {id:5,name:'Спідниця міді',price:950,salePrice:null,description:'Класична спідниця міді-довжини.',categoryId:8,active:false,
    photo:'https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinysrgb&w=400',
    colors:[{id:'c5a',name:'Чорний',hex:'#1A1A1A',sizes:[{size:'XS',stock:0},{size:'S',stock:2},{size:'M',stock:3},{size:'L',stock:1},{size:'XL',stock:0},{size:'XXL',stock:0}]},{id:'c5b',name:'Темно-зелений',hex:'#2D4A3E',sizes:[{size:'XS',stock:1},{size:'S',stock:3},{size:'M',stock:4},{size:'L',stock:2},{size:'XL',stock:1},{size:'XXL',stock:0}]}]},
 ];
@@ -222,9 +233,18 @@ function pageSize() { return parseInt(document.getElementById('perPageSel')?.val
 
 /* ─── Load ─── */
 function loadData() {
+  // Version-based reseed: if version doesn't match, reset demo data
+  if (localStorage.getItem(LS_VERSION) !== CURRENT_VER) {
+    localStorage.setItem(LS_VERSION, CURRENT_VER);
+    localStorage.removeItem(LS_PRODUCTS);
+  }
   const sp = localStorage.getItem(LS_PRODUCTS);
-  products = sp ? JSON.parse(sp) : DEFAULT_PRODUCTS;
-  if (!sp) localStorage.setItem(LS_PRODUCTS, JSON.stringify(products));
+  if (sp) {
+    products = JSON.parse(sp);
+  } else {
+    products = DEFAULT_PRODUCTS;
+    localStorage.setItem(LS_PRODUCTS, JSON.stringify(products));
+  }
 
   const sc = localStorage.getItem(LS_CATEGORIES);
   categories = sc ? JSON.parse(sc) : [];
@@ -289,9 +309,20 @@ function renderTable() {
       ? `<img class="prod-thumb" src="${escHtml(p.photo)}" alt="" onerror="this.replaceWith(makePhPh())">`
       : `<div class="prod-thumb-ph"><i class="bi bi-image"></i></div>`;
 
-    const pricePart = p.oldPrice
-      ? `<span class="price-main">${fmtPrice(p.price)}</span><span class="price-sale">${fmtPrice(p.oldPrice)}</span>`
-      : `<span class="price-main">${fmtPrice(p.price)}</span>`;
+    const sp = p.salePrice ?? p.oldPrice ?? 0;
+    const hasSale = sp > 0;
+    const pricePart = `
+      <div class="price-cell">
+        <span class="price-full${hasSale ? ' has-sale' : ''}" id="pf-${p.id}">${fmtPrice(p.price)}</span>
+        <div class="price-sale-row">
+          <span class="sale-label">акц.</span>
+          <input type="number" class="sale-input${hasSale ? ' active' : ''}" id="si-${p.id}"
+            value="${sp}" min="0"
+            onchange="updateSalePrice(${p.id}, this)"
+            onclick="event.stopPropagation()"/>
+          <span class="sale-unit">₴</span>
+        </div>
+      </div>`;
 
     const dots = (p.colors||[]).map(c =>
       `<span class="color-dot" style="background:${escHtml(c.hex)}" title="${escHtml(c.name)}"></span>`
@@ -383,6 +414,21 @@ function updateStats() {
   document.getElementById('statActive').textContent = products.filter(p => p.active).length;
   document.getElementById('statHidden').textContent = products.filter(p => !p.active).length;
   document.getElementById('statColors').textContent = products.reduce((s,p) => s + (p.colors||[]).length, 0);
+}
+
+/* ─── Inline sale price ─── */
+function updateSalePrice(id, input) {
+  const val = parseFloat(input.value) || 0;
+  input.value = val;
+  const p = products.find(p => p.id === id);
+  if (!p) return;
+  p.salePrice = val > 0 ? val : null;
+  save();
+  // update visual without full re-render
+  input.classList.toggle('active', val > 0);
+  const priceEl = document.getElementById(`pf-${id}`);
+  if (priceEl) priceEl.classList.toggle('has-sale', val > 0);
+  showToast(val > 0 ? 'Акційну ціну збережено' : 'Акційну ціну видалено');
 }
 
 /* ─── Status toggle ─── */
