@@ -22,49 +22,53 @@
     .pg-add-label { font-size: .65rem; font-weight: 600; pointer-events: none; }
     .photo-grid.drag-over { outline: 2px dashed var(--accent); outline-offset: 4px; border-radius: 8px; }
 
-    /* ── Color items ── */
-    .color-item { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; margin-bottom: .625rem; overflow: hidden; }
-    .color-item-header {
-      display: flex; align-items: center; gap: .625rem;
-      padding: .75rem 1rem; cursor: pointer; user-select: none;
-      transition: background .15s;
+    /* ── Compact colors table ── */
+    .colors-tbl { width: 100%; border-collapse: collapse; }
+    .colors-tbl th {
+      font-size: .68rem; font-weight: 700; color: var(--muted); text-transform: uppercase;
+      letter-spacing: .05em; padding: .5rem .5rem; border-bottom: 2px solid var(--border);
+      text-align: center; white-space: nowrap;
     }
-    .color-item-header:hover { background: rgba(0,0,0,.025); }
-    .color-toggle-icon { color: var(--muted); font-size: .875rem; flex-shrink: 0; transition: transform .2s; }
-    .color-swatch-circle { width: 24px; height: 24px; border-radius: 50%; border: 2px solid rgba(0,0,0,.12); flex-shrink: 0; }
-    .color-name-input {
-      flex: 1; min-width: 0; border: none; background: transparent;
-      font-size: .875rem; font-weight: 600; color: var(--text);
-      font-family: inherit; outline: none; padding: 0;
+    .colors-tbl th.col-name { text-align: left; padding-left: 1rem; }
+    .colors-tbl td { padding: .375rem .4rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .colors-tbl td.td-name { padding-left: 1rem; }
+    .colors-tbl tr:last-child td { border-bottom: none; }
+    .colors-tbl tr:hover td { background: rgba(0,0,0,.015); }
+    .color-name-cell { display: flex; align-items: center; gap: .5rem; min-width: 160px; }
+    .color-swatch-pick {
+      width: 28px; height: 28px; border-radius: 7px; border: 2px solid rgba(0,0,0,.1);
+      cursor: pointer; flex-shrink: 0; position: relative; overflow: hidden;
     }
-    .color-name-input::placeholder { color: var(--muted); font-weight: 400; }
-    .color-picker-input {
-      width: 32px; height: 28px; border: 1px solid var(--border); border-radius: 6px;
-      padding: 2px; cursor: pointer; background: var(--card); flex-shrink: 0;
+    .color-swatch-pick input[type="color"] {
+      position: absolute; inset: -4px; opacity: 0; cursor: pointer; width: calc(100% + 8px); height: calc(100% + 8px);
     }
-    .color-remove-btn {
-      width: 28px; height: 28px; border: none; background: none; cursor: pointer;
-      color: var(--muted); border-radius: 6px; display: flex; align-items: center;
-      justify-content: center; font-size: .85rem; flex-shrink: 0;
-      transition: background .15s, color .15s;
+    .color-name-inp {
+      flex: 1; border: 1px solid transparent; border-radius: 6px; padding: .25rem .4rem;
+      font-size: .8125rem; font-family: inherit; color: var(--text); background: transparent;
+      transition: border-color .15s, background .15s; min-width: 0;
     }
-    .color-remove-btn:hover { background: rgba(220,38,38,.1); color: var(--danger); }
-
-    /* ── Sizes grid ── */
-    .sizes-section { padding: .875rem 1rem 1rem; border-top: 1px solid var(--border); }
-    .sizes-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: .5rem; }
-    @media(max-width:580px){ .sizes-grid { grid-template-columns: repeat(3, 1fr); } }
-    .size-cell { display: flex; flex-direction: column; align-items: center; gap: .3rem; }
-    .size-label { font-size: .7rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
-    .size-input {
-      width: 100%; text-align: center; padding: .375rem .25rem;
-      border: 1px solid var(--border); border-radius: 7px;
-      font-size: .875rem; font-weight: 600; color: var(--text);
-      font-family: inherit; outline: none; background: #fff;
-      transition: border-color .15s, box-shadow .15s;
+    .color-name-inp:hover { border-color: var(--border); }
+    .color-name-inp:focus { border-color: var(--accent); background: #fff; outline: none; }
+    .stock-inp {
+      width: 50px; border: 1px solid var(--border); border-radius: 6px; padding: .25rem .2rem;
+      font-size: .8125rem; font-family: inherit; color: var(--text); background: var(--bg);
+      text-align: center; outline: none; transition: border-color .15s, background .15s;
     }
-    .size-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(139,26,42,.1); }
-    .size-input.out-of-stock { color: var(--muted); background: var(--bg); }
+    .stock-inp:focus { border-color: var(--accent); background: #fff; }
+    .stock-inp.zero { color: var(--muted); }
+    .colors-add-row-btn {
+      display: inline-flex; align-items: center; gap: .4rem; padding: .625rem 1rem .5rem;
+      color: var(--accent); font-size: .8125rem; font-weight: 600; cursor: pointer;
+      border: none; background: none; font-family: inherit; transition: opacity .15s;
+    }
+    .colors-add-row-btn:hover { opacity: .7; }
+    .colors-del-btn {
+      width: 28px; height: 28px; border-radius: 6px; border: none; background: transparent;
+      color: var(--muted); cursor: pointer; display: flex; align-items: center;
+      justify-content: center; font-size: .8rem; transition: all .15s;
+    }
+    .colors-del-btn:hover { background: rgba(220,38,38,.1); color: #DC2626; }
+    .colors-empty-row td { padding: 2rem 1rem; text-align: center; color: var(--muted); font-size: .875rem; }
 
     /* ── Layout ── */
     .prod-layout { display: grid; grid-template-columns: 300px 1fr; gap: 1.25rem; align-items: start; }
@@ -281,12 +285,23 @@
       <div class="acard-header">
         <div class="acard-header-icon"><i class="bi bi-palette"></i></div>
         <div class="acard-header-title">Кольори та розміри</div>
-        <button onclick="addColor()" class="admin-btn-primary" style="margin-left:auto;padding:.375rem .875rem;font-size:.8125rem">
+      </div>
+      <div class="acard-body" style="padding:0">
+        <div style="overflow-x:auto">
+          <table class="colors-tbl">
+            <thead>
+              <tr>
+                <th class="col-name">Колір</th>
+                <th>XS</th><th>S</th><th>M</th><th>L</th><th>XL</th><th>XXL</th>
+                <th style="width:36px"></th>
+              </tr>
+            </thead>
+            <tbody id="colorsTbody"></tbody>
+          </table>
+        </div>
+        <button class="colors-add-row-btn" onclick="addColor()">
           <i class="bi bi-plus-lg"></i> Додати колір
         </button>
-      </div>
-      <div class="acard-body">
-        <div id="colorsList"></div>
       </div>
     </div>
 
@@ -445,14 +460,14 @@ function uid() { return 'c_' + Math.random().toString(36).slice(2); }
 function addColor() {
   commitDOMValues();
   colorItems.push({
-    id: uid(), name: '', hex: '#8B1A2A', expanded: true,
+    id: uid(), name: '', hex: '#8B1A2A',
     sizes: SIZES.map(s => ({ size: s, stock: 0 }))
   });
   renderColors();
-  // scroll to new item
   setTimeout(() => {
-    const list = document.getElementById('colorsList');
-    list.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    const tbody = document.getElementById('colorsTbody');
+    tbody?.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    tbody?.lastElementChild?.querySelector('.color-name-inp')?.focus();
   }, 50);
 }
 
@@ -462,73 +477,55 @@ function removeColor(i) {
   renderColors();
 }
 
-function toggleColor(i) {
-  commitDOMValues();
-  colorItems[i].expanded = !colorItems[i].expanded;
-  renderColors();
-}
-
 function commitDOMValues() {
-  colorItems.forEach((c, i) => {
-    const nameEl = document.querySelector(`#ci-${i} .color-name-input`);
-    const hexEl  = document.querySelector(`#ci-${i} .color-picker-input`);
+  document.querySelectorAll('[data-color-idx]').forEach(row => {
+    const i = parseInt(row.dataset.colorIdx);
+    const c = colorItems[i];
+    if (!c) return;
+    const nameEl = row.querySelector('.color-name-inp');
+    const hexEl  = row.querySelector('input[type="color"]');
     if (nameEl) c.name = nameEl.value;
     if (hexEl)  c.hex  = hexEl.value;
-    if (c.expanded) {
-      SIZES.forEach((sz, si) => {
-        const inp = document.querySelector(`#ci-${i} [data-size="${sz}"]`);
-        if (inp) c.sizes[si].stock = parseInt(inp.value) || 0;
-      });
-    }
+    SIZES.forEach((sz, si) => {
+      const inp = row.querySelector(`[data-size="${sz}"]`);
+      if (inp) c.sizes[si].stock = parseInt(inp.value) || 0;
+    });
   });
 }
 
 function renderColors() {
-  const container = document.getElementById('colorsList');
+  const tbody = document.getElementById('colorsTbody');
+  if (!tbody) return;
   if (colorItems.length === 0) {
-    container.innerHTML = `
-      <div style="text-align:center;padding:2rem;color:var(--muted)">
-        <i class="bi bi-palette" style="font-size:2rem;opacity:.3;display:block;margin-bottom:.5rem"></i>
-        Кольорів немає. Натисніть «Додати колір».
-      </div>`;
+    tbody.innerHTML = `<tr class="colors-empty-row"><td colspan="${SIZES.length + 2}">
+      <i class="bi bi-palette" style="font-size:1.75rem;opacity:.25;display:block;margin-bottom:.4rem"></i>
+      Додайте колір, натиснувши кнопку нижче
+    </td></tr>`;
     return;
   }
-  container.innerHTML = colorItems.map((c, i) => `
-    <div class="color-item" id="ci-${i}">
-      <div class="color-item-header" onclick="toggleColor(${i})">
-        <i class="bi bi-chevron-${c.expanded ? 'up' : 'down'} color-toggle-icon"></i>
-        <div class="color-swatch-circle" id="swatch-${i}" style="background:${escHtml(c.hex)}"></div>
-        <input type="text" class="color-name-input" value="${escHtml(c.name)}" placeholder="Назва кольору"
-          onclick="event.stopPropagation()"/>
-        <input type="color" class="color-picker-input" value="${c.hex}"
-          oninput="event.stopPropagation();document.getElementById('swatch-${i}').style.background=this.value"
-          onclick="event.stopPropagation()"/>
-        <button class="color-remove-btn" onclick="event.stopPropagation();removeColor(${i})" title="Видалити">
+  tbody.innerHTML = colorItems.map((c, i) => `
+    <tr data-color-idx="${i}">
+      <td class="td-name">
+        <div class="color-name-cell">
+          <div class="color-swatch-pick" style="background:${escHtml(c.hex)}" title="Вибрати колір">
+            <input type="color" value="${escHtml(c.hex)}"
+              oninput="this.parentElement.style.background=this.value"/>
+          </div>
+          <input type="text" class="color-name-inp" value="${escHtml(c.name)}" placeholder="Назва кольору"/>
+        </div>
+      </td>
+      ${SIZES.map((sz, si) => {
+        const stock = c.sizes[si]?.stock ?? 0;
+        return `<td><input type="number" class="stock-inp${stock === 0 ? ' zero' : ''}"
+          value="${stock}" min="0" data-size="${sz}"
+          oninput="this.classList.toggle('zero', !(parseInt(this.value)||0))"/></td>`;
+      }).join('')}
+      <td>
+        <button class="colors-del-btn" onclick="removeColor(${i})" title="Видалити колір">
           <i class="bi bi-trash3"></i>
         </button>
-      </div>
-      ${c.expanded ? sizesHTML(c, i) : ''}
-    </div>
-  `).join('');
-}
-
-function sizesHTML(c, i) {
-  return `
-    <div class="sizes-section">
-      <div style="font-size:.75rem;font-weight:600;color:var(--muted);margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.05em">
-        Залишки на складі
-      </div>
-      <div class="sizes-grid">
-        ${c.sizes.map(s => `
-          <div class="size-cell">
-            <div class="size-label">${s.size}</div>
-            <input type="number" class="size-input${s.stock === 0 ? ' out-of-stock' : ''}"
-              min="0" value="${s.stock}" data-size="${s.size}"
-              oninput="this.classList.toggle('out-of-stock', parseInt(this.value)||0 === 0)"/>
-          </div>
-        `).join('')}
-      </div>
-    </div>`;
+      </td>
+    </tr>`).join('');
 }
 
 function escHtml(str) {
