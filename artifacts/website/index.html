@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <script>!function(){var t=localStorage.getItem("skinz-theme")||"light";document.documentElement.setAttribute("data-theme",t)}();</script>
+  <script src="js/index.js"></script>
 <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SKINZ — Жіночий одяг</title>
@@ -319,86 +319,7 @@
 </section>
 
 <!-- WHY US -->
-<style>
-  #whyUs { background:#0D0D0D; padding:5rem 0; overflow:hidden; position:relative; }
-  #whyUs::before {
-    content:'';
-    position:absolute; inset:0;
-    background: radial-gradient(ellipse 60% 50% at 80% 50%, rgba(139,26,42,0.12) 0%, transparent 70%);
-    pointer-events:none;
-  }
-  .why-header-line {
-    height:1px; background:linear-gradient(90deg,var(--color-accent) 0%,rgba(255,255,255,0.08) 60%,transparent 100%);
-    margin-bottom:3.5rem;
-    transform:scaleX(0); transform-origin:left;
-    transition:transform 0.9s cubic-bezier(.4,0,.2,1);
-  }
-  .why-header-line.wh-visible { transform:scaleX(1); }
-
-  .why-heading { opacity:0; transform:translateY(28px); transition:opacity 0.7s ease, transform 0.7s ease; }
-  .why-heading.wh-visible { opacity:1; transform:translateY(0); }
-
-  .why-stat { opacity:0; transform:translateY(20px); transition:opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s; }
-  .why-stat.wh-visible { opacity:1; transform:translateY(0); }
-
-  .why-item {
-    padding:1.25rem 1rem;
-    border-bottom:1px solid rgba(255,255,255,0.07);
-    position:relative;
-    cursor:default;
-    opacity:0; transform:translateY(36px);
-    transition:opacity 0.6s ease, transform 0.6s ease, background 0.35s;
-  }
-  .why-item.wh-visible { opacity:1; transform:translateY(0); }
-  @media(min-width:992px){
-    .why-item {
-      padding:1.75rem 2rem 1.75rem 0;
-      border-right:1px solid rgba(255,255,255,0.07);
-      border-bottom:none;
-    }
-    .why-item:last-child { border-right:none; padding-right:0; padding-left:2rem; }
-    .why-item-right { padding-left:2rem; }
-  }
-  .why-item::after {
-    content:'';
-    position:absolute; bottom:0; left:0; right:2rem;
-    height:1px;
-    background:linear-gradient(90deg,var(--color-accent),transparent);
-    transform:scaleX(0); transform-origin:left;
-    transition:transform 0.4s ease;
-  }
-  .why-item:last-child::after { right:0; left:2rem; }
-  .why-item:hover::after { transform:scaleX(1); }
-
-  .why-num {
-    font-size:3.5rem; font-weight:900; letter-spacing:-0.05em; line-height:1;
-    margin-bottom:1.5rem;
-    background:linear-gradient(135deg,rgba(139,26,42,0.18),rgba(139,26,42,0.06));
-    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-    transition:background 0.35s;
-  }
-  .why-item:hover .why-num {
-    background:linear-gradient(135deg,rgba(139,26,42,0.7),rgba(139,26,42,0.25));
-    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-  }
-  .why-icon {
-    display:inline-flex; align-items:center; justify-content:center;
-    width:40px; height:40px; border-radius:8px;
-    background:rgba(139,26,42,0.12); color:var(--color-accent);
-    font-size:1.1rem; margin-bottom:1rem;
-    transition:background 0.35s, transform 0.35s;
-  }
-  .why-item:hover .why-icon { background:var(--color-accent); color:#fff; transform:scale(1.1); }
-  .why-title { font-size:1rem; font-weight:700; color:#F5F5F5; margin-bottom:0.5rem; transition:color 0.3s; }
-  .why-desc { font-size:0.875rem; color:rgba(245,245,245,0.45); line-height:1.75; margin:0; transition:color 0.3s; }
-  .why-item:hover .why-desc { color:rgba(245,245,245,0.65); }
-
-  .why-stat-num {
-    font-size:clamp(2rem,3.5vw,2.75rem); font-weight:900; color:#F5F5F5;
-    letter-spacing:-0.04em; line-height:1;
-  }
-  .why-stat-num span { color:var(--color-accent); }
-</style>
+<link rel="stylesheet" href="css/index.css"/>
 
 <section id="whyUs">
   <div class="container-xl" style="position:relative;">
@@ -454,46 +375,7 @@
   </div>
 </section>
 
-<script>
-(function(){
-  const section = document.getElementById('whyUs');
-  if(!section) return;
-  const heading   = section.querySelector('.why-heading');
-  const stat      = section.querySelector('.why-stat');
-  const line      = section.querySelector('.why-header-line');
-  const items     = section.querySelectorAll('.why-item');
-  const counter   = document.getElementById('whyCounter');
-  let counted = false;
 
-  function animateCount(el, target, dur){
-    let start = null;
-    function step(ts){
-      if(!start) start = ts;
-      const p = Math.min((ts-start)/dur, 1);
-      const ease = 1 - Math.pow(1-p, 3);
-      el.textContent = Math.floor(ease * target).toLocaleString('uk-UA');
-      if(p < 1) requestAnimationFrame(step);
-      else el.textContent = target.toLocaleString('uk-UA');
-    }
-    requestAnimationFrame(step);
-  }
-
-  const obs = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        heading && heading.classList.add('wh-visible');
-        stat    && stat.classList.add('wh-visible');
-        line    && line.classList.add('wh-visible');
-        items.forEach(it => it.classList.add('wh-visible'));
-        if(!counted && counter){ counted=true; animateCount(counter, 15000, 1800); }
-        obs.disconnect();
-      }
-    });
-  }, { threshold: 0.15 });
-
-  obs.observe(section);
-})();
-</script>
 
 <!-- CTA BANNER -->
 <section class="section-sm">
@@ -573,75 +455,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="js/main.js"></script>
-<script>
-  /* ── Seasonal Hero Slider ── */
-  (function() {
-    const m = new Date().getMonth(); // 0-11
-    const season = (m >= 2 && m <= 4) ? 'spring'
-                 : (m >= 5 && m <= 7) ? 'summer'
-                 : (m >= 8 && m <= 10) ? 'autumn'
-                 : 'winter';
 
-    const data = {
-      spring: [
-        { img:'rootImages/slider/spring-01.png', eyebrow:'Весняна колекція 2026', title:'Свіжість,<br>що <span>пробуджує</span>', desc:'Перше тепло — час оновити гардероб. Легкі тканини, жіночні силуети.', btn:'Переглянути колекцію' },
-        { img:'rootImages/slider/spring-02.png', eyebrow:'Нові надходження', title:'Весна<br><span>у кожній деталі</span>', desc:'Квіткові мотиви та ніжні відтінки для вашого найкращого образу.', btn:'Дивитись каталог' },
-        { img:'rootImages/slider/spring-03.png', eyebrow:'Ексклюзивно від SKINZ', title:'Прокидайтесь<br><span>красивими</span>', desc:'Одяг, що підкреслює природну красу: зручний крій та якісні матеріали.', btn:'Обрати образ' },
-        { img:'rootImages/slider/spring-04.png', eyebrow:'Весна 2026', title:'Жіночність<br><span>у кожному кроці</span>', desc:'Відчуйте легкість та комфорт нової сезонної колекції SKINZ.', btn:'Переглянути новинки' },
-        { img:'rootImages/slider/spring-05.png', eyebrow:'Тільки у SKINZ', title:'Ваш весняний<br><span>образ</span>', desc:'Від легкої сукні до стильного боді — все для вашого гардеробу.', btn:'До каталогу' }
-      ],
-      summer: [
-        { img:'rootImages/slider/summer-01.png', eyebrow:'Літня колекція 2026', title:'Літо,<br>що <span>надихає</span>', desc:'Лінія для активних, впевнених та стильних. Дихаючі тканини на кожен день.', btn:'Переглянути колекцію' },
-        { img:'rootImages/slider/summer-02.png', eyebrow:'Нові надходження', title:'Сонце<br><span>у кожній деталі</span>', desc:'Яскраві кольори та легкі силуети для найтеплішого сезону.', btn:'Дивитись каталог' },
-        { img:'rootImages/slider/summer-03.png', eyebrow:'Ексклюзивно від SKINZ', title:'Свобода<br><span>і стиль</span>', desc:'Колекція, що поєднує комфорт і елегантність у спекотні дні.', btn:'Обрати образ' },
-        { img:'rootImages/slider/summer-04.png', eyebrow:'Літо 2026', title:'Легкість<br><span>у кожному образі</span>', desc:'Натуральні тканини та вільний крій — формула ідеального літа.', btn:'Переглянути новинки' },
-        { img:'rootImages/slider/summer-05.png', eyebrow:'Тільки у SKINZ', title:'Ваш літній<br><span>образ</span>', desc:'Зустрічайте нові враження у стильному вбранні від SKINZ.', btn:'До каталогу' }
-      ],
-      autumn: [
-        { img:'rootImages/slider/autumn-01.png', eyebrow:'Колекція осінь–зима 2025', title:'Стиль, що<br>говорить <span>без слів</span>', desc:'Одяг для жінки, яка знає собі ціну. Природні тканини, бездоганний крій.', btn:'Переглянути колекцію' },
-        { img:'rootImages/slider/autumn-02.png', eyebrow:'Нові надходження', title:'Осінь<br><span>з новим поглядом</span>', desc:'Глибокі відтінки та лаконічні форми для впевненого жіночого образу.', btn:'Дивитись каталог' },
-        { img:'rootImages/slider/autumn-03.png', eyebrow:'Ексклюзивно від SKINZ', title:'Тепло<br><span>у кожній деталі</span>', desc:'М\'яка вовна та преміальні тканини — для комфорту в прохолодні дні.', btn:'Обрати образ' },
-        { img:'rootImages/slider/autumn-04.png', eyebrow:'Осінь 2025', title:'Елегантність<br><span>без зусиль</span>', desc:'Лаконічні силуети та нейтральна палітра — основа осіннього гардеробу.', btn:'Переглянути новинки' },
-        { img:'rootImages/slider/autumn-05.png', eyebrow:'Тільки у SKINZ', title:'Ваш осінній<br><span>образ</span>', desc:'Від класичного пальта до стильного кардигану — все в одному місці.', btn:'До каталогу' }
-      ],
-      winter: [
-        { img:'rootImages/slider/winter-01.png', eyebrow:'Зимова колекція 2025', title:'Витонченість<br><span>у кожній деталі</span>', desc:'Преміальний жіночий одяг для тих, хто цінує якість та бездоганний крій.', btn:'Переглянути колекцію' },
-        { img:'rootImages/slider/winter-02.png', eyebrow:'Нові надходження', title:'Зима<br><span>у стильному вбранні</span>', desc:'Казкові образи та тепло — зимова колекція SKINZ для кожного дня.', btn:'Дивитись каталог' },
-        { img:'rootImages/slider/winter-03.png', eyebrow:'Ексклюзивно від SKINZ', title:'Тепло<br><span>і краса поруч</span>', desc:'Якісні тканини та перевірений крій для найхолоднішого сезону.', btn:'Обрати образ' },
-        { img:'rootImages/slider/winter-04.png', eyebrow:'Зима 2025', title:'Елегантна<br><span>зима з SKINZ</span>', desc:'Пальта, светри та кардигани — тепло та стиль у кожній моделі.', btn:'Переглянути новинки' },
-        { img:'rootImages/slider/winter-05.png', eyebrow:'Тільки у SKINZ', title:'Ваш зимовий<br><span>образ</span>', desc:'Зберіть ідеальний зимовий гардероб з новою колекцією SKINZ.', btn:'До каталогу' }
-      ]
-    };
-
-    const wrapper = document.getElementById('heroSwiperWrapper');
-    data[season].forEach(function(s) {
-      wrapper.innerHTML +=
-        '<div class="swiper-slide hero-slide" style="background-image:url(\'' + s.img + '\')">' +
-          '<div class="hero-slide-overlay"></div>' +
-          '<div class="container-xl h-100">' +
-            '<div class="hero-slide-inner">' +
-              '<div class="hero-eyebrow">' + s.eyebrow + '</div>' +
-              '<h1 class="hero-title">' + s.title + '</h1>' +
-              '<p class="hero-desc">' + s.desc + '</p>' +
-              '<div class="hero-btns">' +
-                '<a href="pages/catalog.html" class="btn-accent btn-lg-custom">' + s.btn + ' <i class="bi bi-arrow-right"></i></a>' +
-              '</div>' +
-            '</div>' +
-          '</div>' +
-        '</div>';
-    });
-  })();
-
-  /* ── Swiper init (after slides are injected) ── */
-  new Swiper('#heroSwiper', {
-    loop: true,
-    speed: 800,
-    autoplay: { delay: 5000, disableOnInteraction: false },
-    navigation: { nextEl: '.hero-swiper-next', prevEl: '.hero-swiper-prev' },
-    pagination: { el: '.hero-swiper-pagination', clickable: true },
-    effect: 'fade',
-    fadeEffect: { crossFade: true }
-  });
-</script>
 </body>
 </html>

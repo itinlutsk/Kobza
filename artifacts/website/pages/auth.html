@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <script>!function(){var t=localStorage.getItem("skinz-theme")||"light";document.documentElement.setAttribute("data-theme",t)}();</script>
+  <script src="../js/auth.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Вхід — SKINZ</title>
@@ -193,42 +193,6 @@
 <button id="backToTop" aria-label="Вгору"><i class="bi bi-arrow-up"></i></button>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../js/main.js"></script>
-<script>
-  function togglePass(inputId, iconId) {
-    const input = document.getElementById(inputId);
-    const icon  = document.getElementById(iconId);
-    if (input.type === 'password') {
-      input.type = 'text';
-      icon.className = 'bi bi-eye-slash';
-    } else {
-      input.type = 'password';
-      icon.className = 'bi bi-eye';
-    }
-  }
 
-  function showError(formType, msg) {
-    const errDiv  = document.getElementById(formType + 'Error');
-    const errText = document.getElementById(formType + 'ErrorText');
-    errDiv.style.display = 'block';
-    errText.textContent  = msg;
-  }
-
-  function handleLogin(e) {
-    e.preventDefault();
-    document.getElementById('loginError').style.display = 'none';
-    const email = document.getElementById('loginEmail').value;
-    const pass  = document.getElementById('loginPassword').value;
-
-    if (!email.includes('@')) { showError('login', 'Введіть коректний email'); return; }
-    if (pass.length < 6)      { showError('login', 'Пароль має бути не менше 6 символів'); return; }
-
-    document.getElementById('formLogin').style.display   = 'none';
-    document.getElementById('formSuccess').style.display = 'block';
-    document.getElementById('successTitle').textContent  = 'Ласкаво просимо!';
-    document.getElementById('successDesc').textContent   = 'Ви успішно увійшли до акаунту SKINZ.';
-  }
-
-
-</script>
 </body>
 </html>
