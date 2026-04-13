@@ -286,4 +286,10 @@ title = "generated_image"
 id = "oWSxh2OMvc6B2U9CEewUw"
 uri = "file://skinz-website.zip"
 type = "unspecified"
-title = "SKINZ — Website (ZIP)"
+title = "SKINZ — Магазин одягу (ZIP, 52 МБ)"
+
+[[outputs]]
+id = "yX3yXcNAu6-8ToViu7UCO"
+uri = "file://audio-company.zip"
+type = "unspecified"
+title = "Волинська аудіо-компанія (ZIP, 184 КБ)"
