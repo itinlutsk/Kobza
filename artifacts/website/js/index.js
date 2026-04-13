@@ -79,6 +79,7 @@
     };
 
     const wrapper = document.getElementById('heroSwiperWrapper');
+    if (!wrapper) return;
     data[season].forEach(function(s) {
       wrapper.innerHTML +=
         '<div class="swiper-slide hero-slide" style="background-image:url(\'' + s.img + '\')">' +
