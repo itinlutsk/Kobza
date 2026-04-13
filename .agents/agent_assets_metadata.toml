@@ -1,5 +1,4 @@
 uploads = []
-outputs = []
 
 [[generated]]
 id = "lb8Ef2kCLFuVy7RmvuPdE"
@@ -282,3 +281,9 @@ id = "yHQqNXoyf94Uu6MGrDzHL"
 uri = "file://artifacts/website/rootImages/slider/winter-05.png"
 type = "image"
 title = "generated_image"
+
+[[outputs]]
+id = "oWSxh2OMvc6B2U9CEewUw"
+uri = "file://skinz-website.zip"
+type = "unspecified"
+title = "SKINZ — Website (ZIP)"
