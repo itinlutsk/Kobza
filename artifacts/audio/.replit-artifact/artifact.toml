@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/audio/"
+title = "Волинська аудіо-компанія"
+version = "1.0.0"
+id = "artifacts/audio"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/audio/" ]
+localPort = 24281
+
+[services.development]
+run = "pnpm --filter @workspace/audio run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/audio", "run", "build" ]
+publicDir = "artifacts/audio/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24281"
+BASE_PATH = "/audio/"
