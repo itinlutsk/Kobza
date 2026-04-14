@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SkinzApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+23096073972d6f2d7f406d88c396cee8381bbbc7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+23204a14a8ee75646f0fc42cb61787ef09b17c7c")]
 [assembly: System.Reflection.AssemblyProductAttribute("SkinzApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SkinzApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

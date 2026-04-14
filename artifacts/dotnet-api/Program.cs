@@ -17,9 +17,13 @@ var jsonOpts = new JsonSerializerOptions
     DefaultIgnoreCondition      = JsonIgnoreCondition.WhenWritingNull
 };
 
-// ── CORS (allow all origins + credentials) ────────────────────
+// ── CORS — restrict to localhost origins only (API is accessed via proxy) ──
 builder.Services.AddCors(o => o.AddDefaultPolicy(p =>
-    p.SetIsOriginAllowed(_ => true)
+    p.SetIsOriginAllowed(origin =>
+    {
+        var uri = new Uri(origin);
+        return uri.Host == "localhost" || uri.Host == "127.0.0.1";
+    })
      .AllowAnyHeader()
      .AllowAnyMethod()
      .AllowCredentials()));
@@ -28,11 +32,11 @@ builder.Services.AddCors(o => o.AddDefaultPolicy(p =>
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(o =>
 {
-    o.Cookie.Name       = "skinz_session";
-    o.Cookie.HttpOnly   = true;
-    o.Cookie.SameSite   = SameSiteMode.None;
+    o.Cookie.Name         = "skinz_session";
+    o.Cookie.HttpOnly     = true;
+    o.Cookie.SameSite     = SameSiteMode.Lax;          // strict same-site policy
     o.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-    o.IdleTimeout       = TimeSpan.FromHours(8);
+    o.IdleTimeout         = TimeSpan.FromHours(8);
 });
 
 var app = builder.Build();
@@ -40,7 +44,7 @@ app.UseCors();
 app.UseSession();
 
 // ── Data paths ─────────────────────────────────────────────────
-var dataDir      = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "data");
+var dataDir = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "data");
 if (!Directory.Exists(dataDir))
     dataDir = Path.Combine(Directory.GetCurrentDirectory(), "data");
 var productsPath   = Path.Combine(dataDir, "products.json");
@@ -78,21 +82,23 @@ bool IsAuth(HttpContext ctx)
     return !string.IsNullOrEmpty(login);
 }
 
-IResult RequireAuth(HttpContext ctx)
-    => IsAuth(ctx) ? Results.Ok() : Results.Json(new { error = "Unauthorized" }, statusCode: 401);
+IResult Unauthorized401() =>
+    Results.Json(new { error = "Unauthorized" }, statusCode: 401);
 
 // ── ID generators ──────────────────────────────────────────────
-int NextProductId()   => products.Count   == 0 ? 1 : products.Max(p => p.Id)   + 1;
-int NextCategoryId()  => categories.Count == 0 ? 1 : categories.Max(c => c.Id) + 1;
+int NextProductId()  => products.Count   == 0 ? 1 : products.Max(p => p.Id)  + 1;
+int NextCategoryId() => categories.Count == 0 ? 1 : categories.Max(c => c.Id) + 1;
 
 // ═══════════════════════════════════════════════════════════════
-// HEALTH
+// HEALTH — unauthenticated
 // ═══════════════════════════════════════════════════════════════
-app.MapGet("/healthz", () => Results.Ok(new { status = "ok" }));
+app.MapGet("/api/healthz", () => Results.Ok(new { status = "ok" }));
 
 // ═══════════════════════════════════════════════════════════════
 // AUTH
 // ═══════════════════════════════════════════════════════════════
+
+// Login — unauthenticated
 app.MapPost("/api/auth/login", async (HttpContext ctx) =>
 {
     var body = await JsonSerializer.DeserializeAsync<LoginRequest>(ctx.Request.Body, jsonOpts);
@@ -110,36 +116,38 @@ app.MapPost("/api/auth/login", async (HttpContext ctx) =>
     return Results.Ok(new { ok = true, login = adminUser.Login });
 });
 
+// Logout — requires auth
 app.MapPost("/api/auth/logout", async (HttpContext ctx) =>
 {
     await ctx.Session.LoadAsync();
+    if (!IsAuth(ctx)) return Unauthorized401();
     ctx.Session.Clear();
     return Results.Ok(new { ok = true });
 });
 
+// Me — requires auth
 app.MapGet("/api/auth/me", async (HttpContext ctx) =>
 {
     await ctx.Session.LoadAsync();
     var login = ctx.Session.GetString("login");
-    if (string.IsNullOrEmpty(login))
-        return Results.Json(new { error = "Unauthorized" }, statusCode: 401);
+    if (string.IsNullOrEmpty(login)) return Unauthorized401();
     return Results.Ok(new { login });
 });
 
 // ═══════════════════════════════════════════════════════════════
-// PRODUCTS
+// PRODUCTS — all require auth
 // ═══════════════════════════════════════════════════════════════
 app.MapGet("/api/products", async (HttpContext ctx) =>
 {
     await ctx.Session.LoadAsync();
-    var r = RequireAuth(ctx); if (r is not null && ((IStatusCodeHttpResult)r).StatusCode == 401) return r;
+    if (!IsAuth(ctx)) return Unauthorized401();
     return Results.Ok(products);
 });
 
 app.MapPost("/api/products", async (HttpContext ctx) =>
 {
     await ctx.Session.LoadAsync();
-    var r = RequireAuth(ctx); if (r is not null && ((IStatusCodeHttpResult)r).StatusCode == 401) return r;
+    if (!IsAuth(ctx)) return Unauthorized401();
 
     var p = await JsonSerializer.DeserializeAsync<Product>(ctx.Request.Body, jsonOpts);
     if (p is null) return Results.BadRequest(new { error = "Invalid body" });
@@ -152,7 +160,7 @@ app.MapPost("/api/products", async (HttpContext ctx) =>
 app.MapGet("/api/products/{id:int}", async (HttpContext ctx, int id) =>
 {
     await ctx.Session.LoadAsync();
-    var r = RequireAuth(ctx); if (r is not null && ((IStatusCodeHttpResult)r).StatusCode == 401) return r;
+    if (!IsAuth(ctx)) return Unauthorized401();
     var p = products.FirstOrDefault(x => x.Id == id);
     return p is not null ? Results.Ok(p) : Results.NotFound();
 });
@@ -160,7 +168,7 @@ app.MapGet("/api/products/{id:int}", async (HttpContext ctx, int id) =>
 app.MapPut("/api/products/{id:int}", async (HttpContext ctx, int id) =>
 {
     await ctx.Session.LoadAsync();
-    var r = RequireAuth(ctx); if (r is not null && ((IStatusCodeHttpResult)r).StatusCode == 401) return r;
+    if (!IsAuth(ctx)) return Unauthorized401();
 
     var p = await JsonSerializer.DeserializeAsync<Product>(ctx.Request.Body, jsonOpts);
     if (p is null) return Results.BadRequest(new { error = "Invalid body" });
@@ -175,7 +183,7 @@ app.MapPut("/api/products/{id:int}", async (HttpContext ctx, int id) =>
 app.MapDelete("/api/products/{id:int}", async (HttpContext ctx, int id) =>
 {
     await ctx.Session.LoadAsync();
-    var r = RequireAuth(ctx); if (r is not null && ((IStatusCodeHttpResult)r).StatusCode == 401) return r;
+    if (!IsAuth(ctx)) return Unauthorized401();
 
     var removed = products.RemoveAll(x => x.Id == id);
     if (removed == 0) return Results.NotFound();
@@ -184,19 +192,19 @@ app.MapDelete("/api/products/{id:int}", async (HttpContext ctx, int id) =>
 });
 
 // ═══════════════════════════════════════════════════════════════
-// CATEGORIES
+// CATEGORIES — all require auth
 // ═══════════════════════════════════════════════════════════════
 app.MapGet("/api/categories", async (HttpContext ctx) =>
 {
     await ctx.Session.LoadAsync();
-    var r = RequireAuth(ctx); if (r is not null && ((IStatusCodeHttpResult)r).StatusCode == 401) return r;
+    if (!IsAuth(ctx)) return Unauthorized401();
     return Results.Ok(categories);
 });
 
 app.MapPost("/api/categories", async (HttpContext ctx) =>
 {
     await ctx.Session.LoadAsync();
-    var r = RequireAuth(ctx); if (r is not null && ((IStatusCodeHttpResult)r).StatusCode == 401) return r;
+    if (!IsAuth(ctx)) return Unauthorized401();
 
     var c = await JsonSerializer.DeserializeAsync<Category>(ctx.Request.Body, jsonOpts);
     if (c is null) return Results.BadRequest(new { error = "Invalid body" });
@@ -209,7 +217,7 @@ app.MapPost("/api/categories", async (HttpContext ctx) =>
 app.MapGet("/api/categories/{id:int}", async (HttpContext ctx, int id) =>
 {
     await ctx.Session.LoadAsync();
-    var r = RequireAuth(ctx); if (r is not null && ((IStatusCodeHttpResult)r).StatusCode == 401) return r;
+    if (!IsAuth(ctx)) return Unauthorized401();
     var c = categories.FirstOrDefault(x => x.Id == id);
     return c is not null ? Results.Ok(c) : Results.NotFound();
 });
@@ -217,7 +225,7 @@ app.MapGet("/api/categories/{id:int}", async (HttpContext ctx, int id) =>
 app.MapPut("/api/categories/{id:int}", async (HttpContext ctx, int id) =>
 {
     await ctx.Session.LoadAsync();
-    var r = RequireAuth(ctx); if (r is not null && ((IStatusCodeHttpResult)r).StatusCode == 401) return r;
+    if (!IsAuth(ctx)) return Unauthorized401();
 
     var c = await JsonSerializer.DeserializeAsync<Category>(ctx.Request.Body, jsonOpts);
     if (c is null) return Results.BadRequest(new { error = "Invalid body" });
@@ -232,7 +240,7 @@ app.MapPut("/api/categories/{id:int}", async (HttpContext ctx, int id) =>
 app.MapDelete("/api/categories/{id:int}", async (HttpContext ctx, int id) =>
 {
     await ctx.Session.LoadAsync();
-    var r = RequireAuth(ctx); if (r is not null && ((IStatusCodeHttpResult)r).StatusCode == 401) return r;
+    if (!IsAuth(ctx)) return Unauthorized401();
 
     var removed = categories.RemoveAll(x => x.Id == id);
     if (removed == 0) return Results.NotFound();
@@ -241,21 +249,21 @@ app.MapDelete("/api/categories/{id:int}", async (HttpContext ctx, int id) =>
 });
 
 // ═══════════════════════════════════════════════════════════════
-// ORDERS (stub — no persistence for now)
+// ORDERS (stub — all require auth)
 // ═══════════════════════════════════════════════════════════════
 var orders = new List<Order>();
 
 app.MapGet("/api/orders", async (HttpContext ctx) =>
 {
     await ctx.Session.LoadAsync();
-    var r = RequireAuth(ctx); if (r is not null && ((IStatusCodeHttpResult)r).StatusCode == 401) return r;
+    if (!IsAuth(ctx)) return Unauthorized401();
     return Results.Ok(orders);
 });
 
 app.MapPatch("/api/orders/{id:int}/status", async (HttpContext ctx, int id) =>
 {
     await ctx.Session.LoadAsync();
-    var r = RequireAuth(ctx); if (r is not null && ((IStatusCodeHttpResult)r).StatusCode == 401) return r;
+    if (!IsAuth(ctx)) return Unauthorized401();
 
     var body = await JsonSerializer.DeserializeAsync<StatusPatch>(ctx.Request.Body, jsonOpts);
     var o = orders.FirstOrDefault(x => x.Id == id);
