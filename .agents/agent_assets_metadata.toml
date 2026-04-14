@@ -293,3 +293,9 @@ id = "yX3yXcNAu6-8ToViu7UCO"
 uri = "file://audio-company.zip"
 type = "unspecified"
 title = "Волинська аудіо-компанія — виправлена верстка"
+
+[[outputs]]
+id = "AXa79kCGg-l64PSz6xIAC"
+uri = "file://skinz-project.tar.gz"
+type = "unspecified"
+title = "SKINZ + Аудіо компанія — повний архів проекту"
