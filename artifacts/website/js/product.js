@@ -12,36 +12,21 @@ const thumbs = new Swiper('#productGalleryThumbs', {
     thumbs: { swiper: thumbs },
   });
 
-  // Color + Size selection with cart enable logic
+  // Size selection + cart logic (color is chosen via separate product page links)
   (function(){
-    let selectedColor = null;
-    let selectedSize  = null;
+    let selectedSize = null;
 
-    const colorLabel  = document.getElementById('selectedColor');
-    const sizeLabel   = document.getElementById('selectedSize');
-    const cartBtn     = document.getElementById('addToCartBtn');
-    const hint        = document.getElementById('selectionHint');
-    const feedback    = document.getElementById('cartFeedback');
+    const sizeLabel = document.getElementById('selectedSize');
+    const cartBtn   = document.getElementById('addToCartBtn');
+    const hint      = document.getElementById('selectionHint');
+    const feedback  = document.getElementById('cartFeedback');
 
     function updateCartBtn(){
-      const ready = selectedColor && selectedSize;
-      cartBtn.disabled = !ready;
-      cartBtn.style.opacity  = ready ? '1'   : '0.45';
-      cartBtn.style.cursor   = ready ? 'pointer' : 'not-allowed';
-      if(ready) hint.style.display = 'none';
+      cartBtn.disabled       = !selectedSize;
+      cartBtn.style.opacity  = selectedSize ? '1'   : '0.45';
+      cartBtn.style.cursor   = selectedSize ? 'pointer' : 'not-allowed';
+      if(selectedSize) hint.style.display = 'none';
     }
-
-    // Color swatches
-    document.querySelectorAll('.color-swatch').forEach(btn => {
-      btn.addEventListener('click', function(){
-        document.querySelectorAll('.color-swatch').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        selectedColor = this.dataset.color || this.getAttribute('title');
-        colorLabel.textContent = selectedColor;
-        colorLabel.style.color = '';
-        updateCartBtn();
-      });
-    });
 
     // Size buttons
     document.querySelectorAll('.size-btn:not(.out-of-stock)').forEach(btn => {
@@ -55,17 +40,21 @@ const thumbs = new Swiper('#productGalleryThumbs', {
       });
     });
 
+    // Qty
+    const qtyValue = document.querySelector('.qty-value');
+    const qtyMinus = document.querySelector('.qty-minus');
+    const qtyPlus  = document.querySelector('.qty-plus');
+    let qty = 1;
+    if(qtyMinus) qtyMinus.addEventListener('click', ()=>{ if(qty>1){ qty--; qtyValue.textContent=qty; } });
+    if(qtyPlus)  qtyPlus.addEventListener('click',  ()=>{ qty++; qtyValue.textContent=qty; });
+
     // Add to cart
     cartBtn.addEventListener('click', function(){
-      if(!selectedColor || !selectedSize){
-        hint.style.display = 'block';
-        return;
-      }
+      if(!selectedSize){ hint.style.display = 'block'; return; }
       feedback.style.display = 'flex';
       setTimeout(() => feedback.style.display = 'none', 3000);
-      // Update cart badge
       const badge = document.querySelector('.cart-badge');
-      if(badge) badge.textContent = parseInt(badge.textContent||0) + 1;
+      if(badge) badge.textContent = parseInt(badge.textContent||0) + qty;
     });
 
     updateCartBtn();

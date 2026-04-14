@@ -49,19 +49,26 @@
   letter-spacing: -0.02em;
 }
 
-/* ── Color swatches ── */
+/* ── Color swatches (anchor links to color variants) ── */
 .color-swatch {
+  display: inline-block;
   width: 34px; height: 34px;
   border-radius: 50%;
   border: 2px solid transparent;
   outline: 2px solid transparent;
   outline-offset: 3px;
-  transition: outline-color 0.2s, transform 0.2s;
+  transition: outline-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  flex-shrink: 0;
+  text-decoration: none;
 }
-.color-swatch:hover { transform: scale(1.12); }
+.color-swatch:hover {
+  transform: scale(1.12);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
 .color-swatch.active {
   outline-color: var(--color-accent);
   border-color: transparent;
+  pointer-events: none;
 }
 
 /* ── Size buttons ── */
