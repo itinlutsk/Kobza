@@ -24,13 +24,13 @@ args = "artifacts/dotnet-api: .NET API"
 name = "artifacts/dotnet-api: .NET API"
 author = "agent"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd artifacts/dotnet-api && PORT=3001 dotnet run"
-waitForPort = 3001
-
 [workflows.workflow.metadata]
 outputType = "console"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "PORT=8081 pnpm --filter @workspace/website run dev & (cd artifacts/dotnet-api && PORT=3001 dotnet run)"
+waitForPort = 3001
 
 [agent]
 stack = "PNPM_WORKSPACE"
