@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <script src="../js/product.js"></script>
 <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Боді Ribbed Black — SKINZ</title>
@@ -10,6 +9,7 @@
   <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet"/>
   <link href="../css/main.css" rel="stylesheet"/>
   <link href="../css/components.css" rel="stylesheet"/>
+  <link href="../css/product-detail.css" rel="stylesheet"/>
 </head>
 <body>
 
@@ -180,9 +180,9 @@
 
           <!-- Shipping info -->
           <div class="product-shipping-info">
-            <div class="shipping-row"><i class="bi bi-truck"></i> Безкоштовна доставка від ₴1 500</div>
-            <div class="shipping-row"><i class="bi bi-arrow-repeat"></i> Повернення протягом 14 днів</div>
-            <div class="shipping-row"><i class="bi bi-shield-check"></i> Гарантія якості матеріалів</div>
+            <div class="shipping-chip"><i class="bi bi-truck"></i><span>Доставка від ₴1 500</span></div>
+            <div class="shipping-chip"><i class="bi bi-arrow-repeat"></i><span>Повернення 14 днів</span></div>
+            <div class="shipping-chip"><i class="bi bi-shield-check"></i><span>Гарантія якості</span></div>
           </div>
         </div>
       </div>
@@ -236,28 +236,28 @@
         <div class="row g-3">
           <div class="col-sm-6 col-lg-3">
             <div class="care-card">
-              <i class="bi bi-droplet-half care-icon"></i>
+              <div class="care-icon-wrap"><i class="bi bi-droplet-half care-icon"></i></div>
               <div class="care-label">Ручне або делікатне прання</div>
               <div class="care-desc">до 30°C</div>
             </div>
           </div>
           <div class="col-sm-6 col-lg-3">
             <div class="care-card">
-              <i class="bi bi-x-circle care-icon care-icon--no"></i>
+              <div class="care-icon-wrap" style="background:rgba(239,68,68,0.1)"><i class="bi bi-x-circle care-icon care-icon--no"></i></div>
               <div class="care-label">Не прати в машині</div>
               <div class="care-desc">Тільки ручне прання</div>
             </div>
           </div>
           <div class="col-sm-6 col-lg-3">
             <div class="care-card">
-              <i class="bi bi-x-circle care-icon care-icon--no"></i>
+              <div class="care-icon-wrap" style="background:rgba(239,68,68,0.1)"><i class="bi bi-x-circle care-icon care-icon--no"></i></div>
               <div class="care-label">Без вибілювання</div>
               <div class="care-desc">Без хлоровмісних засобів</div>
             </div>
           </div>
           <div class="col-sm-6 col-lg-3">
             <div class="care-card">
-              <i class="bi bi-thermometer-half care-icon"></i>
+              <div class="care-icon-wrap"><i class="bi bi-thermometer-half care-icon"></i></div>
               <div class="care-label">Прасування на мінімумі</div>
               <div class="care-desc">до 110°C, через тканину</div>
             </div>
@@ -284,39 +284,48 @@
           <div class="col-lg-9">
             <div class="review-card">
               <div class="review-header">
-                <div>
-                  <div class="review-author">Анастасія К.</div>
-                  <div class="review-stars">★★★★★</div>
+                <div class="review-author-row">
+                  <div class="review-avatar">А</div>
+                  <div>
+                    <div class="review-author">Анастасія К.</div>
+                    <div class="review-stars">★★★★★</div>
+                  </div>
                 </div>
                 <div class="review-date">15 березня 2025</div>
               </div>
               <div class="review-verified"><i class="bi bi-patch-check-fill"></i> Перевірена покупка</div>
               <p class="review-text">Боді просто шикарне! Матеріал приємний до тіла, сидить ідеально по фігурі. Взяла S — тіло S/M, все підійшло. Замовляю вже вдруге, попереднє досі в ідеальному стані.</p>
-              <div class="review-size">Розмір: S</div>
+              <div class="review-size"><i class="bi bi-rulers"></i> Розмір: S</div>
             </div>
             <div class="review-card">
               <div class="review-header">
-                <div>
-                  <div class="review-author">Вікторія Л.</div>
-                  <div class="review-stars">★★★★★</div>
+                <div class="review-author-row">
+                  <div class="review-avatar">В</div>
+                  <div>
+                    <div class="review-author">Вікторія Л.</div>
+                    <div class="review-stars">★★★★★</div>
+                  </div>
                 </div>
                 <div class="review-date">2 лютого 2025</div>
               </div>
               <div class="review-verified"><i class="bi bi-patch-check-fill"></i> Перевірена покупка</div>
               <p class="review-text">Дуже крутий боді! Чорний колір насичений, не просвічує. Рубчик м'який і тягнеться. Доставка прийшла швидко, упаковка красива.</p>
-              <div class="review-size">Розмір: M</div>
+              <div class="review-size"><i class="bi bi-rulers"></i> Розмір: M</div>
             </div>
             <div class="review-card">
               <div class="review-header">
-                <div>
-                  <div class="review-author">Ірина М.</div>
-                  <div class="review-stars">★★★★<span style="color:var(--color-text-faint)">★</span></div>
+                <div class="review-author-row">
+                  <div class="review-avatar">І</div>
+                  <div>
+                    <div class="review-author">Ірина М.</div>
+                    <div class="review-stars">★★★★<span style="color:var(--color-text-faint)">★</span></div>
+                  </div>
                 </div>
                 <div class="review-date">18 січня 2025</div>
               </div>
               <div class="review-verified"><i class="bi bi-patch-check-fill"></i> Перевірена покупка</div>
               <p class="review-text">Гарний боді, відповідає опису. Тільки кнопки знизу трохи тугі, але це навіть плюс — не розстібається. В цілому дуже задоволена покупкою!</p>
-              <div class="review-size">Розмір: S</div>
+              <div class="review-size"><i class="bi bi-rulers"></i> Розмір: S</div>
             </div>
           </div>
         </div>
@@ -466,6 +475,7 @@
 <button id="backToTop" aria-label="Вгору"><i class="bi bi-arrow-up"></i></button>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="../js/product.js"></script>
 <script src="../js/main.js"></script>
 
 </body>
