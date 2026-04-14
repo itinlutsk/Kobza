@@ -6,9 +6,15 @@ const API_BASE = '/dotnet-api';
 let prodId     = null;
 let product    = null;
 let categories = [];
-let photosSrc  = [];
 const MAX_PHOTOS = 8;
 let useApi = false;
+
+// Each photo item:
+//   { kind: 'url',     url: '/uploads/products/5/123.jpg' }  — already on server
+//   { kind: 'pending', file: File, preview: string }          — selected, not yet uploaded
+//   { kind: 'base64',  data: string }                         — localStorage fallback
+let photoItems = [];
+const objectURLs = []; // track for cleanup
 
 /* ─── API helpers ─── */
 async function apiFetch(path, opts = {}) {
@@ -17,6 +23,22 @@ async function apiFetch(path, opts = {}) {
     if (res.status === 401) { location.href = 'admin-login.html'; return null; }
     if (res.status === 204) return {};
     return res.ok ? res.json() : null;
+  } catch { return null; }
+}
+
+/* Upload a single file to /api/upload/products/{id}; returns URL string or null */
+async function uploadFile(id, file) {
+  const fd = new FormData();
+  fd.append('file', file);
+  try {
+    const res = await fetch(`${API_BASE}/api/upload/products/${id}`, {
+      method: 'POST',
+      credentials: 'include',
+      body: fd
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.url || null;
   } catch { return null; }
 }
 
@@ -59,7 +81,6 @@ async function init() {
     document.getElementById('fActive').checked    = product.active !== false;
     document.getElementById('fIsNew').checked     = !!product.isNew;
     document.getElementById('fIsTop').checked     = !!product.isTop;
-    photosSrc = product.photos || (product.photo ? [product.photo] : []);
 
     const hex = product.colorHex || '#8B1A2A';
     document.getElementById('fColorHex').value       = hex;
@@ -74,6 +95,10 @@ async function init() {
         el.classList.toggle('zero', !(s.stock));
       }
     });
+
+    // Existing photos: load as url items
+    const photos = product.photos || (product.photo ? [product.photo] : []);
+    photoItems = photos.map(src => ({ kind: 'url', url: src }));
   } else {
     SIZES.forEach(sz => {
       const el = document.getElementById('sz-' + sz);
@@ -104,56 +129,73 @@ function syncHexText(val) {
 }
 
 /* ─── Photo gallery ─── */
+function getPhotoSrc(item) {
+  if (item.kind === 'url')     return item.url;
+  if (item.kind === 'pending') return item.preview;
+  if (item.kind === 'base64')  return item.data;
+  return '';
+}
+
 function renderPhotoGrid() {
   const grid = document.getElementById('photoGrid');
   const countEl = document.getElementById('photoCount');
-  if (countEl) countEl.textContent = `${photosSrc.length} / ${MAX_PHOTOS}`;
+  if (countEl) countEl.textContent = `${photoItems.length} / ${MAX_PHOTOS}`;
 
-  let html = photosSrc.map((src, i) => `
+  let html = photoItems.map((item, i) => `
     <div class="pg-item">
-      <img src="${escHtml(src)}" alt="Фото ${i + 1}" loading="lazy"/>
+      <img src="${escHtml(getPhotoSrc(item))}" alt="Фото ${i + 1}" loading="lazy"/>
       ${i === 0 ? '<span class="pg-main-badge">Головне</span>' : ''}
+      ${item.kind === 'pending' ? '<span class="pg-upload-badge"><i class="bi bi-cloud-arrow-up"></i></span>' : ''}
       <button class="pg-remove" onclick="removePhoto(${i})" title="Видалити фото">
         <i class="bi bi-x"></i>
       </button>
     </div>`).join('');
 
-  if (photosSrc.length < MAX_PHOTOS) {
+  if (photoItems.length < MAX_PHOTOS) {
     html += `
     <div class="pg-add" onclick="document.getElementById('photoAddInput').click()">
       <i class="bi bi-plus-lg pg-add-icon"></i>
-      <span class="pg-add-label">${photosSrc.length === 0 ? 'Додати фото' : 'Ще фото'}</span>
+      <span class="pg-add-label">${photoItems.length === 0 ? 'Додати фото' : 'Ще фото'}</span>
     </div>`;
   }
   grid.innerHTML = html;
 }
 
 function removePhoto(idx) {
-  photosSrc.splice(idx, 1);
+  const item = photoItems[idx];
+  if (item?.kind === 'pending' && item.preview?.startsWith('blob:')) {
+    URL.revokeObjectURL(item.preview);
+  }
+  photoItems.splice(idx, 1);
   renderPhotoGrid();
 }
 
 function handleFileSelect(input) {
   const files = Array.from(input.files || []);
   if (!files.length) return;
-  const remaining = MAX_PHOTOS - photosSrc.length;
+  const remaining = MAX_PHOTOS - photoItems.length;
   if (remaining <= 0) { showToast(`Максимум ${MAX_PHOTOS} фотографій`, 'error'); return; }
   const toProcess = files.slice(0, remaining);
-  let loaded = 0;
   toProcess.forEach(file => {
     if (file.size > 5 * 1024 * 1024) {
       showToast(`Файл "${file.name}" завеликий (макс. 5 МБ)`, 'error');
-      loaded++; if (loaded === toProcess.length) renderPhotoGrid();
       return;
     }
-    const reader = new FileReader();
-    reader.onload = e => {
-      photosSrc.push(e.target.result);
-      loaded++;
-      if (loaded === toProcess.length) renderPhotoGrid();
-    };
-    reader.readAsDataURL(file);
+    if (useApi) {
+      const preview = URL.createObjectURL(file);
+      objectURLs.push(preview);
+      photoItems.push({ kind: 'pending', file, preview });
+    } else {
+      const reader = new FileReader();
+      reader.onload = e => {
+        photoItems.push({ kind: 'base64', data: e.target.result });
+        renderPhotoGrid();
+      };
+      reader.readAsDataURL(file);
+      return;
+    }
   });
+  renderPhotoGrid();
   input.value = '';
 }
 
@@ -191,8 +233,7 @@ async function saveProduct() {
     stock: parseInt(document.getElementById('sz-' + sz)?.value) || 0
   }));
 
-  const data = {
-    id:          prodId || 0,
+  const baseData = {
     name,
     price,
     salePrice:   parseFloat(document.getElementById('fSalePrice').value) || null,
@@ -201,45 +242,90 @@ async function saveProduct() {
     active:      document.getElementById('fActive').checked,
     isNew:       document.getElementById('fIsNew').checked,
     isTop:       document.getElementById('fIsTop').checked,
-    photos:      photosSrc,
     colorName,
     colorHex,
     sizes
   };
 
   if (useApi) {
-    let result;
+    const btn = document.querySelector('.admin-btn-primary');
+    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="bi bi-arrow-repeat spin"></i> Зберігаємо…'; }
+
+    let targetId = prodId;
+
+    // Step 1: Create/update without photos first to get the ID
+    let saved;
     if (prodId) {
-      result = await apiFetch(`/api/products/${prodId}`, {
+      saved = await apiFetch(`/api/products/${prodId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify({ ...baseData, id: prodId, photos: photoItems.filter(i => i.kind === 'url').map(i => i.url) })
       });
     } else {
-      result = await apiFetch('/api/products', {
+      saved = await apiFetch('/api/products', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify({ ...baseData, id: 0, photos: [] })
       });
     }
-    if (!result) { showToast('Помилка збереження', 'error'); return; }
-  } else {
-    const storedP  = localStorage.getItem(LS_PRODUCTS);
-    let products   = storedP ? JSON.parse(storedP) : [];
-    const nextId   = products.length ? Math.max(...products.map(p => p.id)) + 1 : 1;
-    data.id = prodId || nextId;
-    if (prodId) {
-      const idx = products.findIndex(p => p.id === prodId);
-      if (idx >= 0) products[idx] = data;
-      else products.push(data);
-    } else {
-      products.push(data);
-    }
-    localStorage.setItem(LS_PRODUCTS, JSON.stringify(products));
-  }
 
-  showToast('Товар збережено ✓');
-  setTimeout(() => location.href = 'admin-products.html', 900);
+    if (!saved) {
+      if (btn) { btn.disabled = false; btn.innerHTML = '<i class="bi bi-check2"></i> Зберегти'; }
+      showToast('Помилка збереження', 'error');
+      return;
+    }
+
+    targetId = saved.id;
+
+    // Step 2: Upload pending photos
+    const pendingItems = photoItems.filter(i => i.kind === 'pending');
+    const uploadedUrls = [];
+    for (const item of pendingItems) {
+      const url = await uploadFile(targetId, item.file);
+      if (url) uploadedUrls.push(url);
+    }
+
+    // Step 3: Build final photos list (existing urls + newly uploaded)
+    const existingUrls = photoItems.filter(i => i.kind === 'url').map(i => i.url);
+    const allPhotos = [...existingUrls, ...uploadedUrls];
+
+    // Step 4: Update product with all photos
+    if (uploadedUrls.length > 0 || !prodId) {
+      await apiFetch(`/api/products/${targetId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...baseData, id: targetId, photos: allPhotos })
+      });
+    }
+
+    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="bi bi-check2"></i> Зберегти'; }
+    showToast('Товар збережено ✓');
+    setTimeout(() => location.href = 'admin-products.html', 900);
+
+  } else {
+    // localStorage fallback — store base64
+    const photos = photoItems.map(item => {
+      if (item.kind === 'base64') return item.data;
+      if (item.kind === 'url')    return item.url;
+      return null;
+    }).filter(Boolean);
+
+    const storedP  = localStorage.getItem(LS_PRODUCTS);
+    let allProds   = storedP ? JSON.parse(storedP) : [];
+    const nextId   = allProds.length ? Math.max(...allProds.map(p => p.id)) + 1 : 1;
+    const data = { ...baseData, id: prodId || nextId, photos };
+
+    if (prodId) {
+      const idx = allProds.findIndex(p => p.id === prodId);
+      if (idx >= 0) allProds[idx] = data;
+      else allProds.push(data);
+    } else {
+      allProds.push(data);
+    }
+    localStorage.setItem(LS_PRODUCTS, JSON.stringify(allProds));
+    showToast('Товар збережено ✓');
+    setTimeout(() => location.href = 'admin-products.html', 900);
+  }
 }
 
 /* ─── Toast ─── */
@@ -257,5 +343,10 @@ function toggleSidebar() {
   document.getElementById('adminSidebar').classList.toggle('open');
   document.getElementById('sidebarOverlay').classList.toggle('show');
 }
+
+// Cleanup object URLs on unload
+window.addEventListener('unload', () => {
+  objectURLs.forEach(u => URL.revokeObjectURL(u));
+});
 
 init();

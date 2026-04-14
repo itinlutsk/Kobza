@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.FileProviders;
 using BCrypt.Net;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,7 +35,7 @@ builder.Services.AddSession(o =>
 {
     o.Cookie.Name         = "skinz_session";
     o.Cookie.HttpOnly     = true;
-    o.Cookie.SameSite     = SameSiteMode.Lax;          // strict same-site policy
+    o.Cookie.SameSite     = SameSiteMode.Lax;
     o.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
     o.IdleTimeout         = TimeSpan.FromHours(8);
 });
@@ -50,6 +51,15 @@ if (!Directory.Exists(dataDir))
 var productsPath   = Path.Combine(dataDir, "products.json");
 var categoriesPath = Path.Combine(dataDir, "categories.json");
 var adminPath      = Path.Combine(dataDir, "admin.json");
+
+// ── Uploads directory ──────────────────────────────────────────
+var uploadsRoot = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+Directory.CreateDirectory(uploadsRoot);
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(uploadsRoot),
+    RequestPath  = "/uploads"
+});
 
 // ── Load / save helpers ────────────────────────────────────────
 T Load<T>(string path, T fallback)
@@ -89,6 +99,34 @@ IResult Unauthorized401() =>
 int NextProductId()  => products.Count   == 0 ? 1 : products.Max(p => p.Id)  + 1;
 int NextCategoryId() => categories.Count == 0 ? 1 : categories.Max(c => c.Id) + 1;
 
+// ── Upload helper ──────────────────────────────────────────────
+string[] allowedExts = [".jpg", ".jpeg", ".png", ".webp"];
+
+async Task<IResult> SaveUpload(HttpContext ctx, string subDir)
+{
+    var file = ctx.Request.Form.Files.FirstOrDefault();
+    if (file is null) return Results.BadRequest(new { error = "No file" });
+    if (file.Length > 5 * 1024 * 1024) return Results.BadRequest(new { error = "File too large (max 5 MB)" });
+
+    var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
+    if (!allowedExts.Contains(ext)) return Results.BadRequest(new { error = "Invalid file type" });
+
+    Directory.CreateDirectory(Path.Combine(uploadsRoot, subDir));
+    var fileName = $"{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}{ext}";
+    var filePath = Path.Combine(uploadsRoot, subDir, fileName);
+    await using var stream = File.Create(filePath);
+    await file.CopyToAsync(stream);
+    return Results.Ok(new { url = $"/uploads/{subDir}/{fileName}" });
+}
+
+void DeleteUpload(string subDir, string filename)
+{
+    if (string.IsNullOrWhiteSpace(filename) || filename.Contains('/') || filename.Contains('\\'))
+        return;
+    var filePath = Path.Combine(uploadsRoot, subDir, filename);
+    if (File.Exists(filePath)) File.Delete(filePath);
+}
+
 // ═══════════════════════════════════════════════════════════════
 // HEALTH — unauthenticated
 // ═══════════════════════════════════════════════════════════════
@@ -98,7 +136,6 @@ app.MapGet("/api/healthz", () => Results.Ok(new { status = "ok" }));
 // AUTH
 // ═══════════════════════════════════════════════════════════════
 
-// Login — unauthenticated
 app.MapPost("/api/auth/login", async (HttpContext ctx) =>
 {
     var body = await JsonSerializer.DeserializeAsync<LoginRequest>(ctx.Request.Body, jsonOpts);
@@ -116,7 +153,6 @@ app.MapPost("/api/auth/login", async (HttpContext ctx) =>
     return Results.Ok(new { ok = true, login = adminUser.Login });
 });
 
-// Logout — requires auth
 app.MapPost("/api/auth/logout", async (HttpContext ctx) =>
 {
     await ctx.Session.LoadAsync();
@@ -125,7 +161,6 @@ app.MapPost("/api/auth/logout", async (HttpContext ctx) =>
     return Results.Ok(new { ok = true });
 });
 
-// Me — requires auth
 app.MapGet("/api/auth/me", async (HttpContext ctx) =>
 {
     await ctx.Session.LoadAsync();
@@ -188,7 +223,44 @@ app.MapDelete("/api/products/{id:int}", async (HttpContext ctx, int id) =>
     var removed = products.RemoveAll(x => x.Id == id);
     if (removed == 0) return Results.NotFound();
     Save(productsPath, products);
+
+    // Remove uploaded photos folder for this product
+    var dir = Path.Combine(uploadsRoot, "products", id.ToString());
+    if (Directory.Exists(dir)) Directory.Delete(dir, recursive: true);
+
     return Results.NoContent();
+});
+
+// ═══════════════════════════════════════════════════════════════
+// UPLOAD — products
+// ═══════════════════════════════════════════════════════════════
+app.MapPost("/api/upload/products/{id:int}", async (HttpContext ctx, int id) =>
+{
+    await ctx.Session.LoadAsync();
+    if (!IsAuth(ctx)) return Unauthorized401();
+    return await SaveUpload(ctx, $"products/{id}");
+});
+
+app.MapDelete("/api/upload/products/{id:int}/{filename}", async (HttpContext ctx, int id, string filename) =>
+{
+    await ctx.Session.LoadAsync();
+    if (!IsAuth(ctx)) return Unauthorized401();
+    DeleteUpload($"products/{id}", filename);
+    return Results.NoContent();
+});
+
+// ── List uploaded files for a product ─────────────────────────
+app.MapGet("/api/upload/products/{id:int}", async (HttpContext ctx, int id) =>
+{
+    await ctx.Session.LoadAsync();
+    if (!IsAuth(ctx)) return Unauthorized401();
+    var dir = Path.Combine(uploadsRoot, "products", id.ToString());
+    if (!Directory.Exists(dir)) return Results.Ok(Array.Empty<string>());
+    var files = Directory.GetFiles(dir)
+        .OrderBy(f => f)
+        .Select(f => $"/uploads/products/{id}/{Path.GetFileName(f)}")
+        .ToArray();
+    return Results.Ok(files);
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -245,7 +317,93 @@ app.MapDelete("/api/categories/{id:int}", async (HttpContext ctx, int id) =>
     var removed = categories.RemoveAll(x => x.Id == id);
     if (removed == 0) return Results.NotFound();
     Save(categoriesPath, categories);
+
+    var dir = Path.Combine(uploadsRoot, "categories", id.ToString());
+    if (Directory.Exists(dir)) Directory.Delete(dir, recursive: true);
+
     return Results.NoContent();
+});
+
+// ═══════════════════════════════════════════════════════════════
+// UPLOAD — categories
+// ═══════════════════════════════════════════════════════════════
+app.MapPost("/api/upload/categories/{id:int}", async (HttpContext ctx, int id) =>
+{
+    await ctx.Session.LoadAsync();
+    if (!IsAuth(ctx)) return Unauthorized401();
+
+    // Remove old photo for this category (only one photo allowed)
+    var dir = Path.Combine(uploadsRoot, "categories", id.ToString());
+    if (Directory.Exists(dir))
+        foreach (var f in Directory.GetFiles(dir)) File.Delete(f);
+
+    return await SaveUpload(ctx, $"categories/{id}");
+});
+
+app.MapDelete("/api/upload/categories/{id:int}/{filename}", async (HttpContext ctx, int id, string filename) =>
+{
+    await ctx.Session.LoadAsync();
+    if (!IsAuth(ctx)) return Unauthorized401();
+    DeleteUpload($"categories/{id}", filename);
+    return Results.NoContent();
+});
+
+// ═══════════════════════════════════════════════════════════════
+// UPLOAD — slider (banners)
+// ═══════════════════════════════════════════════════════════════
+app.MapPost("/api/upload/slider/{key}", async (HttpContext ctx, string key) =>
+{
+    await ctx.Session.LoadAsync();
+    if (!IsAuth(ctx)) return Unauthorized401();
+
+    // Validate key (no path traversal)
+    if (string.IsNullOrWhiteSpace(key) || key.Contains('/') || key.Contains('\\'))
+        return Results.BadRequest(new { error = "Invalid key" });
+
+    var file = ctx.Request.Form.Files.FirstOrDefault();
+    if (file is null) return Results.BadRequest(new { error = "No file" });
+    if (file.Length > 5 * 1024 * 1024) return Results.BadRequest(new { error = "File too large (max 5 MB)" });
+
+    var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
+    if (!allowedExts.Contains(ext)) return Results.BadRequest(new { error = "Invalid file type" });
+
+    var sliderDir = Path.Combine(uploadsRoot, "slider");
+    Directory.CreateDirectory(sliderDir);
+
+    // Replace any existing file with same key (any extension)
+    foreach (var old in Directory.GetFiles(sliderDir, $"{key}.*")) File.Delete(old);
+
+    var fileName = $"{key}{ext}";
+    var filePath = Path.Combine(sliderDir, fileName);
+    await using var stream = File.Create(filePath);
+    await file.CopyToAsync(stream);
+    return Results.Ok(new { url = $"/uploads/slider/{fileName}" });
+});
+
+app.MapDelete("/api/upload/slider/{key}", async (HttpContext ctx, string key) =>
+{
+    await ctx.Session.LoadAsync();
+    if (!IsAuth(ctx)) return Unauthorized401();
+    if (string.IsNullOrWhiteSpace(key) || key.Contains('/') || key.Contains('\\'))
+        return Results.BadRequest(new { error = "Invalid key" });
+    var sliderDir = Path.Combine(uploadsRoot, "slider");
+    foreach (var f in Directory.GetFiles(sliderDir, $"{key}.*")) File.Delete(f);
+    return Results.NoContent();
+});
+
+// List all slider uploads
+app.MapGet("/api/upload/slider", async (HttpContext ctx) =>
+{
+    await ctx.Session.LoadAsync();
+    if (!IsAuth(ctx)) return Unauthorized401();
+    var sliderDir = Path.Combine(uploadsRoot, "slider");
+    if (!Directory.Exists(sliderDir)) return Results.Ok(new Dictionary<string, string>());
+    var map = Directory.GetFiles(sliderDir)
+        .ToDictionary(
+            f => Path.GetFileNameWithoutExtension(f),
+            f => $"/uploads/slider/{Path.GetFileName(f)}"
+        );
+    return Results.Ok(map);
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -296,7 +454,7 @@ record Product(
     List<ProductSize>? Sizes
 );
 
-record Category(int Id, string Name, string? Slug);
+record Category(int Id, string Name, string? Slug, string? Photo, bool? Active, int? Count);
 
 record AdminUser(string Login, string? PasswordHash, string? Password);
 

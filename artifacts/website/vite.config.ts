@@ -44,6 +44,10 @@ export default defineConfig({
         rewrite: (p) => p.replace(/^\/dotnet-api/, ""),
         changeOrigin: true,
       },
+      "/uploads": {
+        target: "http://localhost:3001",
+        changeOrigin: true,
+      },
     },
   },
   preview: {
