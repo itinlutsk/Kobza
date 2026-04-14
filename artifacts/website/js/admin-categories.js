@@ -1,42 +1,60 @@
-const STORAGE_KEY = 'skinz_admin_categories';
-const DEFAULT_CATEGORIES = [
-  { id: 1, name: 'Боді', slug: 'body', photo: 'https://images.pexels.com/photos/5935748/pexels-photo-5935748.jpeg?auto=compress&cs=tinysrgb&w=200', count: 12, active: true },
-  { id: 2, name: 'Сукні', slug: 'sukni', photo: 'https://images.pexels.com/photos/1187719/pexels-photo-1187719.jpeg?auto=compress&cs=tinysrgb&w=200', count: 18, active: true },
-  { id: 3, name: 'Нижня білизна', slug: 'bilyznа', photo: 'https://images.pexels.com/photos/4792086/pexels-photo-4792086.jpeg?auto=compress&cs=tinysrgb&w=200', count: 9, active: true },
-  { id: 4, name: 'Топи', slug: 'topy', photo: 'https://images.pexels.com/photos/2249528/pexels-photo-2249528.jpeg?auto=compress&cs=tinysrgb&w=200', count: 15, active: true },
-  { id: 5, name: 'Комбінезони', slug: 'kombinezony', photo: 'https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinysrgb&w=200', count: 7, active: true },
-  { id: 6, name: 'Шорти', slug: 'shorty', photo: 'https://images.pexels.com/photos/1485781/pexels-photo-1485781.jpeg?auto=compress&cs=tinysrgb&w=200', count: 6, active: true },
-  { id: 7, name: 'Піжами', slug: 'pyzhamы', photo: 'https://images.pexels.com/photos/3807332/pexels-photo-3807332.jpeg?auto=compress&cs=tinysrgb&w=200', count: 4, active: true },
-  { id: 8, name: 'Спідниці', slug: 'spidnytsi', photo: 'https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinysrgb&w=200', count: 8, active: true },
-  { id: 9, name: 'Джинси', slug: 'dzhinsy', photo: 'https://images.pexels.com/photos/1082529/pexels-photo-1082529.jpeg?auto=compress&cs=tinysrgb&w=200', count: 5, active: false },
-  { id: 10, name: 'Пальта', slug: 'palta', photo: 'https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=200', count: 6, active: true },
-];
+const API_BASE    = '/dotnet-api';
+const LS_KEY      = 'skinz_admin_categories';
 
-let categories = [];
+let categories    = [];
 let deleteTargetId = null;
+let useApi        = false;
 
-function loadCategories() {
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored) { categories = JSON.parse(stored); }
-  else { categories = DEFAULT_CATEGORIES; saveToStorage(); }
+/* ─── API helpers ─── */
+async function apiFetch(path, opts = {}) {
+  try {
+    const res = await fetch(API_BASE + path, { credentials: 'include', ...opts });
+    if (res.status === 401) { location.href = 'admin-login.html'; return null; }
+    if (res.status === 204) return {};
+    return res.ok ? res.json() : null;
+  } catch { return null; }
 }
-function saveToStorage() { localStorage.setItem(STORAGE_KEY, JSON.stringify(categories)); }
-function nextId() { return categories.length ? Math.max(...categories.map(c => c.id)) + 1 : 1; }
+
+/* ─── Init ─── */
+async function init() {
+  const me = await apiFetch('/api/auth/me');
+  useApi = !!me;
+
+  if (useApi) {
+    const data = await apiFetch('/api/categories');
+    categories = data || [];
+  } else {
+    const raw = localStorage.getItem(LS_KEY);
+    categories = raw ? JSON.parse(raw) : [];
+  }
+
+  renderTable();
+}
+
+/* ─── Helpers ─── */
 function escHtml(str) {
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 function slugify(str) {
-  const map = { 'а':'a','б':'b','в':'v','г':'h','ґ':'g','д':'d','е':'e','є':'ye','ж':'zh','з':'z','и':'y','і':'i','ї':'yi','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'kh','ц':'ts','ч':'ch','ш':'sh','щ':'shch','ь':'','ю':'yu','я':'ya',' ':'-' };
-  return str.toLowerCase().split('').map(c => map[c] ?? c).join('').replace(/[^a-z0-9-]/g,'').replace(/-+/g,'-').replace(/^-|-$/g,'');
+  const map = {'а':'a','б':'b','в':'v','г':'h','ґ':'g','д':'d','е':'e','є':'ye','ж':'zh','з':'z','и':'y','і':'i','ї':'yi','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'kh','ц':'ts','ч':'ch','ш':'sh','щ':'shch','ь':'','ю':'yu','я':'ya',' ':'-'};
+  return str.toLowerCase().split('').map(c=>map[c]??c).join('').replace(/[^a-z0-9-]/g,'').replace(/-+/g,'-').replace(/^-|-$/g,'');
 }
+function lsSave() { localStorage.setItem(LS_KEY, JSON.stringify(categories)); }
+function nextLocalId() { return categories.length ? Math.max(...categories.map(c=>c.id))+1 : 1; }
 
+/* ─── Render ─── */
 function renderTable() {
-  const query = (document.getElementById('catSearch')?.value || '').toLowerCase();
+  const query    = (document.getElementById('catSearch')?.value || '').toLowerCase();
   const filtered = categories.filter(c => c.name.toLowerCase().includes(query));
-  const grid = document.getElementById('catGrid');
-  const empty = document.getElementById('catEmptyState');
-  if (filtered.length === 0) { grid.innerHTML = ''; empty.style.display = 'block'; }
-  else {
+  const grid     = document.getElementById('catGrid');
+  const empty    = document.getElementById('catEmptyState');
+
+  if (!filtered.length) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+  } else {
     empty.style.display = 'none';
     grid.innerHTML = filtered.map(cat => {
       const cnt = cat.count ?? 0;
@@ -72,77 +90,112 @@ function renderTable() {
             </span>
           </div>
         </div>
-      </div>
-    `}).join('');
+      </div>`;
+    }).join('');
   }
   updateStats();
 }
 
 function updateStats() {
-  document.getElementById('statTotal').textContent = categories.length;
-  document.getElementById('statActive').textContent = categories.filter(c => c.active).length;
-  document.getElementById('statHidden').textContent = categories.filter(c => !c.active).length;
+  const el = id => document.getElementById(id);
+  if (el('statTotal'))  el('statTotal').textContent  = categories.length;
+  if (el('statActive')) el('statActive').textContent = categories.filter(c => c.active).length;
+  if (el('statHidden')) el('statHidden').textContent = categories.filter(c => !c.active).length;
 }
 
+/* ─── Add modal ─── */
 function openAddModal() {
-  document.getElementById('modalTitle').textContent = 'Додати категорію';
+  document.getElementById('modalTitle').textContent    = 'Додати категорію';
   document.getElementById('modalSubtitle').textContent = 'Заповніть дані нової категорії';
-  document.getElementById('editId').value = '';
-  document.getElementById('fName').value = '';
-  document.getElementById('fPhoto').value = '';
-  document.getElementById('fCount').value = '';
+  document.getElementById('editId').value    = '';
+  document.getElementById('fName').value     = '';
+  document.getElementById('fPhoto').value    = '';
+  document.getElementById('fCount').value    = '';
   document.getElementById('fActive').checked = true;
-  document.getElementById('photoPreview').style.display = 'none';
+  const prev = document.getElementById('photoPreview');
+  if (prev) prev.style.display = 'none';
   document.getElementById('catModal').classList.add('open');
 }
 
+/* ─── Edit modal ─── */
 function openEditModal(id) {
   const cat = categories.find(c => c.id === id);
   if (!cat) return;
-  document.getElementById('modalTitle').textContent = 'Редагувати категорію';
+  document.getElementById('modalTitle').textContent    = 'Редагувати категорію';
   document.getElementById('modalSubtitle').textContent = cat.name;
-  document.getElementById('editId').value = id;
-  document.getElementById('fName').value = cat.name;
-  document.getElementById('fPhoto').value = cat.photo || '';
-  document.getElementById('fCount').value = cat.count ?? 0;
-  document.getElementById('fActive').checked = cat.active;
+  document.getElementById('editId').value    = id;
+  document.getElementById('fName').value     = cat.name;
+  document.getElementById('fPhoto').value    = cat.photo || '';
+  document.getElementById('fCount').value    = cat.count ?? 0;
+  document.getElementById('fActive').checked = cat.active !== false;
   const prev = document.getElementById('photoPreview');
-  if (cat.photo) { prev.src = cat.photo; prev.style.display = 'block'; }
-  else { prev.style.display = 'none'; }
+  if (prev) { prev.src = cat.photo || ''; prev.style.display = cat.photo ? 'block' : 'none'; }
   document.getElementById('catModal').classList.add('open');
 }
 
 function closeModal() { document.getElementById('catModal').classList.remove('open'); }
 
 function previewPhoto() {
-  const url = document.getElementById('fPhoto').value;
+  const url  = document.getElementById('fPhoto').value;
   const prev = document.getElementById('photoPreview');
-  if (url) { prev.src = url; prev.style.display = 'block'; }
-  else { prev.style.display = 'none'; }
+  if (!prev) return;
+  prev.src           = url;
+  prev.style.display = url ? 'block' : 'none';
 }
 
-function saveCategory() {
+/* ─── Save (Add / Edit) ─── */
+async function saveCategory() {
   const name = document.getElementById('fName').value.trim();
   if (!name) { showToast('Введіть назву категорії', 'error'); return; }
-  const id = parseInt(document.getElementById('editId').value);
-  const data = {
+
+  const id      = parseInt(document.getElementById('editId').value) || 0;
+  const payload = {
+    id,
     name,
-    photo: document.getElementById('fPhoto').value.trim() || '',
-    count: parseInt(document.getElementById('fCount').value) || 0,
+    slug:   slugify(name),
+    photo:  document.getElementById('fPhoto').value.trim() || '',
+    count:  parseInt(document.getElementById('fCount').value) || 0,
     active: document.getElementById('fActive').checked,
   };
-  if (id) {
-    const idx = categories.findIndex(c => c.id === id);
-    if (idx >= 0) { categories[idx] = { ...categories[idx], ...data }; }
+
+  if (useApi) {
+    let result;
+    if (id) {
+      result = await apiFetch(`/api/categories/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+    } else {
+      result = await apiFetch('/api/categories', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+    }
+    if (!result) { showToast('Помилка збереження', 'error'); return; }
+    if (id) {
+      const idx = categories.findIndex(c => c.id === id);
+      if (idx >= 0) categories[idx] = result;
+    } else {
+      categories.push(result);
+    }
   } else {
-    categories.push({ id: nextId(), ...data });
+    if (id) {
+      const idx = categories.findIndex(c => c.id === id);
+      if (idx >= 0) categories[idx] = { ...categories[idx], ...payload };
+    } else {
+      categories.push({ ...payload, id: nextLocalId() });
+    }
+    lsSave();
   }
-  saveToStorage();
+
   renderTable();
   closeModal();
   showToast(id ? 'Категорію оновлено' : 'Категорію додано');
 }
 
+/* ─── Delete ─── */
 function openDeleteModal(id) {
   const cat = categories.find(c => c.id === id);
   if (!cat) return;
@@ -150,14 +203,24 @@ function openDeleteModal(id) {
   document.getElementById('deleteName').textContent = cat.name;
   document.getElementById('deleteModal').classList.add('open');
 }
-function closeDeleteModal() { document.getElementById('deleteModal').classList.remove('open'); deleteTargetId = null; }
-function confirmDelete() {
+function closeDeleteModal() {
+  document.getElementById('deleteModal').classList.remove('open');
+  deleteTargetId = null;
+}
+async function confirmDelete() {
   if (!deleteTargetId) return;
+  if (useApi) {
+    const res = await apiFetch(`/api/categories/${deleteTargetId}`, { method: 'DELETE' });
+    if (res === null) { showToast('Помилка видалення', 'error'); return; }
+  }
   categories = categories.filter(c => c.id !== deleteTargetId);
-  saveToStorage(); renderTable(); closeDeleteModal();
+  if (!useApi) lsSave();
+  renderTable();
+  closeDeleteModal();
   showToast('Категорію видалено');
 }
 
+/* ─── Toast ─── */
 function showToast(msg, type = 'success') {
   const t = document.getElementById('toast');
   t.querySelector('i').className = type === 'error' ? 'bi bi-x-circle-fill' : 'bi bi-check-circle-fill';
@@ -166,18 +229,11 @@ function showToast(msg, type = 'success') {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
+/* ─── Sidebar ─── */
 function toggleSidebar() {
   document.getElementById('adminSidebar').classList.toggle('open');
   document.getElementById('sidebarOverlay').classList.toggle('show');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('fName')?.addEventListener('input', function () {
-    if (!document.getElementById('editId').value) {
-      document.getElementById('fSlug').value = slugify(this.value);
-    }
-  });
-});
-
-loadCategories();
-renderTable();
+/* ─── Start ─── */
+init();
