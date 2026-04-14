@@ -29,6 +29,7 @@ export default defineConfig({
         adminProduct: path.resolve(import.meta.dirname, "pages/admin-product.html"),
         adminOrders: path.resolve(import.meta.dirname, "pages/admin-orders.html"),
         adminBanners: path.resolve(import.meta.dirname, "pages/admin-banners.html"),
+        adminLogin: path.resolve(import.meta.dirname, "pages/admin-login.html"),
         adminSettings: path.resolve(import.meta.dirname, "pages/admin-settings.html"),
       },
     },
@@ -37,6 +38,13 @@ export default defineConfig({
     port,
     host: "0.0.0.0",
     allowedHosts: true,
+    proxy: {
+      "/dotnet-api": {
+        target: "http://localhost:3001",
+        rewrite: (p) => p.replace(/^\/dotnet-api/, ""),
+        changeOrigin: true,
+      },
+    },
   },
   preview: {
     port,

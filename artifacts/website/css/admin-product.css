@@ -59,6 +59,26 @@
     .colors-del-btn:hover { background: rgba(220,38,38,.1); color: #DC2626; }
     .colors-empty-row td { padding: 2rem 1rem; text-align: center; color: var(--muted); font-size: .875rem; }
 
+    /* ── Sizes table ── */
+    .sizes-tbl { width: 100%; border-collapse: collapse; }
+    .sizes-tbl th {
+      font-size: .68rem; font-weight: 700; color: var(--muted); text-transform: uppercase;
+      letter-spacing: .05em; padding: .5rem .5rem; border-bottom: 2px solid var(--border);
+      text-align: center; white-space: nowrap;
+    }
+    .sizes-tbl th:first-child { text-align: left; padding-left: 1rem; }
+    .sizes-tbl td { padding: .625rem .4rem; vertical-align: middle; text-align: center; }
+    .sizes-tbl td.size-label-cell { text-align: left; padding-left: 1rem; font-size: .8125rem; font-weight: 500; color: var(--text); white-space: nowrap; }
+
+    /* ── Single color row ── */
+    .color-single-row { display: flex; align-items: flex-end; gap: 1rem; flex-wrap: wrap; }
+    .color-swatch-pick {
+      border: 2px solid rgba(0,0,0,.1); cursor: pointer; flex-shrink: 0; position: relative; overflow: hidden;
+    }
+    .color-swatch-pick input[type="color"] {
+      position: absolute; inset: -4px; opacity: 0; cursor: pointer; width: calc(100% + 8px); height: calc(100% + 8px);
+    }
+
     /* ── Layout ── */
     .prod-layout { display: grid; grid-template-columns: 300px 1fr; gap: 1.25rem; align-items: start; }
     @media(max-width:900px){ .prod-layout { grid-template-columns: 1fr; } }

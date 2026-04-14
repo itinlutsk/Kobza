@@ -1,25 +1,44 @@
 const LS_PRODUCTS   = 'skinz_admin_products';
 const LS_CATEGORIES = 'skinz_admin_categories';
 const LS_VERSION    = 'skinz_admin_ver';
-const CURRENT_VER   = '3';
+const CURRENT_VER   = '4';
 const PAGE_SIZE_DEFAULT = 20;
+
+const API_BASE = '/dotnet-api';
 
 const DEFAULT_PRODUCTS = [
   {id:1,name:'Боді класичне',price:1500,salePrice:1200,description:'Класичне боді з еластичного трикотажу. Ідеально для повсякденного образу.',categoryId:1,active:true,isNew:true,isTop:false,
    photos:['https://images.pexels.com/photos/5935748/pexels-photo-5935748.jpeg?auto=compress&cs=tinysrgb&w=400'],
-   colors:[{id:'c1a',name:'Чорний',hex:'#1A1A1A',sizes:[{size:'XS',stock:3},{size:'S',stock:5},{size:'M',stock:7},{size:'L',stock:4},{size:'XL',stock:2},{size:'XXL',stock:1}]},{id:'c1b',name:'Бежевий',hex:'#C8B49A',sizes:[{size:'XS',stock:2},{size:'S',stock:4},{size:'M',stock:5},{size:'L',stock:3},{size:'XL',stock:1},{size:'XXL',stock:0}]}]},
-  {id:2,name:'Сукня вечірня',price:2800,salePrice:null,description:'Елегантна вечірня сукня для особливих подій.',categoryId:2,active:true,isNew:false,isTop:true,
+   colorName:'Чорний',colorHex:'#1A1A1A',
+   sizes:[{size:'XS',stock:3},{size:'S',stock:5},{size:'M',stock:7},{size:'L',stock:4},{size:'XL',stock:2},{size:'XXL',stock:1}]},
+  {id:2,name:'Боді класичне (бежевий)',price:1500,salePrice:1200,description:'Класичне боді з еластичного трикотажу.',categoryId:1,active:true,isNew:false,isTop:false,
+   photos:['https://images.pexels.com/photos/5935748/pexels-photo-5935748.jpeg?auto=compress&cs=tinysrgb&w=400'],
+   colorName:'Бежевий',colorHex:'#C8B49A',
+   sizes:[{size:'XS',stock:2},{size:'S',stock:4},{size:'M',stock:5},{size:'L',stock:3},{size:'XL',stock:1},{size:'XXL',stock:0}]},
+  {id:3,name:'Сукня вечірня',price:2800,salePrice:null,description:'Елегантна вечірня сукня для особливих подій.',categoryId:2,active:true,isNew:false,isTop:true,
    photos:['https://images.pexels.com/photos/1187719/pexels-photo-1187719.jpeg?auto=compress&cs=tinysrgb&w=400'],
-   colors:[{id:'c2a',name:'Бордовий',hex:'#8B1A2A',sizes:[{size:'XS',stock:1},{size:'S',stock:3},{size:'M',stock:4},{size:'L',stock:2},{size:'XL',stock:1},{size:'XXL',stock:0}]},{id:'c2b',name:'Чорний',hex:'#1A1A1A',sizes:[{size:'XS',stock:2},{size:'S',stock:3},{size:'M',stock:5},{size:'L',stock:2},{size:'XL',stock:0},{size:'XXL',stock:0}]}]},
-  {id:3,name:'Топ базовий',price:650,salePrice:null,description:'Базовий топ на кожен день.',categoryId:4,active:true,isNew:false,isTop:false,
+   colorName:'Бордовий',colorHex:'#8B1A2A',
+   sizes:[{size:'XS',stock:1},{size:'S',stock:3},{size:'M',stock:4},{size:'L',stock:2},{size:'XL',stock:1},{size:'XXL',stock:0}]},
+  {id:4,name:'Сукня вечірня (чорна)',price:2800,salePrice:null,description:'Елегантна вечірня сукня для особливих подій.',categoryId:2,active:true,isNew:false,isTop:false,
+   photos:['https://images.pexels.com/photos/1187719/pexels-photo-1187719.jpeg?auto=compress&cs=tinysrgb&w=400'],
+   colorName:'Чорний',colorHex:'#1A1A1A',
+   sizes:[{size:'XS',stock:2},{size:'S',stock:3},{size:'M',stock:5},{size:'L',stock:2},{size:'XL',stock:0},{size:'XXL',stock:0}]},
+  {id:5,name:'Топ базовий',price:650,salePrice:null,description:'Базовий топ на кожен день.',categoryId:4,active:true,isNew:false,isTop:false,
    photos:['https://images.pexels.com/photos/2249528/pexels-photo-2249528.jpeg?auto=compress&cs=tinysrgb&w=400'],
-   colors:[{id:'c3a',name:'Білий',hex:'#F0EDE8',sizes:[{size:'XS',stock:5},{size:'S',stock:8},{size:'M',stock:10},{size:'L',stock:6},{size:'XL',stock:3},{size:'XXL',stock:2}]},{id:'c3b',name:'Чорний',hex:'#1A1A1A',sizes:[{size:'XS',stock:4},{size:'S',stock:6},{size:'M',stock:8},{size:'L',stock:5},{size:'XL',stock:2},{size:'XXL',stock:1}]},{id:'c3c',name:'Рожевий',hex:'#E8B4C0',sizes:[{size:'XS',stock:3},{size:'S',stock:5},{size:'M',stock:6},{size:'L',stock:4},{size:'XL',stock:2},{size:'XXL',stock:0}]}]},
-  {id:4,name:'Комбінезон літній',price:2200,salePrice:1800,description:'Легкий літній комбінезон з натуральних тканин.',categoryId:5,active:true,isNew:true,isTop:true,
+   colorName:'Білий',colorHex:'#F0EDE8',
+   sizes:[{size:'XS',stock:5},{size:'S',stock:8},{size:'M',stock:10},{size:'L',stock:6},{size:'XL',stock:3},{size:'XXL',stock:2}]},
+  {id:6,name:'Топ базовий (чорний)',price:650,salePrice:null,description:'Базовий топ на кожен день.',categoryId:4,active:true,isNew:false,isTop:false,
+   photos:['https://images.pexels.com/photos/2249528/pexels-photo-2249528.jpeg?auto=compress&cs=tinysrgb&w=400'],
+   colorName:'Чорний',colorHex:'#1A1A1A',
+   sizes:[{size:'XS',stock:4},{size:'S',stock:6},{size:'M',stock:8},{size:'L',stock:5},{size:'XL',stock:2},{size:'XXL',stock:1}]},
+  {id:7,name:'Комбінезон літній',price:2200,salePrice:1800,description:'Легкий літній комбінезон з натуральних тканин.',categoryId:5,active:true,isNew:true,isTop:true,
    photos:['https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinysrgb&w=400'],
-   colors:[{id:'c4a',name:'Оливковий',hex:'#6B7645',sizes:[{size:'XS',stock:2},{size:'S',stock:4},{size:'M',stock:5},{size:'L',stock:3},{size:'XL',stock:1},{size:'XXL',stock:0}]}]},
-  {id:5,name:'Спідниця міді',price:950,salePrice:null,description:'Класична спідниця міді-довжини.',categoryId:8,active:false,isNew:false,isTop:false,
+   colorName:'Оливковий',colorHex:'#6B7645',
+   sizes:[{size:'XS',stock:2},{size:'S',stock:4},{size:'M',stock:5},{size:'L',stock:3},{size:'XL',stock:1},{size:'XXL',stock:0}]},
+  {id:8,name:'Спідниця міді',price:950,salePrice:null,description:'Класична спідниця міді-довжини.',categoryId:8,active:false,isNew:false,isTop:false,
    photos:['https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinysrgb&w=400'],
-   colors:[{id:'c5a',name:'Чорний',hex:'#1A1A1A',sizes:[{size:'XS',stock:0},{size:'S',stock:2},{size:'M',stock:3},{size:'L',stock:1},{size:'XL',stock:0},{size:'XXL',stock:0}]},{id:'c5b',name:'Темно-зелений',hex:'#2D4A3E',sizes:[{size:'XS',stock:1},{size:'S',stock:3},{size:'M',stock:4},{size:'L',stock:2},{size:'XL',stock:1},{size:'XXL',stock:0}]}]},
+   colorName:'Чорний',colorHex:'#1A1A1A',
+   sizes:[{size:'XS',stock:0},{size:'S',stock:2},{size:'M',stock:3},{size:'L',stock:1},{size:'XL',stock:0},{size:'XXL',stock:0}]},
 ];
 
 let products      = [];
@@ -27,26 +46,44 @@ let categories    = [];
 let activeFilter  = null;
 let currentPage   = 1;
 let deleteTargetId = null;
+let useApi        = false;
 
 function pageSize() { return parseInt(document.getElementById('perPageSel')?.value) || PAGE_SIZE_DEFAULT; }
 
-/* ─── Load ─── */
-function loadData() {
-  // Version-based reseed: if version doesn't match, reset demo data
-  if (localStorage.getItem(LS_VERSION) !== CURRENT_VER) {
-    localStorage.setItem(LS_VERSION, CURRENT_VER);
-    localStorage.removeItem(LS_PRODUCTS);
-  }
-  const sp = localStorage.getItem(LS_PRODUCTS);
-  if (sp) {
-    products = JSON.parse(sp);
-  } else {
-    products = DEFAULT_PRODUCTS;
-    localStorage.setItem(LS_PRODUCTS, JSON.stringify(products));
-  }
+/* ─── API helpers ─── */
+async function apiFetch(path, opts = {}) {
+  try {
+    const res = await fetch(API_BASE + path, { credentials: 'include', ...opts });
+    if (res.status === 401) { location.href = 'admin-login.html'; return null; }
+    return res.ok ? res.json() : null;
+  } catch { return null; }
+}
 
-  const sc = localStorage.getItem(LS_CATEGORIES);
-  categories = sc ? JSON.parse(sc) : [];
+/* ─── Load ─── */
+async function loadData() {
+  const authCheck = await apiFetch('/api/auth/me');
+  if (authCheck) {
+    useApi = true;
+    const [prods, cats] = await Promise.all([
+      apiFetch('/api/products'),
+      apiFetch('/api/categories')
+    ]);
+    products   = prods   || [];
+    categories = cats    || [];
+    localStorage.setItem(LS_PRODUCTS,   JSON.stringify(products));
+    localStorage.setItem(LS_CATEGORIES, JSON.stringify(categories));
+  } else {
+    useApi = false;
+    if (localStorage.getItem(LS_VERSION) !== CURRENT_VER) {
+      localStorage.setItem(LS_VERSION, CURRENT_VER);
+      localStorage.removeItem(LS_PRODUCTS);
+    }
+    const sp = localStorage.getItem(LS_PRODUCTS);
+    products   = sp ? JSON.parse(sp) : DEFAULT_PRODUCTS;
+    if (!sp) localStorage.setItem(LS_PRODUCTS, JSON.stringify(products));
+    const sc   = localStorage.getItem(LS_CATEGORIES);
+    categories = sc ? JSON.parse(sc) : [];
+  }
 }
 
 function save() { localStorage.setItem(LS_PRODUCTS, JSON.stringify(products)); }
@@ -109,7 +146,7 @@ function renderTable() {
       ? `<img class="prod-thumb" src="${escHtml(mainPhoto)}" alt="" onerror="this.replaceWith(makePhPh())">`
       : `<div class="prod-thumb-ph"><i class="bi bi-image"></i></div>`;
 
-    const sp = p.salePrice ?? p.oldPrice ?? 0;
+    const sp = p.salePrice ?? 0;
     const hasSale = sp > 0;
     const pricePart = `
       <div class="price-cell">
@@ -124,9 +161,9 @@ function renderTable() {
         </div>
       </div>`;
 
-    const dots = (p.colors||[]).map(c =>
-      `<span class="color-dot" style="background:${escHtml(c.hex)}" title="${escHtml(c.name)}"></span>`
-    ).join('');
+    const dot = p.colorHex
+      ? `<span class="color-dot" style="background:${escHtml(p.colorHex)}" title="${escHtml(p.colorName||'')}"></span>`
+      : '';
 
     return `
     <tr id="row-${p.id}">
@@ -143,7 +180,7 @@ function renderTable() {
       </td>
       <td class="price-col">${pricePart}</td>
       <td class="col-colors">
-        <div class="prod-colors-row">${dots}</div>
+        <div class="prod-colors-row">${dot}</div>
       </td>
       <td class="col-cat" style="font-size:.8125rem;color:var(--muted)">${escHtml(getCatName(p.categoryId))}</td>
       <td style="text-align:center">
@@ -219,18 +256,26 @@ function updateStats() {
   document.getElementById('statTotal').textContent  = products.length;
   document.getElementById('statActive').textContent = products.filter(p => p.active).length;
   document.getElementById('statHidden').textContent = products.filter(p => !p.active).length;
-  document.getElementById('statColors').textContent = products.reduce((s,p) => s + (p.colors||[]).length, 0);
+  const uniqueColors = new Set(products.map(p => p.colorHex).filter(Boolean)).size;
+  document.getElementById('statColors').textContent = uniqueColors;
 }
 
 /* ─── Inline sale price ─── */
-function updateSalePrice(id, input) {
+async function updateSalePrice(id, input) {
   const val = parseFloat(input.value) || 0;
   input.value = val;
   const p = products.find(p => p.id === id);
   if (!p) return;
   p.salePrice = val > 0 ? val : null;
-  save();
-  // update visual without full re-render
+  if (useApi) {
+    await apiFetch(`/api/products/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(p)
+    });
+  } else {
+    save();
+  }
   input.classList.toggle('active', val > 0);
   const priceEl = document.getElementById(`pf-${id}`);
   if (priceEl) priceEl.classList.toggle('has-sale', val > 0);
@@ -238,21 +283,37 @@ function updateSalePrice(id, input) {
 }
 
 /* ─── Status toggle ─── */
-function toggleStatus(id, isActive) {
+async function toggleStatus(id, isActive) {
   const p = products.find(p => p.id === id);
   if (!p) return;
   p.active = isActive;
-  save();
+  if (useApi) {
+    await apiFetch(`/api/products/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(p)
+    });
+  } else {
+    save();
+  }
   updateStats();
   showToast(isActive ? 'Товар активовано' : 'Товар приховано');
 }
 
 /* ─── Tag toggle (NEW / TOP) ─── */
-function toggleTag(id, tag) {
+async function toggleTag(id, tag) {
   const p = products.find(p => p.id === id);
   if (!p) return;
   p[tag] = !p[tag];
-  save();
+  if (useApi) {
+    await apiFetch(`/api/products/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(p)
+    });
+  } else {
+    save();
+  }
   const key = tag === 'isNew' ? 'new' : 'top';
   const cls = tag === 'isNew' ? 'new-active' : 'top-active';
   const el = document.getElementById(`tag-${key}-${id}`);
@@ -272,10 +333,13 @@ function closeDeleteModal() {
   document.getElementById('deleteModal').classList.remove('open');
   deleteTargetId = null;
 }
-function confirmDelete() {
+async function confirmDelete() {
   if (!deleteTargetId) return;
+  if (useApi) {
+    await apiFetch(`/api/products/${deleteTargetId}`, { method: 'DELETE' });
+  }
   products = products.filter(p => p.id !== deleteTargetId);
-  save();
+  if (!useApi) save();
   closeDeleteModal();
   updateStats();
   buildFilterChips();
@@ -298,7 +362,9 @@ function toggleSidebar() {
 }
 
 /* ─── Init ─── */
-loadData();
-updateStats();
-buildFilterChips();
-renderTable();
+(async () => {
+  await loadData();
+  updateStats();
+  buildFilterChips();
+  renderTable();
+})();

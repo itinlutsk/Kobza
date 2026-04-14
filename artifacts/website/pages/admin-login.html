@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Вхід — SKINZ Адмін</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/admin.css"/>
+  <style>
+    body { background: var(--bg); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1.5rem; }
+    .login-card { width: 100%; max-width: 400px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem 2rem; }
+    .login-logo { display: flex; align-items: center; gap: .75rem; margin-bottom: 2rem; }
+    .login-logo .logo-mark { width: 40px; height: 40px; background: var(--accent); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 1.1rem; flex-shrink: 0; }
+    .login-logo .brand { font-size: 1.25rem; font-weight: 800; letter-spacing: -.04em; }
+    .login-logo .sub { font-size: .73rem; color: var(--muted); font-weight: 500; }
+    .login-title { font-size: 1.25rem; font-weight: 800; letter-spacing: -.03em; margin-bottom: .375rem; }
+    .login-sub { font-size: .8125rem; color: var(--muted); margin-bottom: 1.75rem; }
+    .login-field { margin-bottom: 1rem; }
+    .login-field label { display: block; font-size: .75rem; font-weight: 600; color: var(--text); margin-bottom: .375rem; text-transform: uppercase; letter-spacing: .04em; }
+    .login-field .input-wrap { position: relative; }
+    .login-field .input-wrap i { position: absolute; left: .75rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: .9rem; pointer-events: none; }
+    .login-field input { width: 100%; padding: .625rem .75rem .625rem 2.25rem; border: 1.5px solid var(--border); border-radius: 9px; font-family: inherit; font-size: .875rem; color: var(--text); background: var(--bg); outline: none; transition: border-color .15s, box-shadow .15s; }
+    .login-field input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(139,26,42,.1); }
+    .login-btn { width: 100%; padding: .75rem; background: var(--accent); color: #fff; border: none; border-radius: 9px; font-family: inherit; font-size: .9375rem; font-weight: 700; cursor: pointer; transition: opacity .15s; margin-top: .5rem; }
+    .login-btn:hover { opacity: .88; }
+    .login-btn:disabled { opacity: .5; cursor: not-allowed; }
+    .login-error { display: none; background: rgba(220,38,38,.08); border: 1px solid rgba(220,38,38,.2); color: #DC2626; border-radius: 8px; padding: .625rem .875rem; font-size: .8125rem; margin-bottom: 1rem; }
+    .login-error.show { display: flex; align-items: center; gap: .5rem; }
+  </style>
+</head>
+<body>
+
+<div class="login-card">
+  <div class="login-logo">
+    <div class="logo-mark">S</div>
+    <div>
+      <div class="brand">SKINZ</div>
+      <div class="sub">Адміністрування</div>
+    </div>
+  </div>
+
+  <div class="login-title">Вхід до панелі</div>
+  <div class="login-sub">Введіть ваші облікові дані</div>
+
+  <div class="login-error" id="loginError">
+    <i class="bi bi-exclamation-circle"></i>
+    <span id="loginErrorMsg">Невірний логін або пароль</span>
+  </div>
+
+  <form onsubmit="doLogin(event)">
+    <div class="login-field">
+      <label>Логін</label>
+      <div class="input-wrap">
+        <i class="bi bi-person"></i>
+        <input type="text" id="fLogin" placeholder="admin" autocomplete="username" required/>
+      </div>
+    </div>
+    <div class="login-field">
+      <label>Пароль</label>
+      <div class="input-wrap">
+        <i class="bi bi-lock"></i>
+        <input type="password" id="fPass" placeholder="••••••••" autocomplete="current-password" required/>
+      </div>
+    </div>
+    <button type="submit" class="login-btn" id="loginBtn">
+      <i class="bi bi-box-arrow-in-right"></i> Увійти
+    </button>
+  </form>
+</div>
+
+<script>
+const API_BASE = '/dotnet-api';
+
+async function doLogin(e) {
+  e.preventDefault();
+  const btn = document.getElementById('loginBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Перевірка…';
+
+  const login    = document.getElementById('fLogin').value.trim();
+  const password = document.getElementById('fPass').value;
+
+  try {
+    const res = await fetch(API_BASE + '/api/auth/login', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ login, password })
+    });
+
+    if (res.ok) {
+      location.href = 'admin.html';
+    } else {
+      const data = await res.json().catch(() => ({}));
+      showError(data.error || 'Невірний логін або пароль');
+    }
+  } catch {
+    showError('Помилка підключення до сервера. Спробуйте пізніше.');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-box-arrow-in-right"></i> Увійти';
+  }
+}
+
+function showError(msg) {
+  const errEl  = document.getElementById('loginError');
+  const msgEl  = document.getElementById('loginErrorMsg');
+  msgEl.textContent = msg;
+  errEl.classList.add('show');
+}
+
+// If already logged in — redirect
+(async () => {
+  try {
+    const r = await fetch(API_BASE + '/api/auth/me', { credentials: 'include' });
+    if (r.ok) location.href = 'admin.html';
+  } catch {}
+})();
+</script>
+</body>
+</html>

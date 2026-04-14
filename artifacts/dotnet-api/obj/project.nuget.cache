@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "aS6hbI9wwDc=",
+  "success": true,
+  "projectFilePath": "/home/runner/workspace/artifacts/dotnet-api/SkinzApi.csproj",
+  "expectedPackageFiles": [
+    "/home/runner/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

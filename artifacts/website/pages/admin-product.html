@@ -210,33 +210,69 @@
       </div>
     </div>
 
-    <!-- Colors & Sizes (full width) -->
-    <div class="acard">
+    <!-- Color (full width) -->
+    <div class="acard" style="margin-top:1.25rem">
       <div class="acard-header">
         <div class="acard-header-icon"><i class="bi bi-palette"></i></div>
-        <div class="acard-header-title">Кольори та розміри</div>
+        <div class="acard-header-title">Колір товару</div>
+        <span style="margin-left:auto;font-size:.75rem;color:var(--muted)">Різні кольори — окремі позиції</span>
+      </div>
+      <div class="acard-body">
+        <div class="color-single-row">
+          <div class="color-swatch-pick" id="colorSwatchWrap" style="background:#8B1A2A;width:44px;height:44px;border-radius:10px" title="Вибрати колір">
+            <input type="color" id="fColorHex" value="#8B1A2A"
+              oninput="document.getElementById('colorSwatchWrap').style.background=this.value"/>
+          </div>
+          <div style="flex:1;min-width:0">
+            <label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.375rem;display:block">Назва кольору</label>
+            <input type="text" class="form-control-admin" id="fColorName" placeholder="Наприклад: Бордовий, Чорний…" style="margin:0"/>
+          </div>
+          <div>
+            <label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.375rem;display:block">HEX-код</label>
+            <input type="text" class="form-control-admin" id="fColorHexText" value="#8B1A2A" placeholder="#RRGGBB"
+              style="margin:0;width:100px;font-family:monospace"
+              oninput="syncHexText(this.value)"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sizes (full width) -->
+    <div class="acard" style="margin-top:1.25rem">
+      <div class="acard-header">
+        <div class="acard-header-icon"><i class="bi bi-rulers"></i></div>
+        <div class="acard-header-title">Розміри та залишки</div>
       </div>
       <div class="acard-body" style="padding:0">
         <div style="overflow-x:auto">
-          <table class="colors-tbl">
+          <table class="sizes-tbl">
             <thead>
               <tr>
-                <th class="col-name">Колір</th>
+                <th>Розмір</th>
                 <th>XS</th><th>S</th><th>M</th><th>L</th><th>XL</th><th>XXL</th>
-                <th style="width:36px"></th>
               </tr>
             </thead>
-            <tbody id="colorsTbody"></tbody>
+            <tbody>
+              <tr>
+                <td class="size-label-cell">Залишок (шт.)</td>
+                <td><input type="number" class="stock-inp" id="sz-XS" value="0" min="0" oninput="this.classList.toggle('zero',!(parseInt(this.value)||0))"/></td>
+                <td><input type="number" class="stock-inp" id="sz-S"  value="0" min="0" oninput="this.classList.toggle('zero',!(parseInt(this.value)||0))"/></td>
+                <td><input type="number" class="stock-inp" id="sz-M"  value="0" min="0" oninput="this.classList.toggle('zero',!(parseInt(this.value)||0))"/></td>
+                <td><input type="number" class="stock-inp" id="sz-L"  value="0" min="0" oninput="this.classList.toggle('zero',!(parseInt(this.value)||0))"/></td>
+                <td><input type="number" class="stock-inp" id="sz-XL" value="0" min="0" oninput="this.classList.toggle('zero',!(parseInt(this.value)||0))"/></td>
+                <td><input type="number" class="stock-inp" id="sz-XXL" value="0" min="0" oninput="this.classList.toggle('zero',!(parseInt(this.value)||0))"/></td>
+              </tr>
+            </tbody>
           </table>
         </div>
-        <button class="colors-add-row-btn" onclick="addColor()">
-          <i class="bi bi-plus-lg"></i> Додати колір
-        </button>
+        <div style="padding:.75rem 1rem;font-size:.73rem;color:var(--muted)">
+          <i class="bi bi-info-circle"></i> Введіть 0, якщо розміру немає в наявності.
+        </div>
       </div>
     </div>
 
     <!-- Bottom save -->
-    <div style="display:flex;justify-content:flex-end;gap:.75rem;margin-top:.5rem;padding-bottom:2rem">
+    <div style="display:flex;justify-content:flex-end;gap:.75rem;margin-top:1.25rem;padding-bottom:2rem">
       <a href="admin-products.html" class="admin-btn-secondary" style="text-decoration:none">Скасувати</a>
       <button onclick="saveProduct()" class="admin-btn-primary">
         <i class="bi bi-check2"></i> Зберегти товар
