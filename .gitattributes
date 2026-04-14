@@ -1,3 +1,4 @@
 skinz-website.zip filter=lfs diff=lfs merge=lfs -text
 attached_assets/skinz-website_(2)_1776166881557.zip filter=lfs diff=lfs merge=lfs -text
 skinz-project.tar.gz filter=lfs diff=lfs merge=lfs -text
+skinz-website-template.tar.gz filter=lfs diff=lfs merge=lfs -text
