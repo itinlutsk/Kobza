@@ -1,9 +1,37 @@
 const API_BASE = '/dotnet-api';
 
 function toggleSidebar() {
-  document.getElementById('adminSidebar').classList.toggle('open');
-  document.getElementById('sidebarOverlay').classList.toggle('show');
+  const sidebar  = document.getElementById('adminSidebar');
+  const overlay  = document.getElementById('sidebarOverlay');
+  const hamburger = document.querySelector('.admin-hamburger i');
+  const isOpen   = sidebar.classList.toggle('open');
+  overlay.classList.toggle('show', isOpen);
+  document.body.classList.toggle('sidebar-open', isOpen);
+  if (hamburger) hamburger.className = isOpen ? 'bi bi-x-lg' : 'bi bi-list';
 }
+
+function closeSidebar() {
+  const sidebar   = document.getElementById('adminSidebar');
+  const overlay   = document.getElementById('sidebarOverlay');
+  const hamburger = document.querySelector('.admin-hamburger i');
+  sidebar.classList.remove('open');
+  overlay.classList.remove('show');
+  document.body.classList.remove('sidebar-open');
+  if (hamburger) hamburger.className = 'bi bi-list';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Close sidebar on nav link click (mobile only)
+  document.querySelectorAll('#adminSidebar .admin-nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth < 768) closeSidebar();
+    });
+  });
+  // Close on Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeSidebar();
+  });
+});
 
 async function adminLogout() {
   try {
